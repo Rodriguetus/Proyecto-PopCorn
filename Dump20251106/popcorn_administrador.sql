@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `aministrador`
+-- Table structure for table `administrador`
 --
 
-DROP TABLE IF EXISTS `aministrador`;
+DROP TABLE IF EXISTS `administrador`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aministrador` (
+CREATE TABLE `administrador` (
   `idAdmin` int NOT NULL,
   `Correo` varchar(45) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
@@ -32,12 +32,12 @@ CREATE TABLE `aministrador` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `aministrador`
+-- Dumping data for table `administrador`
 --
 
-LOCK TABLES `aministrador` WRITE;
-/*!40000 ALTER TABLE `aministrador` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aministrador` ENABLE KEYS */;
+LOCK TABLES `administrador` WRITE;
+/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
+/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
