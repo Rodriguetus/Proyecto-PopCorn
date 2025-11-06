@@ -27,7 +27,6 @@ CREATE TABLE `alquiler` (
   `Estado` varchar(45) NOT NULL,
   `FechaDevolucion` date NOT NULL,
   `FechaArquiler` date NOT NULL,
-  `Alquilercol` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idAlquiler`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
