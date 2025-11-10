@@ -26,10 +26,10 @@ public static void main(String[] args) {
         Connection conexion = conexionDB.getConnection();
         if (conexion != null) {
             conexion.close();
-            System.out.println("🔒 Conexión cerrada correctamente.");
+            System.out.println("Conexión cerrada correctamente.");
         }
     } catch (SQLException e) {
-        System.err.println("❌ Error al cerrar la conexión: " + e.getMessage());
+        System.err.println("Error al cerrar la conexión: " + e.getMessage());
     }
 }
 }
