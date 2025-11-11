@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="557542e4-98ac-4583-9053-410f31dc78f8" name="Changes" comment="Controlador y vista de Inicio de Sesion." />
+    <list default="true" id="557542e4-98ac-4583-9053-410f31dc78f8" name="Changes" comment="Controlador y vista de Inicio de Sesion.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PopCornDigital/src/main/java/vista/InicioSesion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/PopCornDigital/src/main/java/vista/InicioSesion.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762860607781</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Controlador y vista de Inicio de Sesion.">
+      <option name="closed" value="true" />
+      <created>1762860666510</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1762860666510</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
