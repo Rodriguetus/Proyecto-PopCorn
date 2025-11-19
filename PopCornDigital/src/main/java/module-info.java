@@ -7,4 +7,6 @@ module PopCornDigital {
 
     exports vista;
     opens vista to javafx.fxml;
+
+    opens dto;
 }

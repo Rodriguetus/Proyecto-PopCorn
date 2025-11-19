@@ -8,16 +8,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-
 public class Main extends Application {
 
     public void start(Stage primaryStage)throws Exception{
-        Parent root= FXMLLoader.load(getClass().getResource("/vista/InicioSesion.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/InicioSesion.fxml"));
+        Parent root = loader.load();
+
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setScene(new Scene(root, 700, 650));
         primaryStage.setTitle("PopCorn Digital");
         primaryStage.show();
     }
-
+    public static void main(String[] args) {
+        launch(args);
     }
+}

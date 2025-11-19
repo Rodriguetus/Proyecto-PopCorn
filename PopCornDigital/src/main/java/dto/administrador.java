@@ -1,48 +1,38 @@
 package dto;
 
+
+import conexion.conexionDB;
+
+import java.sql.*;
+
 public class administrador {
-    private int id;
-    private String nombre;
-    private String correo;
-    private String contrasena;
+    private int idAdmin;
+    private String Correo;
+    private String Nombre;
+    private String Contrasena;
 
-    public administrador(int id, String nombre, String correo, String contrasena) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasena = contrasena;
+
+    public administrador() {}
+
+    public administrador(String correo, String nombre, String contrasena) {
+        this.Correo = correo;
+        this.Nombre = nombre;
+        this.Contrasena = contrasena;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public int getIdAdmin() { return idAdmin; }
+    public void setIdAdmin(int idAdmin) { this.idAdmin = idAdmin; }
 
-    public String getNombre() {
-        return nombre;
-    }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getCorreo() { return Correo; }
+    public void setCorreo(String correo) { Correo = correo; }
 
-    public String getCorreo() {
-        return correo;
-    }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
+    public String getNombre() { return Nombre; }
+    public void setNombre(String nombre) { Nombre = nombre; }
 
-    public String getContrasena() {
-        return contrasena;
-    }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
+    public String getContrasena() { return Contrasena; }
+    public void setContrasena(String contrasena) { Contrasena = contrasena; }
 }
-
