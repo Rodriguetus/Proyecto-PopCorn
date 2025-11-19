@@ -6,7 +6,7 @@ public class administrador {
     private String correo;
     private String contrasena;
 
-    public pelicula(int id, String nombre, String correo, String contrasena) {
+    public administrador(int id, String nombre, String correo, String contrasena) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
