@@ -9,5 +9,8 @@
         <module name="PopCornDigital" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ppcorn" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
