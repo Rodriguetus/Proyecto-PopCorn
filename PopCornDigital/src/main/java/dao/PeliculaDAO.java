@@ -72,19 +72,21 @@ public class PeliculaDAO {
     public List<pelicula> getPeliculas() throws SQLException {
         List<pelicula> list = new ArrayList<>();
         String sql = "SELECT * FROM movies";
+
         try (Connection conn = conexionDB.getConnection();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) {
                 list.add(new pelicula(
                         rs.getInt("idPelicula"),
                         rs.getString("Nombre"),
-                        rs.getString("Formato"),
-                        rs.getInt("AnoSalida"),
-                        rs.getString("Genero"),
+                        rs.getFloat("Precio"),
                         rs.getInt("Stock"),
-                        rs.getDouble("Precio"),
-                        rs.getString("Proveedor")
+                        rs.getString("Genero"),
+                        rs.getString("Formato"),
+                        rs.getString("Proveedor"),
+                        rs.getInt("AnoSalida")
                 ));
             }
         }

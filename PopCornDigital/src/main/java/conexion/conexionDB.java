@@ -25,7 +25,7 @@ public class conexionDB {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("❌ Error de conexión: " + e.getMessage());
+            System.out.println("Error de conexión: " + e.getMessage());
         }
         return conn;
     }
