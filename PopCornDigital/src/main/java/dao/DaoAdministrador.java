@@ -36,17 +36,13 @@ public class DaoAdministrador {
     public administrador login(String correo, String contrasena) {
         String sql = "SELECT * FROM administrador WHERE Correo = ? AND Contrasena = ?";
 
-
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
 
             ps.setString(1, correo);
             ps.setString(2, contrasena);
 
-
             ResultSet rs = ps.executeQuery();
-
 
             if (rs.next()) {
                 administrador ad = new administrador();

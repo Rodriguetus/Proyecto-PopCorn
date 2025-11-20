@@ -1,24 +1,25 @@
 package dto;
 
 public class administrador {
-    private int id;
+    private int idAdmin;
     private String nombre;
     private String correo;
     private String contrasena;
 
-    public administrador(int id, String nombre, String correo, String contrasena) {
-        this.id = id;
+    public administrador() {
+        this.idAdmin = idAdmin;
         this.nombre = nombre;
         this.correo = correo;
         this.contrasena = contrasena;
     }
 
-    public int getId() {
-        return id;
+    public int getIdAdmin() {
+        return idAdmin;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    public void setIdAdmin(int idAdmin) {
+        this.idAdmin = idAdmin;
     }
 
     public String getNombre() {
