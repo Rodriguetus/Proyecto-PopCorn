@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="vista.MovieCardControlador"
+            prefWidth="180" prefHeight="260"
+            style="-fx-background-color: #2c2c2c; -fx-background-radius: 10; -fx-padding: 10;">
+
+    <!-- Imagen del póster -->
+    <ImageView fx:id="posterImage"
+               fitWidth="160" fitHeight="200"
+               layoutX="10" layoutY="10"
+               preserveRatio="true"
+               style="-fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0);" />
+
+    <!-- Título -->
+    <Label fx:id="titleLabel"
+           layoutX="10" layoutY="215"
+           prefWidth="160"
+           text="Título"
+           style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;" />
+
+    <!-- Formato -->
+    <Label fx:id="formatLabel"
+           layoutX="10" layoutY="235"
+           prefWidth="160"
+           text="Formato"
+           style="-fx-text-fill: #bbbbbb; -fx-font-size: 12px;" />
+
+</AnchorPane>
