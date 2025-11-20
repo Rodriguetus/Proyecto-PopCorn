@@ -1,27 +1,31 @@
 package dto;
 
 public class usuario {
-
-    private int idUsuario;
+    private int id;
     private String nombre;
     private String correo;
     private String contrasena;
 
-    public usuario() {
-    }
-
-    public usuario(String correo, String nombre, String contrasena) {
-        this.correo = correo;
+    public usuario(int id, String nombre, String correo, String contrasena) {
+        this.id = id;
         this.nombre = nombre;
+        this.correo = correo;
         this.contrasena = contrasena;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public usuario() {
+
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public usuario(String correo, String nombre, String contrasena) {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {

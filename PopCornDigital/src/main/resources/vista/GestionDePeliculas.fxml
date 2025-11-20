@@ -1,92 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="650" prefWidth="863.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePeliculasControlador">
+<BorderPane prefHeight="650" prefWidth="863.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePeliculasControlador">
 
-    <children>
-
-        <Label layoutX="720.0" layoutY="14.0" styleClass="titulo" text="Label">
-         <font>
-            <Font size="14.0" />
-         </font></Label>
-        <Button fx:id="btnCerrar" layoutX="762.0" layoutY="11.0" onAction="#CerrarSesion" text="Cerrar Sesión" />
-
-        <!-- Botones CRUD -->
-        <HBox layoutX="10" layoutY="60" spacing="10">
-            <children>
-                <Button fx:id="btnAnadir" onAction="#anadirPelicula" text="Añadir Película" />
-                <Button fx:id="btnEditar" onAction="#editarPelicula" text="Editar Película" />
-                <Button fx:id="btnQuitar" onAction="#quitarPelicula" text="Quitar Película" />
-            </children>
+    <!-- Cabecera -->
+    <top>
+        <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 10;">
+            <Label fx:id="lblNombre" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Admin" textFill="white" />
+            <Button fx:id="btnVolver" onAction="#volverMenu" style="-fx-background-color: #EFB000; -fx-text-fill: black; -fx-font-weight: bold;" text="⬅ Volver" />
+            <Button fx:id="btnCerrar" onAction="#CerrarSesion" style="-fx-background-color: #EFB000; -fx-text-fill: black; -fx-font-weight: bold;" text="Cerrar Sesión" />
         </HBox>
+    </top>
 
-        <Separator layoutX="10" layoutY="102.0" prefHeight="3.0" prefWidth="839.0" />
+    <!-- Botones CRUD -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #D6D6D6;">
+            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="542.0" spacing="10">
+                <Button fx:id="btnAnadir" onAction="#anadirPelicula" style="-fx-background-color: #4F6078; -fx-text-fill: white; -fx-font-size: 14;" text="Añadir Película" />
+                <Button fx:id="btnEditar" onAction="#editarPelicula" style="-fx-background-color: #4F6078; -fx-text-fill: white; -fx-font-size: 14;" text="Editar Película" />
+                <Button fx:id="btnQuitar" onAction="#quitarPelicula" style="-fx-background-color: #4F6078; -fx-text-fill: white; -fx-font-size: 14;" text="Quitar Película" />
+            </HBox>
 
-        <GridPane hgap="10" layoutX="34.0" layoutY="119.0" prefHeight="131.0" prefWidth="731.0" vgap="10">
+            <!-- Formulario -->
+            <GridPane hgap="10" vgap="10">
+                <children>
+
+                    <Label text="Nombre:" />
+                    <TextField fx:id="txtNombre" promptText="Título de la película" GridPane.columnIndex="1" />
+
+                    <Label text="Año:" GridPane.columnIndex="2" />
+                    <TextField fx:id="txtAno" promptText="Ej: 2025" GridPane.columnIndex="3" />
+
+                    <Label text="Precio:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtPrecio" promptText="Ej: 9.99" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                    <Label text="Stock:" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtStock" promptText="Cantidad disponible" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label text="Género:" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtGenero" promptText="Acción, Drama..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                    <Label text="Formato:" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtFormato" promptText="DVD, BluRay, Digital" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <Label text="Proveedor:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtProveedor" promptText="Nombre proveedor" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                    <Label text="Portada:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtImagen" promptText="URL de la imagen" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                </children>
             <columnConstraints>
-                <ColumnConstraints percentWidth="20.0" />
-                <ColumnConstraints percentWidth="30.0" />
-                <ColumnConstraints percentWidth="20.0" />
-                <ColumnConstraints percentWidth="32.0" />
-            <ColumnConstraints minWidth="10.0" percentWidth="18.0" prefWidth="100.0" />
-            <ColumnConstraints minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
             </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
 
-            <children>
-                <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                <TextField fx:id="txtId" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-                <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-                <TextField fx:id="txtNombre" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-
-                <Label text="Año:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <TextField fx:id="txtAno" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                <Label text="precio:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <TextField fx:id="txtPrecio" prefHeight="25.0" prefWidth="145.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-
-                <Label text="Stock:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <TextField fx:id="txtStock" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                <Label text="Genero:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <TextField fx:id="txtGenero" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-
-                <Label text="Formato:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <TextField fx:id="txtFormato" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-                <Label text="Proveedor:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-            <Label text="Portada:" GridPane.columnIndex="4" />
-                <TextField fx:id="txtProveedor" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <TextField fx:id="txtImagen" prefWidth="157.0" GridPane.columnIndex="5" />
-            </children>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
-
-        <TableView fx:id="tablaPeliculas" layoutX="10.0" layoutY="270.0" prefHeight="350" prefWidth="839.0">
-            <columns>
-                <TableColumn fx:id="colId" prefWidth="123.33328247070312" text="ID" />
-                <TableColumn fx:id="colNombre" prefWidth="526.0" text="Película" />
-                <TableColumn fx:id="colAno" prefWidth="189.3333740234375" text="Año" />
-            </columns>
-        </TableView>
-          <Button fx:id="btnVolver" layoutX="14.0" layoutY="11.0" onAction="#volverMenu" text="Volver atrás" />
-
-    </children>
-</AnchorPane>
+            <!-- Tabla -->
+            <TableView fx:id="tablaPeliculas" prefHeight="350" prefWidth="839.0">
+                <columns>
+                    <TableColumn fx:id="colNombre" prefWidth="191.99997520446777" text="Película" />
+                    <TableColumn fx:id="colAno" prefWidth="70.00004577636719" text="Año" />
+                    <TableColumn fx:id="colPrecio" prefWidth="74.66668701171875" text="Precio" />
+                    <TableColumn fx:id="colStock" prefWidth="87.33331298828125" text="Stock" />
+                    <TableColumn fx:id="colGenero" prefWidth="91.33340454101562" text="Género" />
+                    <TableColumn fx:id="colFormato" prefWidth="166.6666259765625" text="Formato" />
+                    <TableColumn fx:id="colProveedor" minWidth="0.0" prefWidth="137.99995930989587" text="Proveedor" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

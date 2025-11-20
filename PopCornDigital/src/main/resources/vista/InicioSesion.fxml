@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #D6D6D6;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
 
     <children>
 
-        <AnchorPane prefHeight="190.0" prefWidth="700.0" style="-fx-background-color: C2C2C4;">
+        <AnchorPane prefHeight="190.0" prefWidth="700.0" style="-fx-background-color: #2c3e50;">
             <children>
-                <Circle fill="DODGERBLUE" layoutX="358.0" layoutY="74.0" radius="50.0" stroke="BLACK" />
-                <ImageView fitHeight="70" fitWidth="70" layoutX="323.0" layoutY="39.0">
+                <Circle fill="DODGERBLUE" layoutX="364.0" layoutY="78.0" radius="50.0" stroke="BLACK" />
+                <ImageView fitHeight="70" fitWidth="70" layoutX="330.0" layoutY="43.0">
                     <image>
                         <Image url="@../Imagenes/PopCorn.png" />
                     </image>
                 </ImageView>
 
-                <Label layoutX="284" layoutY="129" text="PopCorn Digital">
+                <Label layoutX="283.0" layoutY="129.0" text="PopCorn Digital" textFill="WHITE">
                     <font>
                         <Font size="23" />
                     </font>
                 </Label>
 
-                <Label layoutX="301" layoutY="165" text="Accede a tu cuenta">
+                <Label layoutX="302.0" layoutY="163.0" text="Accede a tu cuenta" textFill="WHITE">
                     <font>
                         <Font size="15" />
                     </font>
@@ -38,28 +33,28 @@
             </children>
         </AnchorPane>
 
-        <Label layoutX="199" layoutY="209" text="Correo Electrónico" />
-        <Label layoutX="199" layoutY="288" text="Contraseña" />
+        <Label layoutX="250.0" layoutY="214.0" text="Correo Electrónico" />
+        <Label layoutX="250.0" layoutY="286.0" text="Contraseña" />
 
-        <TextField fx:id="correoTextField" layoutX="195" layoutY="238" prefHeight="26" prefWidth="306" promptText="Correo Electrónico" />
+        <TextField fx:id="correoTextField" layoutX="243.0" layoutY="237.0" prefHeight="26" prefWidth="306" promptText="Correo Electrónico" />
 
         <!-- CAMBIADO A PasswordField -->
-        <PasswordField fx:id="contrasenaPasswordField" layoutX="199" layoutY="306" prefHeight="26" prefWidth="306" promptText="Contraseña" />
+        <PasswordField fx:id="contrasenaPasswordField" layoutX="243.0" layoutY="310.0" prefHeight="26" prefWidth="306" promptText="Contraseña" />
 
-        <Button layoutX="305" layoutY="366" onAction="#iniciarSesion" text="Iniciar Sesión" />
+        <Button layoutX="305" layoutY="366" onAction="#iniciarSesion" style="-fx-background-color: #4F6078;" text="Iniciar Sesión" textFill="WHITE" />
 
         <Label fx:id="errormsj" layoutX="266" layoutY="341" textFill="red" />
 
         <Label layoutX="236" layoutY="408" text="¿No tienes cuenta?" />
         <Hyperlink fx:id="linkRegistro" layoutX="352" layoutY="405" text="Regístrate aquí" />
 
-        <ImageView fitHeight="37" fitWidth="30" layoutX="152" layoutY="236">
+        <ImageView fitHeight="37" fitWidth="30" layoutX="199.0" layoutY="232.0">
             <image>
                 <Image url="@../Imagenes/Usuario.png" />
             </image>
         </ImageView>
 
-        <ImageView fitHeight="37" fitWidth="30" layoutX="152" layoutY="304">
+        <ImageView fitHeight="37" fitWidth="30" layoutX="199.0" layoutY="305.0">
             <image>
                 <Image url="@../Imagenes/Contrasena.png.png" />
             </image>

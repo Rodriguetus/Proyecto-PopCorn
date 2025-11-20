@@ -33,9 +33,13 @@ public class GestionDePeliculasControlador {
     @FXML private TextField txtImagen;
 
     @FXML private TableView<pelicula> tablaPeliculas;
-    @FXML private TableColumn<pelicula, Integer> colId;
     @FXML private TableColumn<pelicula, String> colNombre;
     @FXML private TableColumn<pelicula, Integer> colAno;
+    @FXML private TableColumn<pelicula, Double> colPrecio;
+    @FXML private TableColumn<pelicula, Integer> colStock;
+    @FXML private TableColumn<pelicula, String> colGenero;
+    @FXML private TableColumn<pelicula, String> colFormato;
+    @FXML private TableColumn<pelicula, String> colProveedor;
 
     private PeliculaDAO peliculaDAO;
 
@@ -43,9 +47,13 @@ public class GestionDePeliculasControlador {
     public void initialize() {
         peliculaDAO = new PeliculaDAO();
 
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colAno.setCellValueFactory(new PropertyValueFactory<>("anoSalida"));
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colFormato.setCellValueFactory(new PropertyValueFactory<>("formato"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory<>("proveedor"));
 
         try {
             cargarPeliculas();
@@ -165,7 +173,6 @@ public class GestionDePeliculasControlador {
     }
 
     private void limpiarCampos() {
-        txtId.clear();
         txtNombre.clear();
         txtAno.clear();
         txtStock.clear();
