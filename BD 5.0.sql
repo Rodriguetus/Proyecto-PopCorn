@@ -70,14 +70,14 @@ UNLOCK TABLES;
 -- Table structure for table `aministrador`
 --
 
-DROP TABLE IF EXISTS `aministrador`;
+DROP TABLE IF EXISTS `administrador`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aministrador` (
+CREATE TABLE `administrador` (
   `idAdmin` int NOT NULL,
   `Correo` varchar(45) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
-  `Contraseña` varchar(45) NOT NULL,
+  `Contrasena` varchar(45) NOT NULL,
   PRIMARY KEY (`idAdmin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -86,9 +86,9 @@ CREATE TABLE `aministrador` (
 -- Dumping data for table `aministrador`
 --
 
-LOCK TABLES `aministrador` WRITE;
-/*!40000 ALTER TABLE `aministrador` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aministrador` ENABLE KEYS */;
+LOCK TABLES `administrador` WRITE;
+/*!40000 ALTER TABLE `administrador` DISABLE KEYS */;
+/*!40000 ALTER TABLE `administrador` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `usuario` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
   `Correo` varchar(45) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
-  `Contraseña` varchar(45) NOT NULL,
+  `Contrasena` varchar(45) NOT NULL,
   PRIMARY KEY (`idUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
