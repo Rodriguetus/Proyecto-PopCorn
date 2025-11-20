@@ -4,10 +4,16 @@ import dao.PeliculaDAO;
 import dto.pelicula;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +25,7 @@ public class CatalogoControlador {
     @FXML private FlowPane recommendedMoviesPane;
 
     public void initialize() throws SQLException {
-            PeliculaDAO dao = new PeliculaDAO();
+        PeliculaDAO dao = new PeliculaDAO();
         List<pelicula> peliculas = dao.getPeliculas();
 
         for (pelicula p : peliculas) {
@@ -47,32 +53,21 @@ public class CatalogoControlador {
         }
     }
 
-    private List<pelicula> obtenerPeliculasDesdeBD() {
-        List<pelicula> lista = new ArrayList<>();
-        String sql = "SELECT Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen FROM pelicula";
 
-        try (Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/popcorn", "root", "root");
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) {
-                lista.add(new pelicula(
-                        rs.getString("Nombre"),
-                        rs.getFloat("Precio"),
-                        rs.getInt("Stock"),
-                        rs.getString("Genero"),
-                        rs.getString("Formato"),
-                        rs.getString("Proveedor"),
-                        rs.getInt("AnoSalida"),
-                        rs.getString("Imagen")
-                ));
-            }
+    @FXML
+    private void volverLogin(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/InicioSesion.fxml"));
+            Parent root = loader.load();
 
-        } catch (SQLException e) {
-            System.err.println("Error al conectar con la base de datos: " + e.getMessage());
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar InicioSesion.fxml");
         }
-
-        return lista;
     }
+
 }

@@ -1,38 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="506.0" prefWidth="922.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="vista.CatalogoControlador">
+<BorderPane prefHeight="506.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.CatalogoControlador">
 
     <!-- Barra lateral izquierda -->
     <left>
-        <VBox alignment="TOP_CENTER" prefWidth="80" spacing="20" style="-fx-background-color: #2c3e50;">
-            <Button fx:id="homeButton" styleClass="icon-button" />
-            <Button fx:id="searchButton" styleClass="icon-button" />
-            <Button fx:id="favoritesButton" styleClass="icon-button" />
-            <Button fx:id="settingsButton" styleClass="icon-button" />
+        <VBox alignment="TOP_CENTER" prefWidth="100" spacing="25" style="-fx-background-color: #2c3e50; -fx-padding: 20 0 20 0;">
+
+            <!-- Logo grande -->
+            <ImageView fx:id="logoImage" fitHeight="70" fitWidth="70" preserveRatio="true" style="-fx-cursor: hand;">
+            <image>
+               <Image url="@../Imagenes/PopCorn.png" />
+            </image></ImageView>
+
+            <!-- Iconos más pequeños -->
+            <ImageView fx:id="homeIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
+            <image>
+               <Image url="@../Imagenes/lupa.png" />
+            </image></ImageView>
+            <ImageView fx:id="searchIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
+            <image>
+               <Image url="@../Imagenes/Envio.png" />
+            </image></ImageView>
+            <ImageView fx:id="favoritesIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
+            <image>
+               <Image url="@../Imagenes/estrella.png" />
+            </image></ImageView>
+            <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;" onMouseClicked="#volverLogin">
+            <image>
+               <Image url="@../Imagenes/exit.png" />
+            </image></ImageView>
+
+            
+
         </VBox>
     </left>
 
     <!-- Centro con scroll de películas -->
     <center>
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-            <VBox alignment="TOP_CENTER" spacing="30" style="-fx-padding: 20;">
+        <ScrollPane fx:id="catalogScroll" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <VBox fx:id="catalogContainer" alignment="TOP_CENTER" spacing="40" style="-fx-padding: 30;">
 
-                <!-- Sección de películas estilo Netflix -->
-                <Label styleClass="section-title" text="Populares" />
-                <FlowPane fx:id="popularMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                <!-- Sección: Populares -->
+                <VBox spacing="15">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="Populares" />
+                    <FlowPane fx:id="popularMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                </VBox>
 
-                <Label styleClass="section-title" text="Novedades" />
-                <FlowPane fx:id="newMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                <!-- Sección: Novedades -->
+                <VBox spacing="15">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="Novedades" />
+                    <FlowPane fx:id="newMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                </VBox>
 
-                <Label styleClass="section-title" text="Recomendadas" />
-                <FlowPane fx:id="recommendedMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                <!-- Sección: Recomendadas -->
+                <VBox spacing="15">
+                    <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="Recomendadas" />
+                    <FlowPane fx:id="recommendedMoviesPane" hgap="15" prefWrapLength="800" vgap="15" />
+                </VBox>
 
             </VBox>
         </ScrollPane>
