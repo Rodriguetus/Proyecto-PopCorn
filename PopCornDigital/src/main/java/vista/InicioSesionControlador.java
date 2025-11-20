@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -49,9 +48,7 @@ public class InicioSesionControlador implements Initializable {
     //Metodo que realiza el boton de Iniciar Sesion al presionarse.
     @FXML
     private void iniciarSesion() {
-
         errormsj.setText("");
-
         String correo = correoTextField.getText();
         String contrasena = contrasenaPasswordField.getText();
 
@@ -86,7 +83,6 @@ public class InicioSesionControlador implements Initializable {
                 abrirVentana("/vista/Catalogo.fxml");
                 return;
             }
-
             errormsj.setText("Correo o contraseña incorrectos.");
 
         } catch (SQLException e) {
