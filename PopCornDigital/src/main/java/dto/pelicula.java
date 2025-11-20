@@ -3,14 +3,15 @@ package dto;
 public class pelicula {
     private int id;
     private String nombre;
-    private float precio;
+    private double precio;
     private int stock;
     private String genero;
     private String formato;
     private String proveedor;
     private int anoSalida;
+    private String imagen;
 
-    public pelicula(int id, String nombre, float precio, int stock, String genero, String formato, String proveedor, int anoSalida) {
+    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen){
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -19,6 +20,11 @@ public class pelicula {
         this.formato = formato;
         this.proveedor = proveedor;
         this.anoSalida = anoSalida;
+        this.imagen = imagen;
+    }
+
+    public pelicula() {
+
     }
 
     public int getId() {
@@ -37,11 +43,11 @@ public class pelicula {
         this.nombre = nombre;
     }
 
-    public float getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(float precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
@@ -84,5 +90,9 @@ public class pelicula {
     public void setAnoSalida(int anoSalida) {
         this.anoSalida = anoSalida;
     }
+
+    public String getImagen() { return imagen; }
+
+    public void setImagen(String portada) { this.imagen = portada; }
 
 }
