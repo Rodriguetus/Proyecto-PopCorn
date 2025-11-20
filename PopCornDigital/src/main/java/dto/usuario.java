@@ -6,10 +6,10 @@ public class usuario {
     private String correo;
     private String contrasena;
 
-    public usuario(int id, String nombre, String correo, String contrasena) {
+    public usuario(int id, String correo, String nombre,  String contrasena) {
         this.id = id;
-        this.nombre = nombre;
         this.correo = correo;
+        this.nombre = nombre;
         this.contrasena = contrasena;
     }
 
@@ -18,7 +18,13 @@ public class usuario {
     }
 
     public usuario(String correo, String nombre, String contrasena) {
+        this.correo = correo;
+        this.nombre = nombre;
+        this.contrasena = contrasena;
     }
+
+
+
 
     public int getId() {
         return id;
