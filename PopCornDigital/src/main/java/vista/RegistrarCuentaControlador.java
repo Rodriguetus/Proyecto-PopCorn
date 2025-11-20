@@ -1,7 +1,7 @@
 package vista;
 
-import dao.DaoAdministrador;
-import dto.administrador;
+import dao.DaoUsuario;
+import dto.usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,10 +57,10 @@ public class RegistrarCuentaControlador implements Initializable {
             return;
         }
 
-        administrador admin = new administrador(correo, nombre, contrasena);
-        DaoAdministrador dao = new DaoAdministrador();
+        usuario user = new usuario(correo, nombre, contrasena);
+        DaoUsuario dao = new DaoUsuario();
 
-        boolean creado = dao.registrar(admin);
+        boolean creado = dao.registrar(user);
 
         if (!creado) {
             errorLabel.setText("No se pudo registrar. El correo ya existe.");

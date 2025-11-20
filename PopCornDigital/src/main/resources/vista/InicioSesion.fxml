@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/24.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="vista.InicioSesionControlador">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
 
     <children>
 
         <AnchorPane prefHeight="190.0" prefWidth="700.0" style="-fx-background-color: C2C2C4;">
             <children>
-                <Circle fill="DODGERBLUE" layoutX="358.0" layoutY="74.0" radius="50.0" stroke="BLACK"/>
-                <ImageView fitHeight="70" fitWidth="70" layoutX="328" layoutY="39">
+                <Circle fill="DODGERBLUE" layoutX="358.0" layoutY="74.0" radius="50.0" stroke="BLACK" />
+                <ImageView fitHeight="70" fitWidth="70" layoutX="323.0" layoutY="39.0">
                     <image>
-                        <Image url="@../Imagenes/PopCorn.png"/>
+                        <Image url="@../Imagenes/PopCorn.png" />
                     </image>
                 </ImageView>
 
                 <Label layoutX="284" layoutY="129" text="PopCorn Digital">
                     <font>
-                        <Font size="23"/>
+                        <Font size="23" />
                     </font>
                 </Label>
 
                 <Label layoutX="301" layoutY="165" text="Accede a tu cuenta">
                     <font>
-                        <Font size="15"/>
+                        <Font size="15" />
                     </font>
                 </Label>
             </children>
         </AnchorPane>
 
-        <Label layoutX="199" layoutY="209" text="Correo Electrónico"/>
-        <Label layoutX="199" layoutY="288" text="Contraseña"/>
+        <Label layoutX="199" layoutY="209" text="Correo Electrónico" />
+        <Label layoutX="199" layoutY="288" text="Contraseña" />
 
-        <TextField fx:id="correoTextField" layoutX="195" layoutY="238" prefHeight="26" prefWidth="306"
-                   promptText="Correo Electrónico"/>
+        <TextField fx:id="correoTextField" layoutX="195" layoutY="238" prefHeight="26" prefWidth="306" promptText="Correo Electrónico" />
 
         <!-- CAMBIADO A PasswordField -->
-        <PasswordField fx:id="contrasenaPasswordField" layoutX="199" layoutY="306"
-                       prefWidth="306" prefHeight="26" promptText="Contraseña"/>
+        <PasswordField fx:id="contrasenaPasswordField" layoutX="199" layoutY="306" prefHeight="26" prefWidth="306" promptText="Contraseña" />
 
-        <Button layoutX="305" layoutY="366" text="Iniciar Sesión" onAction="#iniciarSesion"/>
+        <Button layoutX="305" layoutY="366" onAction="#iniciarSesion" text="Iniciar Sesión" />
 
-        <Label fx:id="errormsj" layoutX="266" layoutY="341" textFill="red"/>
+        <Label fx:id="errormsj" layoutX="266" layoutY="341" textFill="red" />
 
-        <Label layoutX="236" layoutY="408" text="¿No tienes cuenta?"/>
-        <Hyperlink fx:id="linkRegistro" layoutX="352" layoutY="405" text="Regístrate aquí"/>
+        <Label layoutX="236" layoutY="408" text="¿No tienes cuenta?" />
+        <Hyperlink fx:id="linkRegistro" layoutX="352" layoutY="405" text="Regístrate aquí" />
 
         <ImageView fitHeight="37" fitWidth="30" layoutX="152" layoutY="236">
             <image>
-                <Image url="@../Imagenes/Usuario.png"/>
+                <Image url="@../Imagenes/Usuario.png" />
             </image>
         </ImageView>
 
         <ImageView fitHeight="37" fitWidth="30" layoutX="152" layoutY="304">
             <image>
-                <Image url="@../Imagenes/Contrasena.png.png"/>
+                <Image url="@../Imagenes/Contrasena.png.png" />
             </image>
         </ImageView>
 
