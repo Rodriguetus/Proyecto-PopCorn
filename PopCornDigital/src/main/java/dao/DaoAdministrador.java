@@ -5,6 +5,7 @@ import dto.administrador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class DaoAdministrador {
@@ -17,8 +18,7 @@ public class DaoAdministrador {
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
-
+            ;
             ps.setString(1, admin.getCorreo());
             ps.setString(2, admin.getNombre());
             ps.setString(3, admin.getContrasena());
@@ -36,17 +36,21 @@ public class DaoAdministrador {
     public administrador login(String correo, String contrasena) {
         String sql = "SELECT * FROM administrador WHERE Correo = ? AND Contrasena = ?";
 
+
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
+
 
             ps.setString(1, correo);
             ps.setString(2, contrasena);
 
+
             ResultSet rs = ps.executeQuery();
+
 
             if (rs.next()) {
                 administrador ad = new administrador();
-                ad.setIdAdmin(rs.getInt("idAdmin"));
+                ad.setId(rs.getInt("idAdmin"));
                 ad.setCorreo(rs.getString("Correo"));
                 ad.setNombre(rs.getString("Nombre"));
                 ad.setContrasena(rs.getString("Contrasena"));
@@ -59,4 +63,5 @@ public class DaoAdministrador {
         }
         return null;
     }
+
 }

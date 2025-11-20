@@ -19,7 +19,6 @@ public class DaoUsuario {
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-
             ps.setString(1, user.getCorreo());
             ps.setString(2, user.getNombre());
             ps.setString(3, user.getContrasena());
@@ -47,7 +46,7 @@ public class DaoUsuario {
 
             if (rs.next()) {
                 usuario user = new usuario();
-                user.setIdUsuario(rs.getInt("idUsuario"));
+                user.setId(rs.getInt("idUsuario"));
                 user.setCorreo(rs.getString("Correo"));
                 user.setNombre(rs.getString("Nombre"));
                 user.setContrasena(rs.getString("Contrasena"));
