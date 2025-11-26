@@ -23,12 +23,12 @@ public class MenuAdministradorControlador {
 
     @FXML
     private void irGestionPedido() {
-        //cambiarVista("GestionDePedidos.fxml", btnGestPedido);
+        cambiarVista("GestionDePedidos.fxml", btnGestPedido);
     }
 
     @FXML
     private void irGestionAlquiler() {
-        //cambiarVista("GestionDeAlquileres.fxml", btnGestAlquiler);
+        cambiarVista("GestionDeAlquiler.fxml", btnGestAlquiler);
     }
 
     @FXML

@@ -4,6 +4,8 @@ import conexion.conexionDB;
 import dto.alquiler;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlquilerDAO {
     public void alquiler(alquiler p) {
@@ -57,5 +59,24 @@ public class AlquilerDAO {
         }
     }
 
+    public List<alquiler> getAlquileres() throws SQLException {
+        List<alquiler> list = new ArrayList<>();
+        String sql = "SELECT * FROM alquiler";
+        try (Connection conn = conexionDB.getConnection();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                list.add(new alquiler(
+                        rs.getInt("idAlquiler"),
+                        rs.getString("Estado"),
+                        rs.getDate("FechaAlquiler"),
+                        rs.getDate("FechaDevolucion"),
+                        rs.getInt("idPelicula")
+                ));
+            }
+        }
+        return list;
+    }
 
 }
