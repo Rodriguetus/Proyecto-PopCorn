@@ -2,6 +2,7 @@ package vista;
 
 import dao.AlquilerDAO;
 import dto.alquiler;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,8 +33,8 @@ public class GestionDeAlquilerControlador {
 
     @FXML private TableColumn<alquiler, Integer> colId;
     @FXML private TableColumn<alquiler, String> colEstado;
-    @FXML private TableColumn<alquiler, Date> colFechaAlquiler;
-    @FXML private TableColumn<alquiler, Date> colFechaDevolucion;
+    @FXML private TableColumn<alquiler, String> colFechaAlquiler;
+    @FXML private TableColumn<alquiler, String> colFechaDevolucion;
     @FXML private TableColumn<alquiler, Integer> colIdPelicula;
 
     private AlquilerDAO alquilerDAO;
@@ -44,8 +45,10 @@ public class GestionDeAlquilerControlador {
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colFechaAlquiler.setCellValueFactory(new PropertyValueFactory<>("fAlquiler"));
-        colFechaDevolucion.setCellValueFactory(new PropertyValueFactory<>("fDevolucion"));
+        colFechaAlquiler.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getfAlquiler().toString()));
+        colFechaDevolucion.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getfDevolucion().toString()));
         colIdPelicula.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));
 
         try {

@@ -9,15 +9,15 @@ import java.util.List;
 
 public class AlquilerDAO {
     public void alquiler(alquiler p) {
-        String sql = "INSERT INTO pedido (idPedido, Estado, FechaDevolucion, FechaAlquiler, idPelicula) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO alquiler (idAlquiler, Estado, FechaDevolucion, FechaAlquiler, idPelicula) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, p.getId());
             stmt.setString(2, p.getEstado());
-            stmt.setDate(4, (Date) p.getfDevolucion());
-            stmt.setDate(3, (Date) p.getfAlquiler());
+            stmt.setDate(3, (Date) p.getfDevolucion());
+            stmt.setDate(4, (Date) p.getfAlquiler());
             stmt.setInt(5, p.getIdPelicula());
 
             stmt.executeUpdate();
@@ -33,11 +33,11 @@ public class AlquilerDAO {
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(2, p.getEstado());
-            stmt.setDate(4, (Date) p.getfDevolucion());
+            stmt.setString(1, p.getEstado());
+            stmt.setDate(2, (Date) p.getfDevolucion());
             stmt.setDate(3, (Date) p.getfAlquiler());
-            stmt.setInt(5, p.getIdPelicula());
-            stmt.setInt(1, p.getId());
+            stmt.setInt(4, p.getIdPelicula());
+            stmt.setInt(5, p.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

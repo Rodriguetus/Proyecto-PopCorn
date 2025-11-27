@@ -18,11 +18,10 @@ public class DaoAdministrador {
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ;
+
             ps.setString(1, admin.getCorreo());
             ps.setString(2, admin.getNombre());
             ps.setString(3, admin.getContrasena());
-
 
             return ps.executeUpdate() > 0;
 

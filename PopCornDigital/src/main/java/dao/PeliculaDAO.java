@@ -12,7 +12,7 @@ import conexion.conexionDB;
 public class PeliculaDAO {
 
     public void insertar(pelicula p) {
-        String sql = "INSERT INTO pelicula (idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pelicula (idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen, Descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -26,6 +26,7 @@ public class PeliculaDAO {
             stmt.setString(7, p.getProveedor());
             stmt.setInt(8, p.getAnoSalida());
             stmt.setString(9, p.getImagen());
+            stmt.setString(10, p.getDescripcion());
 
             stmt.executeUpdate();
 
@@ -35,7 +36,7 @@ public class PeliculaDAO {
     }
 
     public void modificar(pelicula p) {
-        String sql = "UPDATE pelicula SET Nombre=?, Precio=?, Stock=?, Genero=?, Formato=?, Proveedor=?, AnoSalida=?, Imagen=? WHERE idPelicula=?";
+        String sql = "UPDATE pelicula SET Nombre=?, Precio=?, Stock=?, Genero=?, Formato=?, Proveedor=?, AnoSalida=?, Imagen=?, Descripcion=? WHERE idPelicula=?";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -48,7 +49,8 @@ public class PeliculaDAO {
             stmt.setString(6, p.getProveedor());
             stmt.setInt(7, p.getAnoSalida());
             stmt.setString(8, p.getImagen());
-            stmt.setInt(9, p.getId());
+            stmt.setString(9, p.getDescripcion());
+            stmt.setInt(10, p.getId());
 
             stmt.executeUpdate();
 
@@ -87,7 +89,8 @@ public class PeliculaDAO {
                         rs.getString("Formato"),
                         rs.getString("Proveedor"),
                         rs.getInt("AnoSalida"),
-                        rs.getString("Imagen")
+                        rs.getString("Imagen"),
+                        rs.getString("Descripcion")
                 ));
             }
         }

@@ -19,6 +19,10 @@ public class pedido {
         this.direccion = direccion;
     }
 
+    public pedido() {
+
+    }
+
     public int getId() {
         return id;
     }

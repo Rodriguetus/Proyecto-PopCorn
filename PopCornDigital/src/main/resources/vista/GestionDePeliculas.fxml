@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="650" prefWidth="863.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePeliculasControlador">
+<BorderPane prefHeight="650" prefWidth="1121.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePeliculasControlador">
 
     <!-- Cabecera -->
     <top>
@@ -16,7 +16,7 @@
 
     <!-- Botones CRUD -->
     <center>
-        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #D6D6D6;">
+        <VBox prefHeight="605.0" prefWidth="1218.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #D6D6D6;">
             <HBox alignment="CENTER" prefHeight="29.0" prefWidth="542.0" spacing="10">
                 <Button fx:id="btnAnadir" onAction="#anadirPelicula" style="-fx-background-color: #4F6078; -fx-text-fill: white; -fx-font-size: 14;" text="Añadir Película" />
                 <Button fx:id="btnEditar" onAction="#editarPelicula" style="-fx-background-color: #4F6078; -fx-text-fill: white; -fx-font-size: 14;" text="Editar Película" />
@@ -67,15 +67,17 @@
             </GridPane>
 
             <!-- Tabla -->
-            <TableView fx:id="tablaPeliculas" prefHeight="350" prefWidth="839.0">
+            <TableView fx:id="tablaPeliculas" prefHeight="350" prefWidth="1144.0">
                 <columns>
-                    <TableColumn fx:id="colNombre" prefWidth="191.99997520446777" text="Película" />
-                    <TableColumn fx:id="colAno" prefWidth="70.00004577636719" text="Año" />
-                    <TableColumn fx:id="colPrecio" prefWidth="74.66668701171875" text="Precio" />
-                    <TableColumn fx:id="colStock" prefWidth="87.33331298828125" text="Stock" />
-                    <TableColumn fx:id="colGenero" prefWidth="91.33340454101562" text="Género" />
-                    <TableColumn fx:id="colFormato" prefWidth="166.6666259765625" text="Formato" />
-                    <TableColumn fx:id="colProveedor" minWidth="0.0" prefWidth="137.99995930989587" text="Proveedor" />
+                    <TableColumn fx:id="colNombre" prefWidth="163.9999942779541" text="Película" />
+                    <TableColumn fx:id="colAno" prefWidth="76.33335876464844" text="Año" />
+                    <TableColumn fx:id="colPrecio" prefWidth="73.66665649414062" text="Precio" />
+                    <TableColumn fx:id="colStock" prefWidth="76.66665649414062" text="Stock" />
+                    <TableColumn fx:id="colGenero" prefWidth="103.99996948242188" text="Género" />
+                    <TableColumn fx:id="colFormato" prefWidth="104.3333740234375" text="Formato" />
+                    <TableColumn fx:id="colProveedor" minWidth="0.0" prefWidth="145.66668701171875" text="Proveedor" />
+                    <TableColumn fx:id="colImagen" minWidth="0.0" prefWidth="141.3333740234375" text="Imagen" />
+                    <TableColumn fx:id="colDescripcion" minWidth="0.0" prefWidth="191.99995930989576" text="Descripcion" />
                 </columns>
             </TableView>
         </VBox>
