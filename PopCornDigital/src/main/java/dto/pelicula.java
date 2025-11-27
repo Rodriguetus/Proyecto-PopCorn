@@ -10,6 +10,7 @@ public class pelicula {
     private String proveedor;
     private int anoSalida;
     private String imagen;
+    private String descripcion;
 
     public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen){
         this.id = id;
@@ -25,6 +26,9 @@ public class pelicula {
 
     public pelicula() {
 
+    }
+
+    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen, String descripcion) {
     }
 
     public int getId() {
@@ -95,4 +99,7 @@ public class pelicula {
 
     public void setImagen(String portada) { this.imagen = portada; }
 
+    public String getDescripcion() { return descripcion; }
+
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 }

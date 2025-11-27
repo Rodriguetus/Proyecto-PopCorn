@@ -22,7 +22,6 @@ public class GestionDePeliculasControlador {
     @FXML private Button btnVolver;
     @FXML private Button btnCerrar;
 
-    @FXML private TextField txtId;
     @FXML private TextField txtNombre;
     @FXML private TextField txtAno;
     @FXML private TextField txtStock;
@@ -31,6 +30,7 @@ public class GestionDePeliculasControlador {
     @FXML private TextField txtProveedor;
     @FXML private TextField txtPrecio;
     @FXML private TextField txtImagen;
+    @FXML private TextField txtDescripcion;
 
     @FXML private TableView<pelicula> tablaPeliculas;
     @FXML private TableColumn<pelicula, String> colNombre;
@@ -40,6 +40,8 @@ public class GestionDePeliculasControlador {
     @FXML private TableColumn<pelicula, String> colGenero;
     @FXML private TableColumn<pelicula, String> colFormato;
     @FXML private TableColumn<pelicula, String> colProveedor;
+    @FXML private TableColumn<pelicula, String> colImagen;
+    @FXML private TableColumn<pelicula, String> colDescripcion;
 
     private PeliculaDAO peliculaDAO;
 
@@ -54,6 +56,8 @@ public class GestionDePeliculasControlador {
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
         colFormato.setCellValueFactory(new PropertyValueFactory<>("formato"));
         colProveedor.setCellValueFactory(new PropertyValueFactory<>("proveedor"));
+        colImagen.setCellValueFactory(new PropertyValueFactory<>("imagen"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
         try {
             cargarPeliculas();
@@ -91,7 +95,7 @@ public class GestionDePeliculasControlador {
     private void anadirPelicula() throws SQLException {
         if (txtNombre.getText().isEmpty() || txtAno.getText().isEmpty() || txtStock.getText().isEmpty() ||
                 txtFormato.getText().isEmpty() || txtGenero.getText().isEmpty() || txtProveedor.getText().isEmpty() ||
-                txtPrecio.getText().isEmpty() || txtImagen.getText().isEmpty()) {
+                txtPrecio.getText().isEmpty() || txtImagen.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
 
             mostrarAlerta("Rellena todos los campos antes de añadir.");
             return;
@@ -107,6 +111,7 @@ public class GestionDePeliculasControlador {
             nueva.setProveedor(txtProveedor.getText());
             nueva.setAnoSalida(Integer.parseInt(txtAno.getText()));
             nueva.setImagen(txtImagen.getText());
+            nueva.setDescripcion(txtDescripcion.getText());
 
             peliculaDAO.insertar(nueva);
 
@@ -153,6 +158,9 @@ public class GestionDePeliculasControlador {
             if (!txtImagen.getText().isEmpty()) {
                 seleccionada.setImagen(txtImagen.getText());
             }
+            if (!txtDescripcion.getText().isEmpty()) {
+                seleccionada.setDescripcion(txtDescripcion.getText());
+            }
 
             peliculaDAO.modificar(seleccionada);
 
@@ -181,6 +189,7 @@ public class GestionDePeliculasControlador {
         txtProveedor.clear();
         txtPrecio.clear();
         txtImagen.clear();
+        txtDescripcion.clear();
     }
 
     @FXML
