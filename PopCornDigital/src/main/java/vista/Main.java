@@ -12,7 +12,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuAdministrador.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Catalogo.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root, 700, 506);

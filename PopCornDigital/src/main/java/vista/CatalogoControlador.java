@@ -87,7 +87,6 @@ public class CatalogoControlador {
         }
     }
 
-
     //Para abrir DetallesMovieCard
     private void abrirDetalles(pelicula movie) {
         try {
@@ -107,5 +106,4 @@ public class CatalogoControlador {
             System.out.println("Error al abrir DetallesMovieCard.fxml");
         }
     }
-
 }
