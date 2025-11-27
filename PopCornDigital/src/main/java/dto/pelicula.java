@@ -12,7 +12,7 @@ public class pelicula {
     private String imagen;
     private String descripcion;
 
-    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen){
+    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen, String descripcion){
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -22,13 +22,11 @@ public class pelicula {
         this.proveedor = proveedor;
         this.anoSalida = anoSalida;
         this.imagen = imagen;
+        this.descripcion = descripcion;
     }
 
     public pelicula() {
 
-    }
-
-    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen, String descripcion) {
     }
 
     public int getId() {
