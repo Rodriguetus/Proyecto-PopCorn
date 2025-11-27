@@ -4,9 +4,9 @@ module PopCornDigital {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires java.desktop;
 
     exports vista;
     opens vista to javafx.fxml;
-
-    opens dto;
+    opens dto to javafx.base;
 }

@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -19,15 +18,19 @@ import java.util.ResourceBundle;
 
 public class InicioSesionControlador implements Initializable {
 
+    //TextField para introducir el correo electrónico.
     @FXML
     private TextField correoTextField;
 
+    //Campo para introducir contraseña no visible.
     @FXML
     private PasswordField contrasenaPasswordField;
 
+    //Label del mensaje de error
     @FXML
     private Label errormsj;
 
+    //Hyperlink con enlace hacia el registro.
     @FXML
     private Hyperlink linkRegistro;
 
@@ -42,11 +45,10 @@ public class InicioSesionControlador implements Initializable {
         }
     }
 
+    //Metodo que realiza el boton de Iniciar Sesion al presionarse.
     @FXML
     private void iniciarSesion() {
-
         errormsj.setText("");
-
         String correo = correoTextField.getText();
         String contrasena = contrasenaPasswordField.getText();
 
@@ -81,7 +83,6 @@ public class InicioSesionControlador implements Initializable {
                 abrirVentana("/vista/Catalogo.fxml");
                 return;
             }
-
             errormsj.setText("Correo o contraseña incorrectos.");
 
         } catch (SQLException e) {

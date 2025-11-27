@@ -1,7 +1,7 @@
 package vista;
 
-import dao.DaoAdministrador;
-import dto.administrador;
+import dao.DaoUsuario;
+import dto.usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,30 +13,35 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RegistrarCuentaControlador implements Initializable {
 
+    //TextFields para los datos del registro
     @FXML
     private TextField nombreusuarioTextField;
 
     @FXML
     private TextField correoTextField;
 
+    //PasswordField para que la contraseña no sea visible
     @FXML
     private PasswordField contrasenaPasswordField;
 
+    //Repetición del password
     @FXML
     private PasswordField repetirContrasenaPasswordField;
 
+    //Label para mostrar el mensaje de error
     @FXML
     private Label errorLabel;
 
+    //Hyperlink para volver a la vista de Inicio de Sesion
     @FXML
     private Hyperlink linkInicio;
 
+    //Metodo que usa el boton Registrar Cuenta al presionarse
     @FXML
     private void registrarCuenta(ActionEvent event) {
 
@@ -57,10 +62,10 @@ public class RegistrarCuentaControlador implements Initializable {
             return;
         }
 
-        administrador admin = new administrador(correo, nombre, contrasena);
-        DaoAdministrador dao = new DaoAdministrador();
+        usuario user = new usuario(correo, nombre, contrasena);
+        DaoUsuario dao = new DaoUsuario();
 
-        boolean creado = dao.registrar(admin);
+        boolean creado = dao.registrar(user);
 
         if (!creado) {
             errorLabel.setText("No se pudo registrar. El correo ya existe.");

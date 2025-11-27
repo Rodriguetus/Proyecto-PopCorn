@@ -12,7 +12,7 @@ import conexion.conexionDB;
 public class PeliculaDAO {
 
     public void insertar(pelicula p) {
-        String sql = "INSERT INTO pelicula (idPelicula, nombre, precio, stock, anosalida, proveedor, formato, genero) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pelicula (idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen, Descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,10 +21,12 @@ public class PeliculaDAO {
             stmt.setString(2, p.getNombre());
             stmt.setDouble(3, p.getPrecio());
             stmt.setInt(4, p.getStock());
-            stmt.setInt(5, p.getAnoSalida());
-            stmt.setString(6, p.getProveedor());
-            stmt.setString(7, p.getFormato());
-            stmt.setString(8, p.getGenero());
+            stmt.setString(5, p.getGenero());
+            stmt.setString(6, p.getFormato());
+            stmt.setString(7, p.getProveedor());
+            stmt.setInt(8, p.getAnoSalida());
+            stmt.setString(9, p.getImagen());
+            stmt.setString(10, p.getDescripcion());
 
             stmt.executeUpdate();
 
@@ -34,7 +36,7 @@ public class PeliculaDAO {
     }
 
     public void modificar(pelicula p) {
-        String sql = "UPDATE pelicula SET nombre=?, precio=?, stock=?, anosalida=?, proveedor=?, formato=?, genero=?, portada=? WHERE idpelicula=?";
+        String sql = "UPDATE pelicula SET Nombre=?, Precio=?, Stock=?, Genero=?, Formato=?, Proveedor=?, AnoSalida=?, Imagen=?, Descripcion=? WHERE idPelicula=?";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -42,11 +44,13 @@ public class PeliculaDAO {
             stmt.setString(1, p.getNombre());
             stmt.setDouble(2, p.getPrecio());
             stmt.setInt(3, p.getStock());
-            stmt.setInt(4, p.getAnoSalida());
-            stmt.setString(5, p.getProveedor());
-            stmt.setString(6, p.getFormato());
-            stmt.setString(7, p.getGenero());
-            stmt.setInt(9, p.getId());
+            stmt.setString(4, p.getGenero());
+            stmt.setString(5, p.getFormato());
+            stmt.setString(6, p.getProveedor());
+            stmt.setInt(7, p.getAnoSalida());
+            stmt.setString(8, p.getImagen());
+            stmt.setString(9, p.getDescripcion());
+            stmt.setInt(10, p.getId());
 
             stmt.executeUpdate();
 
@@ -56,7 +60,7 @@ public class PeliculaDAO {
     }
 
     public boolean eliminar(int id) {
-        String sql = "DELETE FROM peliculas WHERE id = ?";
+        String sql = "DELETE FROM pelicula WHERE idPelicula = ?";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -71,22 +75,22 @@ public class PeliculaDAO {
 
     public List<pelicula> getPeliculas() throws SQLException {
         List<pelicula> list = new ArrayList<>();
-        String sql = "SELECT * FROM movies";
-
+        String sql = "SELECT * FROM pelicula";
         try (Connection conn = conexionDB.getConnection();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
-
             while (rs.next()) {
                 list.add(new pelicula(
                         rs.getInt("idPelicula"),
                         rs.getString("Nombre"),
-                        rs.getFloat("Precio"),
+                        rs.getDouble("Precio"),
                         rs.getInt("Stock"),
                         rs.getString("Genero"),
                         rs.getString("Formato"),
                         rs.getString("Proveedor"),
-                        rs.getInt("AnoSalida")
+                        rs.getInt("AnoSalida"),
+                        rs.getString("Imagen"),
+                        rs.getString("Descripcion")
                 ));
             }
         }
