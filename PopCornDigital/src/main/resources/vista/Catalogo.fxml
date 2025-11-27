@@ -16,29 +16,29 @@
 
             <!-- Logo grande -->
             <ImageView fx:id="logoImage" fitHeight="70" fitWidth="70" preserveRatio="true" style="-fx-cursor: hand;">
-            <image>
-               <Image url="@../Imagenes/PopCorn.png" />
-            </image></ImageView>
+                <image>
+                    <Image url="@../Imagenes/PopCorn.png" />
+                </image></ImageView>
 
             <!-- Iconos más pequeños -->
             <ImageView fx:id="homeIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
-            <image>
-               <Image url="@../Imagenes/lupa.png" />
-            </image></ImageView>
+                <image>
+                    <Image url="@../Imagenes/lupa.png" />
+                </image></ImageView>
             <ImageView fx:id="searchIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
-            <image>
-               <Image url="@../Imagenes/Envio.png" />
-            </image></ImageView>
+                <image>
+                    <Image url="@../Imagenes/Envio.png" />
+                </image></ImageView>
             <ImageView fx:id="favoritesIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
-            <image>
-               <Image url="@../Imagenes/estrella.png" />
-            </image></ImageView>
+                <image>
+                    <Image url="@../Imagenes/estrella.png" />
+                </image></ImageView>
             <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;" onMouseClicked="#volverLogin">
-            <image>
-               <Image url="@../Imagenes/exit.png" />
-            </image></ImageView>
+                <image>
+                    <Image url="@../Imagenes/exit.png" />
+                </image></ImageView>
 
-            
+
 
         </VBox>
     </left>

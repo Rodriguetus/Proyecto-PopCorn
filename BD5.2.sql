@@ -67,31 +67,6 @@ LOCK TABLES `alquiler` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `aministrador`
---
-
-DROP TABLE IF EXISTS `aministrador`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `aministrador` (
-  `idAdmin` int NOT NULL,
-  `Correo` varchar(45) NOT NULL,
-  `Nombre` varchar(45) NOT NULL,
-  `Contraseña` varchar(45) NOT NULL,
-  PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `aministrador`
---
-
-LOCK TABLES `aministrador` WRITE;
-/*!40000 ALTER TABLE `aministrador` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aministrador` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `pedido`
 --
 
@@ -135,6 +110,7 @@ CREATE TABLE `pelicula` (
   `Formato` varchar(50) NOT NULL,
   `Genero` varchar(100) NOT NULL,
   `Imagen` varchar(45) DEFAULT NULL,
+  `Descripcion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idPelicula`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -145,7 +121,7 @@ CREATE TABLE `pelicula` (
 
 LOCK TABLES `pelicula` WRITE;
 /*!40000 ALTER TABLE `pelicula` DISABLE KEYS */;
-INSERT INTO `pelicula` VALUES (3,'El Padrino',14.99,20,1972,'Paramount Pictures','Blu-ray','Crimen, Drama','/Imagenes/Elpadrino.jpg'),(5,'Pulp Fiction',12.99,30,1994,'Miramax','Blu-ray','Crimen, Drama','/Imagenes/PulpFiction.jpg'),(6,'El Señor de los Anillos: La Comunidad del Anillo',19.99,15,2001,'New Line Cinema','4K UHD','Fantasía, Aventura','/Imagenes/SenosDeLosAnillos.jpg'),(7,'The Dark Knight',18.99,25,2008,'Warner Bros.','Blu-ray','Acción, Crimen','/Imagenes/TheDarkKnight.jpg'),(8,'Forrest Gump',10.99,40,1994,'Paramount Pictures','DVD','Drama, Romance','/Imagenes/forrestGump.jpg'),(9,'Matrix',15.99,22,1999,'Warner Bros.','4K UHD','Acción, Ciencia ficción','/Imagenes/Matrix.jpg'),(10,'Interstellar',17.99,18,2014,'Paramount Pictures','Blu-ray','Ciencia ficción, Drama','/Imagenes/Interstellar.jpg'),(11,'El silencio de los corderos',11.99,35,1991,'Orion Pictures','DVD','Suspense, Crimen','/Imagenes/Elsilenciodeloscorderos.jpg'),(13,'Gladiator',13.99,28,2000,'DreamWorks','Blu-ray','Acción, Drama','/Imagenes/Gladiator.jpg'),(14,'Parásitos',16.99,12,2019,'CJ Entertainment','Blu-ray','Suspense, Comedia','/Imagenes/Parasitos.jpg'),(15,'La La Land',12.99,20,2016,'Lionsgate','Blu-ray','Musical, Romance','/Imagenes/LaLaLand.jpg'),(16,'Django sin cadenas',14.99,17,2012,'The Weinstein Company','Blu-ray','Western, Drama','/Imagenes/DjangoSinCadenas.jpg'),(17,'El viaje de Chihiro',19.99,10,2001,'Studio Ghibli','Blu-ray','Animación, Fantasía','/Imagenes/ElViajeDeChihiro.jpg'),(18,'El club de la lucha',11.99,33,1999,'20th Century Fox','DVD','Drama','/Imagenes/Elclubdelalucha.jpg'),(20,'Blade Runner 2049',17.99,14,2017,'Sony Pictures','4K UHD','Ciencia ficción, Suspense','/Imagenes/BladeRunner2049.jpg'),(21,'Amélie',9.99,30,2001,'UGC-Fox Distribution','DVD','Comedia, Romance','/Imagenes/Amelie.jpg'),(22,'Mad Max: Furia en la carretera',16.99,20,2015,'Warner Bros.','4K UHD','Acción, Ciencia ficción','/Imagenes/MadMaxFuriaenlacarretera.jpg'),(23,'El Padrino: Parte II',14.99,15,1974,'Paramount Pictures','Blu-ray','Crimen, Drama','/Imagenes/ElPadrinoParteII.jpg');
+INSERT INTO `pelicula` VALUES (3,'El Padrino',14.99,20,1972,'Paramount Pictures','Blu-ray','Crimen, Drama','/Imagenes/Elpadrino.jpg',NULL),(5,'Pulp Fiction',12.99,30,1994,'Miramax','Blu-ray','Crimen, Drama','/Imagenes/PulpFiction.jpg',NULL),(6,'El Señor de los Anillos: La Comunidad del Anillo',19.99,15,2001,'New Line Cinema','4K UHD','Fantasía, Aventura','/Imagenes/SenosDeLosAnillos.jpg',NULL),(7,'The Dark Knight',18.99,25,2008,'Warner Bros.','Blu-ray','Acción, Crimen','/Imagenes/TheDarkKnight.jpg',NULL),(8,'Forrest Gump',10.99,40,1994,'Paramount Pictures','DVD','Drama, Romance','/Imagenes/forrestGump.jpg',NULL),(9,'Matrix',15.99,22,1999,'Warner Bros.','4K UHD','Acción, Ciencia ficción','/Imagenes/Matrix.jpg',NULL),(10,'Interstellar',17.99,18,2014,'Paramount Pictures','Blu-ray','Ciencia ficción, Drama','/Imagenes/Interstellar.jpg',NULL),(11,'El silencio de los corderos',11.99,35,1991,'Orion Pictures','DVD','Suspense, Crimen','/Imagenes/Elsilenciodeloscorderos.jpg',NULL),(13,'Gladiator',13.99,28,2000,'DreamWorks','Blu-ray','Acción, Drama','/Imagenes/Gladiator.jpg',NULL),(14,'Parásitos',16.99,12,2019,'CJ Entertainment','Blu-ray','Suspense, Comedia','/Imagenes/Parasitos.jpg',NULL),(15,'La La Land',12.99,20,2016,'Lionsgate','Blu-ray','Musical, Romance','/Imagenes/LaLaLand.jpg',NULL),(16,'Django sin cadenas',14.99,17,2012,'The Weinstein Company','Blu-ray','Western, Drama','/Imagenes/DjangoSinCadenas.jpg',NULL),(17,'El viaje de Chihiro',19.99,10,2001,'Studio Ghibli','Blu-ray','Animación, Fantasía','/Imagenes/ElViajeDeChihiro.jpg',NULL),(18,'El club de la lucha',11.99,33,1999,'20th Century Fox','DVD','Drama','/Imagenes/Elclubdelalucha.jpg',NULL),(20,'Blade Runner 2049',17.99,14,2017,'Sony Pictures','4K UHD','Ciencia ficción, Suspense','/Imagenes/BladeRunner2049.jpg',NULL),(21,'Amélie',9.99,30,2001,'UGC-Fox Distribution','DVD','Comedia, Romance','/Imagenes/Amelie.jpg',NULL),(22,'Mad Max: Furia en la carretera',16.99,20,2015,'Warner Bros.','4K UHD','Acción, Ciencia ficción','/Imagenes/MadMaxFuriaenlacarretera.jpg',NULL),(23,'El Padrino: Parte II',14.99,15,1974,'Paramount Pictures','Blu-ray','Crimen, Drama','/Imagenes/ElPadrinoParteII.jpg',NULL);
 /*!40000 ALTER TABLE `pelicula` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -160,7 +136,8 @@ CREATE TABLE `usuario` (
   `idUsuario` int NOT NULL AUTO_INCREMENT,
   `Correo` varchar(45) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
-  `Contraseña` varchar(45) NOT NULL,
+  `Contrasena` varchar(45) NOT NULL,
+  `Fav` int DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -183,4 +160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-20 22:39:14
+-- Dump completed on 2025-11-27 12:25:04

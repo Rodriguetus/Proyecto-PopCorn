@@ -18,19 +18,15 @@ import java.util.ResourceBundle;
 
 public class InicioSesionControlador implements Initializable {
 
-    //TextField para introducir el correo electrónico.
     @FXML
     private TextField correoTextField;
 
-    //Campo para introducir contraseña no visible.
     @FXML
     private PasswordField contrasenaPasswordField;
 
-    //Label del mensaje de error
     @FXML
     private Label errormsj;
 
-    //Hyperlink con enlace hacia el registro.
     @FXML
     private Hyperlink linkRegistro;
 
@@ -45,7 +41,6 @@ public class InicioSesionControlador implements Initializable {
         }
     }
 
-    //Metodo que realiza el boton de Iniciar Sesion al presionarse.
     @FXML
     private void iniciarSesion() {
         errormsj.setText("");

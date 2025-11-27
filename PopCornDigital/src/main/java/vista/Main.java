@@ -9,15 +9,23 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-    public void start(Stage primaryStage)throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/InicioSesion.fxml"));
-        Parent root = loader.load();
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuAdministrador.fxml"));
+            Parent root = loader.load();
 
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setScene(new Scene(root, 700, 650));
-        primaryStage.setTitle("PopCorn Digital");
-        primaryStage.show();
+            Scene scene = new Scene(root, 700, 506);
+
+            primaryStage.setTitle("Catálogo de Películas");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public static void main(String[] args) {
         launch(args);
     }
