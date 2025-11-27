@@ -17,9 +17,7 @@ public class alquiler {
         this.idPelicula = idPelicula;
     }
 
-    public alquiler() {
 
-    }
 
     public int getId() {
         return id;

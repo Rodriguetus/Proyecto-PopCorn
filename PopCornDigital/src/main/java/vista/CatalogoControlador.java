@@ -54,20 +54,7 @@ public class CatalogoControlador {
             System.err.println("Error al cargar tarjeta: " + movie.getNombre() + " → " + e.getMessage());
         }
     }
-    @FXML
-    private void irPedido(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Pedido.fxml"));
-            Parent root = loader.load();
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error al cargar el acceso a los pedidos.fxml");
-        }
-    }
 
     @FXML
     private void volverLogin(MouseEvent event) {

@@ -19,9 +19,9 @@ public class pedido {
         this.direccion = direccion;
     }
 
-    public pedido() {
-
+    public pedido(int idPedido, String estado, java.sql.Date fechaCompra, java.sql.Date fechaLlegada, int idPelicula, String direccion) {
     }
+
 
     public int getId() {
         return id;
