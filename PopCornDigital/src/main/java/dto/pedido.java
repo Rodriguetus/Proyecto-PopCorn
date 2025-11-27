@@ -10,7 +10,7 @@ public class pedido {
     private int idPelicula;
     private String direccion;
 
-    public pedido() {
+    public pedido(int id, String estado, Date fCompra, Date fLlegada, int idPelicula, String direccion) {
         this.id = id;
         this.estado = estado;
         this.fCompra = fCompra;

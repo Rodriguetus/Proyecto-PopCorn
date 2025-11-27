@@ -9,7 +9,7 @@ public class alquiler {
     private Date fAlquiler;
     private int idPelicula;
 
-    public alquiler() {
+    public alquiler(int id, String estado, Date fDevolucion, Date fAlquiler, int idPelicula) {
         this.id = id;
         this.estado = estado;
         this.fAlquiler = fAlquiler;
