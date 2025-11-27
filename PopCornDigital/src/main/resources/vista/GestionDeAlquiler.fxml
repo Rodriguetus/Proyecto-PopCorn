@@ -27,10 +27,10 @@
                     <Label text="Estado:" GridPane.rowIndex="1" />
                     <TextField fx:id="txtEstado" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Fecha Alquiler:" />
+                    <Label text="Fecha Alquiler(y-m-d):" />
                     <TextField fx:id="txtFechaAlquiler" GridPane.columnIndex="1" />
 
-                    <Label text="Fecha Devolución:" GridPane.columnIndex="2" />
+                    <Label text="Fecha Devolución(y-m-d):" GridPane.columnIndex="2" />
                     <TextField fx:id="txtFechaDevolucion" GridPane.columnIndex="3" />
 
                     <Label text="ID Película:" GridPane.rowIndex="2" />

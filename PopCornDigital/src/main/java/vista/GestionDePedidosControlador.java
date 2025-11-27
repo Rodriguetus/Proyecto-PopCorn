@@ -2,6 +2,7 @@ package vista;
 
 import dao.PedidoDAO;
 import dto.pedido;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,8 +34,8 @@ public class GestionDePedidosControlador {
 
     @FXML private TableColumn<pedido, Integer> colId;
     @FXML private TableColumn<pedido, String> colEstado;
-    @FXML private TableColumn<pedido, Date> colFechaCompra;
-    @FXML private TableColumn<pedido, Date> colFechaLlegada;
+    @FXML private TableColumn<pedido, String> colFechaCompra;
+    @FXML private TableColumn<pedido, String> colFechaLlegada;
     @FXML private TableColumn<pedido, Integer> colIdPelicula;
     @FXML private TableColumn<pedido, String> colDireccion;
 
@@ -47,8 +48,10 @@ public class GestionDePedidosControlador {
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colFechaCompra.setCellValueFactory(new PropertyValueFactory<>("fCompra"));
-        colFechaLlegada.setCellValueFactory(new PropertyValueFactory<>("fLlegada"));
+        colFechaCompra.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getfCompra().toString()));
+        colFechaLlegada.setCellValueFactory(cell ->
+                new SimpleStringProperty(cell.getValue().getfLlegada().toString()));
         colIdPelicula.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
 
