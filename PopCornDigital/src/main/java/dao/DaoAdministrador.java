@@ -50,7 +50,7 @@ public class DaoAdministrador {
 
             if (rs.next()) {
                 administrador ad = new administrador();
-                ad.setId(rs.getInt("idAdmin"));
+                ad.setIdAdmin(rs.getInt("idAdmin"));
                 ad.setCorreo(rs.getString("Correo"));
                 ad.setNombre(rs.getString("Nombre"));
                 ad.setContrasena(rs.getString("Contrasena"));
