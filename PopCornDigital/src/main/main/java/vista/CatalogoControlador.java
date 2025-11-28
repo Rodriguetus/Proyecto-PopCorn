@@ -87,7 +87,6 @@ public class CatalogoControlador {
         }
     }
 
-
     //Para abrir DetallesMovieCard
     private void abrirDetalles(pelicula movie) {
         try {
@@ -96,9 +95,7 @@ public class CatalogoControlador {
 
             // Obtener el controlador y pasarle la película
             DetallesMovieCardControlador controller = loader.getController();
-            //====================
-            controller.setDetallesMovieCard(movie); // aquí cambio el nombre del método
-            //====================
+            controller.setDetallesMovieCard(movie);
 
             Stage stage = new Stage();
             stage.setTitle("Detalles de la Película");
@@ -109,6 +106,8 @@ public class CatalogoControlador {
             System.out.println("Error al abrir DetallesMovieCard.fxml");
         }
     }
+
+
 
 
 }

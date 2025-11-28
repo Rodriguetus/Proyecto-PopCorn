@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200" prefWidth="160" style="-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Imagen de la película -->
+    <ImageView fx:id="imagenPelicula" fitHeight="60.0" fitWidth="60.0" layoutX="46.0" layoutY="12.0" preserveRatio="true" />
+
+    <!-- Título -->
+    <Label fx:id="tituloLabel" layoutX="10.0" layoutY="91.0" style="-fx-font-weight: bold;" text="Pulp Fiction" />
+
+    <!-- Compra ID -->
+    <Label fx:id="compraIdLabel" layoutX="9.0" layoutY="72.0" text="Compra #1764232952045" />
+
+    <!-- Cantidad -->
+    <Label fx:id="cantidadLabel" layoutX="12.0" layoutY="116.0" text="Cantidad:           1 unidad" />
+
+    <!-- Proveedor -->
+    <Label fx:id="proveedorLabel" layoutX="12.0" layoutY="131.0" text="Proveedor:         General" />
+
+    <!-- Fecha de compra -->
+    <Label fx:id="fechaCompraLabel" layoutX="8.0" layoutY="148.0" text="Compra:             27/11/2025" />
+
+    <!-- Fecha esperada -->
+    <Label fx:id="fechaEsperadaLabel" layoutX="12.0" layoutY="164.0" text="Entrega:             4/12/2025" />
+
+    <!-- Estado -->
+    <Label fx:id="estadoLabel" layoutX="12.0" layoutY="179.0" style="-fx-text-fill: orange;" text="Estado:               Pendiente" />
+
+</AnchorPane>
