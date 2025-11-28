@@ -10,7 +10,7 @@ public class pedido {
     private int idPelicula;
     private String direccion;
 
-    public pedido(int id, String estado, java.sql.Date fCompra, java.sql.Date fLlegada, int idPelicula, String direccion) {
+    public pedido() {
         this.id = id;
         this.estado = estado;
         this.fCompra = fCompra;
@@ -19,7 +19,7 @@ public class pedido {
         this.direccion = direccion;
     }
 
-    public pedido() {
+    public pedido(int idPedido, String estado, java.sql.Date fechaCompra, java.sql.Date fechaLlegada, int idPelicula, String direccion) {
     }
 
 

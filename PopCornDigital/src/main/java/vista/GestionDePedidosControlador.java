@@ -64,7 +64,7 @@ public class GestionDePedidosControlador {
 
     private void cargarPedido() throws SQLException {
         tablaPedidos.setItems(
-                FXCollections.observableArrayList()
+                FXCollections.observableArrayList(pedidoDAO.getPedidos())
         );
     }
 

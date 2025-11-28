@@ -53,20 +53,6 @@ public class PedidoControlador {
         }
     }
 
-    @FXML
-    private void irNuevaCompra(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/NuevaCompra.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error al cargar el acceso a los pedidos.fxml");
-        }
-    }
 
     @FXML
     private void irPedidos(MouseEvent event) {
@@ -95,6 +81,22 @@ public class PedidoControlador {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error al cargar InicioSesion.fxml");
+        }
+    }
+
+    //Funcion del boton de Catalogo
+    @FXML
+    private void irCatalogo(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Catalogo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar el acceso a el catalogo.fxml");
         }
     }
 }
