@@ -10,14 +10,16 @@ public class alquiler {
     private int idPelicula;
 
     public alquiler() {
-        this.id = id;
-        this.estado = estado;
-        this.fAlquiler = fAlquiler;
-        this.fDevolucion = fDevolucion;
-        this.idPelicula = idPelicula;
+
     }
 
-
+    public alquiler(int id, String estado, Date fDevolucion, Date fAlquiler, int idPelicula) {
+        this.id = id;
+        this.estado = estado;
+        this.fDevolucion = fDevolucion;
+        this.fAlquiler = fAlquiler;
+        this.idPelicula = idPelicula;
+    }
 
     public int getId() {
         return id;

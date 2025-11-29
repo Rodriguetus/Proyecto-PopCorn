@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class conexionDB {
 
 
-    private static final String url = "jdbc:mysql://localhost:3306/popcorn" ;
+    private static final String url = "jdbc:mysql://localhost:3306/popcorn";
     private static final String usuario = "root"; // cambia si usas otra contraseña
     private static final String contrasena = "root";
 

@@ -68,11 +68,6 @@ public class AlquilerDAO {
 
             while (rs.next()) {
                 list.add(new alquiler(
-                        rs.getInt("idAlquiler"),
-                        rs.getString("Estado"),
-                        rs.getDate("FechaAlquiler"),
-                        rs.getDate("FechaDevolucion"),
-                        rs.getInt("idPelicula")
                 ));
             }
         }
