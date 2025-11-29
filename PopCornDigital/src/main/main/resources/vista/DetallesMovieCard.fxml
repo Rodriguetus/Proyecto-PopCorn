@@ -64,6 +64,7 @@
         <HBox spacing="15" layoutX="20" layoutY="370">
             <Button fx:id="favoriteButton"
                     text="Favoritos"
+                    onAction="#marcarFavorito"
                     style="-fx-background-color: #444444; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;" />
 
             <Button fx:id="buyButton"
@@ -75,6 +76,7 @@
                     visible="false"
                     style="-fx-background-color: #ffaa00; -fx-text-fill: black; -fx-font-size: 14px; -fx-background-radius: 8;" />
         </HBox>
+
     </VBox>
 
     <!-- Imagen del póster a la derecha -->

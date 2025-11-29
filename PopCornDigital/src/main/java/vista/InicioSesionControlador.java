@@ -81,7 +81,7 @@ public class InicioSesionControlador implements Initializable {
             if (rsUsuario.next()) {
                 //====================
                 int idUsuario = rsUsuario.getInt("idUsuario");
-                dto.SesionIniciada.setIdUsuario(idUsuario);
+                SesionIniciada.setIdUsuario(idUsuario);
                 //====================
                 abrirVentana("/vista/Catalogo.fxml");
                 return;

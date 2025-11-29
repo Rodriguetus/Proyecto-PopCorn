@@ -87,6 +87,21 @@ public class CatalogoControlador {
         }
     }
 
+    @FXML
+    private void irFavoritos(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Favoritos.fxml");
+        }
+    }
+
 
     //Para abrir DetallesMovieCard
     private void abrirDetalles(pelicula movie) {

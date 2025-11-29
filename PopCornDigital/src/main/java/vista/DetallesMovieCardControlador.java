@@ -4,6 +4,7 @@ import dto.SesionIniciada;
 import dto.pelicula;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -82,37 +84,67 @@ private pelicula peliculaActual;
             }
         }
     }
-
     @FXML
     private void marcarFavorito(ActionEvent event) {
-
         if (idUsuario <= 0 || peliculaActual == null || peliculaActual.getId() <= 0) {
             System.out.println("Usuario o película no definidos.");
             return;
         }
 
-        int idPelicula = peliculaActual.getId(); // ID de la película actual
+        int idPelicula = peliculaActual.getId();
 
-        String sql = "UPDATE usuario SET Fav = ? WHERE idUsuario = ?";
+        // 1. Consulta para VERIFICAR si ya existe
+        String checkSql = "SELECT COUNT(*) FROM favoritos WHERE idUsuario = ? AND idPelicula = ?";
+
+        // 2. Consulta para INSERTAR (solo si no existe)
+        String insertSql = "INSERT INTO favoritos (idUsuario, idPelicula) VALUES (?, ?)";
 
         try (Connection conn = conexion.conexionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
 
-            stmt.setInt(1, idPelicula);
-            stmt.setInt(2, idUsuario);
+            checkStmt.setInt(1, idUsuario);
+            checkStmt.setInt(2, idPelicula);
 
-            int filas = stmt.executeUpdate();
-            if (filas > 0) {
-                System.out.println("Película marcada como favorita para el usuario con ID " + idUsuario);
-            } else {
-                System.out.println("No se pudo actualizar el favorito.");
+            try (ResultSet rs = checkStmt.executeQuery()) {
+
+
+                if (rs.next() && rs.getInt(1) > 0) {
+
+                    //  existe
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Película Duplicada");
+                    alert.setHeaderText(null); // No usamos cabecera
+                    alert.setContentText("Esta película ya está en Favoritos");
+                    alert.showAndWait();
+
+                } else {
+
+                    // No existe, procedemos a INSERTAR
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+
+                        insertStmt.setInt(1, idUsuario);
+                        insertStmt.setInt(2, idPelicula);
+
+                        int filas = insertStmt.executeUpdate();
+                        if (filas > 0) {
+                            System.out.println("Película marcada como favorita para el usuario con ID " + idUsuario);
+                            favoriteButton.setStyle("-fx-background-color: yellow; -fx-text-fill: black; -fx-font-size: 14px; -fx-background-radius: 8;");
+                        } else {
+                            System.out.println("No se pudo insertar el favorito.");
+                        }
+                    }
+                }
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            // Opcional: Mostrar una alerta de error genérico si falla la BD
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de Base de Datos");
+            alert.setHeaderText("Ocurrió un error inesperado.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
-
-
 }
 

@@ -16,6 +16,10 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+//====================
+import dto.SesionIniciada;
+//====================
+
 public class InicioSesionControlador implements Initializable {
 
     @FXML
@@ -75,6 +79,10 @@ public class InicioSesionControlador implements Initializable {
             ResultSet rsUsuario = psUsuario.executeQuery();
 
             if (rsUsuario.next()) {
+                //====================
+                int idUsuario = rsUsuario.getInt("idUsuario");
+                dto.SesionIniciada.setIdUsuario(idUsuario);
+                //====================
                 abrirVentana("/vista/Catalogo.fxml");
                 return;
             }
