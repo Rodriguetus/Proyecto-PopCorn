@@ -9,13 +9,13 @@ import java.util.List;
 
 public class AlquilerDAO {
     public void alquiler(alquiler p) {
-        String sql = "INSERT INTO alquiler (idAlquiler, Estado, FechaDevolucion, FechaAlquiler, idPelicula) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO alquiler (idAlquiler, idUsuario, FechaDevolucion, FechaAlquiler, idPelicula) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, p.getId());
-            stmt.setString(2, p.getEstado());
+            stmt.setInt(2, p.getIdUsuario());
             stmt.setDate(3, (Date) p.getfDevolucion());
             stmt.setDate(4, (Date) p.getfAlquiler());
             stmt.setInt(5, p.getIdPelicula());
@@ -28,12 +28,12 @@ public class AlquilerDAO {
     }
 
     public void modificar(alquiler p) {
-        String sql = "UPDATE alquiler SET Estado=?, FechaDevolucion=?, FechaAlquiler=?, idPelicula=? WHERE idAlquiler=?";
+        String sql = "UPDATE alquiler SET idUsuario=?, Estado=?, FechaDevolucion=?, FechaAlquiler=?, idPelicula=? WHERE idAlquiler=?";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, p.getEstado());
+            stmt.setInt(1, p.getIdUsuario());
             stmt.setDate(2, (Date) p.getfDevolucion());
             stmt.setDate(3, (Date) p.getfAlquiler());
             stmt.setInt(4, p.getIdPelicula());
@@ -62,16 +62,24 @@ public class AlquilerDAO {
     public List<alquiler> getAlquileres() throws SQLException {
         List<alquiler> list = new ArrayList<>();
         String sql = "SELECT * FROM alquiler";
+
         try (Connection conn = conexionDB.getConnection();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                list.add(new alquiler(
-                ));
+                alquiler a = new alquiler();
+                a.setId(rs.getInt("idAlquiler"));
+                a.setIdUsuario(rs.getInt("idUsuario"));
+                a.setfAlquiler(rs.getDate("FechaAlquiler"));
+                a.setfDevolucion(rs.getDate("FechaDevolucion"));
+                a.setIdPelicula(rs.getInt("idPelicula"));
+
+                list.add(a);
             }
         }
         return list;
     }
+
 
 }

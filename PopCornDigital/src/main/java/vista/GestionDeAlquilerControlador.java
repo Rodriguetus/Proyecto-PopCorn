@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 public class GestionDeAlquilerControlador {
 
@@ -26,58 +27,69 @@ public class GestionDeAlquilerControlador {
 
     @FXML private TableView<alquiler> tablaAlquiler;
 
-    @FXML private TextField txtEstado;
+    @FXML private TextField txtUsuario;
     @FXML private TextField txtFechaAlquiler;
     @FXML private TextField txtFechaDevolucion;
     @FXML private TextField txtPelicula;
 
     @FXML private TableColumn<alquiler, Integer> colId;
-    @FXML private TableColumn<alquiler, String> colEstado;
+    @FXML private TableColumn<alquiler, Integer> colIdUsuario;
     @FXML private TableColumn<alquiler, String> colFechaAlquiler;
     @FXML private TableColumn<alquiler, String> colFechaDevolucion;
     @FXML private TableColumn<alquiler, Integer> colIdPelicula;
 
     private AlquilerDAO alquilerDAO;
 
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     @FXML
     public void initialize() {
+
         alquilerDAO = new AlquilerDAO();
 
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
-        colFechaAlquiler.setCellValueFactory(cell ->
-                new SimpleStringProperty(cell.getValue().getfAlquiler().toString()));
-        colFechaDevolucion.setCellValueFactory(cell ->
-                new SimpleStringProperty(cell.getValue().getfDevolucion().toString()));
+        colIdUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
+        colFechaAlquiler.setCellValueFactory(cell -> {
+            Date d = (Date) cell.getValue().getfAlquiler();
+            return new SimpleStringProperty(
+                    d != null ? new java.sql.Date(d.getTime()).toLocalDate().toString() : "--"
+            );
+        });
+
+        colFechaDevolucion.setCellValueFactory(cell -> {
+            Date d = (Date) cell.getValue().getfDevolucion();
+            return new SimpleStringProperty(
+                    d != null ? new java.sql.Date(d.getTime()).toLocalDate().toString() : "--"
+            );
+        });
         colIdPelicula.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));
 
+        cargarAlquileres();
+    }
+
+    private void cargarAlquileres() {
         try {
-            cargarAlquiler();
+            tablaAlquiler.setItems(
+                    FXCollections.observableArrayList(alquilerDAO.getAlquileres())
+            );
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void cargarAlquiler() throws SQLException {
-        tablaAlquiler.setItems(
-                FXCollections.observableArrayList(alquilerDAO.getAlquileres())
-        );
-    }
-
     @FXML
     private void anadirAlquiler() {
 
-        if (txtEstado.getText().isEmpty() ||
+        if (txtUsuario.getText().isEmpty() ||
                 txtFechaAlquiler.getText().isEmpty() ||
                 txtFechaDevolucion.getText().isEmpty() ||
                 txtPelicula.getText().isEmpty()) {
-
             mostrarAlerta("Rellena todos los campos.");
             return;
         }
 
         alquiler a = new alquiler();
-        a.setEstado(txtEstado.getText());
+        a.setIdPelicula(Integer.parseInt(txtUsuario.getText()));
         a.setfAlquiler(Date.valueOf(txtFechaAlquiler.getText()));
         a.setfDevolucion(Date.valueOf(txtFechaDevolucion.getText()));
         a.setIdPelicula(Integer.parseInt(txtPelicula.getText()));
@@ -86,6 +98,7 @@ public class GestionDeAlquilerControlador {
 
         mostrarAlerta("Alquiler añadido.");
         limpiarCampos();
+        cargarAlquileres();
     }
 
     @FXML
@@ -98,8 +111,8 @@ public class GestionDeAlquilerControlador {
             return;
         }
 
-        if (!txtEstado.getText().isEmpty())
-            a.setEstado(txtEstado.getText());
+        if (!txtUsuario.getText().isEmpty())
+            a.setIdUsuario(Integer.parseInt(txtUsuario.getText()));
 
         if (!txtFechaAlquiler.getText().isEmpty())
             a.setfAlquiler(Date.valueOf(txtFechaAlquiler.getText()));
@@ -114,6 +127,7 @@ public class GestionDeAlquilerControlador {
 
         mostrarAlerta("Alquiler actualizado.");
         limpiarCampos();
+        cargarAlquileres();
     }
 
     @FXML
@@ -130,6 +144,8 @@ public class GestionDeAlquilerControlador {
 
         if (ok) mostrarAlerta("Alquiler eliminado.");
         else mostrarAlerta("Error al eliminar.");
+
+        cargarAlquileres();
     }
 
     private void mostrarAlerta(String msg) {
@@ -138,7 +154,7 @@ public class GestionDeAlquilerControlador {
     }
 
     private void limpiarCampos() {
-        txtEstado.clear();
+        txtUsuario.clear();
         txtFechaAlquiler.clear();
         txtFechaDevolucion.clear();
         txtPelicula.clear();
@@ -168,5 +184,6 @@ public class GestionDeAlquilerControlador {
         }
     }
 }
+
 
 
