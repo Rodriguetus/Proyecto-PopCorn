@@ -68,7 +68,7 @@ public class MoviesFavoritasControlador {
             if (filas > 0) {
                 System.out.println("Película eliminada de favoritos: " + peli.getNombre());
 
-                // 🔥 Recargar la escena Favoritos.fxml
+                //Recargar la escena Favoritos.fxml
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
                 Parent root = loader.load();
 

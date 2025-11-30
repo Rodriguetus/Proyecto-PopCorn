@@ -74,7 +74,7 @@ public class FavoritoControlador {
                 peli.setPrecio(rs.getDouble("precio"));
                 peli.setImagen(rs.getString("imagen"));
 
-                // 🔥 Cargar la carta de favoritos y pasarle la película
+                //Cargar la carta de favoritos y pasarle la película
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/MoviesFavoritas.fxml"));
                 Parent card = loader.load();
 
@@ -121,6 +121,21 @@ public class FavoritoControlador {
             System.out.println("Error al cargar el acceso a los pedidos.fxml");
         }
     }
+    @FXML
+    private void irAlquileres(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Alquileres.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Favoritos.fxml");
+        }
+    }
+
     @FXML
     private void volverCatalogo(MouseEvent event) {
         try {

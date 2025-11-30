@@ -33,10 +33,6 @@ public class CatalogoControlador {
         }
     }
 
-
-
-
-
     private void addMovieCard(FlowPane pane, pelicula movie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/MovieCard.fxml"));
@@ -102,6 +98,21 @@ public class CatalogoControlador {
         }
     }
 
+    @FXML
+    private void irAlquileres(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Alquileres.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Favoritos.fxml");
+        }
+    }
+
 
     //Para abrir DetallesMovieCard
     private void abrirDetalles(pelicula movie) {
@@ -124,6 +135,4 @@ public class CatalogoControlador {
             System.out.println("Error al abrir DetallesMovieCard.fxml");
         }
     }
-
-
 }

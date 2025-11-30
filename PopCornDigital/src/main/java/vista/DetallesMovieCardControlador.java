@@ -1,14 +1,21 @@
 package vista;
 
+import dao.PedidoDAO;
 import dto.SesionIniciada;
 import dto.pelicula;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,8 +40,6 @@ public class DetallesMovieCardControlador {
     // Botones
     @FXML private Button favoriteButton;
     private int idUsuario = SesionIniciada.getIdUsuario();
-
-
     @FXML private Button buyButton;
     @FXML private Button rentButton;
 
@@ -52,38 +57,67 @@ private pelicula peliculaActual;
      * Método para rellenar la vista de detalles con los datos de la película.
      */
 
+    public void setDetallesMovieCard(pelicula movie) {
+        this.peliculaActual = movie;
 
-    public void setDetallesMovieCard(pelicula peli) {
-        this.peliculaActual = peli;
+        titleLabel.setText(movie.getNombre());
+        descriptionLabel.setText(movie.getDescripcion());
 
-        if (peliculaActual != null) {
-            titleLabel.setText(peliculaActual.getNombre());
-            descriptionLabel.setText(peliculaActual.getDescripcion());
+        yearLabel.setText(String.valueOf(movie.getAnoSalida()));
+        formatLabel.setText(movie.getFormato());
+        providerLabel.setText(movie.getProveedor());
+        genreLabel.setText(movie.getGenero());
+        stockLabel.setText(String.valueOf(movie.getStock()));
+        priceLabel.setText(movie.getPrecio() + " €");
 
-            yearLabel.setText(String.valueOf(peliculaActual.getAnoSalida()));
-            formatLabel.setText(peliculaActual.getFormato());
-            providerLabel.setText(peliculaActual.getProveedor());
-            genreLabel.setText(peliculaActual.getGenero());
-            stockLabel.setText(String.valueOf(peliculaActual.getStock()));
-            priceLabel.setText(peliculaActual.getPrecio() + " €");
-
-            if (peliculaActual.getImagen() != null && !peliculaActual.getImagen().isEmpty()) {
-                try {
-                    posterImage.setImage(new Image(getClass().getResource(peliculaActual.getImagen()).toExternalForm()));
-                } catch (Exception e) {
-                    System.err.println("No se pudo cargar la imagen: " + e.getMessage());
-                }
-            }
-
-            if ("4K UHD".equalsIgnoreCase(peliculaActual.getFormato())) {
-                rentButton.setVisible(true);
-                buyButton.setVisible(false);
-            } else {
-                rentButton.setVisible(false);
-                buyButton.setVisible(true);
+        if (movie.getImagen() != null && !movie.getImagen().isEmpty()) {
+            try {
+                posterImage.setImage(new Image(getClass().getResource(movie.getImagen()).toExternalForm()));
+            } catch (Exception e) {
+                System.err.println("No se pudo cargar la imagen: " + e.getMessage());
             }
         }
+
+        if ("4K UHD".equalsIgnoreCase(movie.getFormato())) {
+            rentButton.setVisible(true);
+            buyButton.setVisible(false);
+        } else {
+            rentButton.setVisible(false);
+            buyButton.setVisible(true);
+        }
     }
+
+    @FXML
+    private void comprarPelicula(MouseEvent event) throws SQLException {
+
+        if (peliculaActual == null) return;
+
+        // 1. Guardar pedido en la BD (como hacía antes)
+        PedidoDAO dao = new PedidoDAO();
+        boolean ok = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "");
+
+        if (!ok) {
+            System.out.println("No hay stock suficiente.");
+            return;
+        }
+
+        // 2. Guardar en memoria
+        CarritoService.addCompra(peliculaActual);
+
+        // 3. Abrir Pedido.fxml
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Pedido.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     private void marcarFavorito(ActionEvent event) {
         if (idUsuario <= 0 || peliculaActual == null || peliculaActual.getId() <= 0) {

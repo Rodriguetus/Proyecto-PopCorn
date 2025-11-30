@@ -41,11 +41,17 @@
                     <Image url="@../Imagenes/estrella.png" />
                 </image>
             </ImageView>
+
+            <ImageView fx:id="AlquilerIcon" fitHeight="40" fitWidth="40" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
+                <image>
+                    <Image url="@../Imagenes/Alquiler.png" />
+                </image></ImageView>
             <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" onMouseClicked="#volverLogin" preserveRatio="true" style="-fx-cursor: hand;">
                 <image>
                     <Image url="@../Imagenes/exit.png" />
                 </image>
             </ImageView>
+
 
         </VBox>
     </left>

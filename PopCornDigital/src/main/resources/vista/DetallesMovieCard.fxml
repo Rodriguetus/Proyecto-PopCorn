@@ -68,6 +68,7 @@
                     style="-fx-background-color: #444444; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;" />
 
             <Button fx:id="buyButton"
+                    onMouseClicked="#comprarPelicula"
                     text="Compra"
                     style="-fx-background-color: #00aaee; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8;" />
 
