@@ -22,12 +22,14 @@ import java.util.concurrent.Executors;
 
 public class PedidoControlador {
 
-
+    //FlowPane encargado de almacernar las peliculas
     @FXML
     private FlowPane flowCompras;
 
-
+    //Hilo para las opciones de la BDD
     private final ExecutorService dbExecutor = Executors.newSingleThreadExecutor();
+
+    //Creación de una instancia PedidoDAO para poder usar el CRUD de Pedido
     private final PedidoDAO pedidoDAO = new PedidoDAO();
 
 
@@ -36,37 +38,27 @@ public class PedidoControlador {
 
     @FXML
     public void initialize() {
+        //Carga el carrito
         cargarCarrito();
     }
 
 
-    /**
-     * Carga el carrito desde CarritoService y genera las tarjetas de compra.
-     */
+    //Carga el carrito y genera las tarjetas correspondientes
     private void cargarCarrito() {
-
-
         flowCompras.getChildren().clear();
-
 
         for (pelicula p : CarritoService.getCarrito()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/compra.fxml"));
                 Node node = loader.load();
-
                 CompraControlador ctrl = loader.getController();
                 ctrl.setDatosPelicula(p);
-
-
                 ctrl.setOnRemove(c -> {
                     flowCompras.getChildren().remove(ctrl.getRoot());
                     CarritoService.removeCompra(p);
                 });
 
-
                 flowCompras.getChildren().add(node);
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,21 +66,14 @@ public class PedidoControlador {
     }
 
 
-    /**
-     * Añade una compra nueva y la guarda en CarritoService.
-     */
     public void addPurchase(pelicula p) {
         addPurchase(p, 1, "");
     }
 
-
+    //Añade una compra a la base de datos y al carrito modificando el stock
     public void addPurchase(pelicula p, int quantity, String direccion) {
-
-
         dbExecutor.submit(() -> {
             try {
-
-
                 boolean ok = PedidoDAO.createPedidoAndReduceStock(p.getId(), quantity, direccion);
                 if (!ok) {
                     Platform.runLater(() -> {
@@ -101,36 +86,27 @@ public class PedidoControlador {
                     return;
                 }
 
-
+                //Guarda la compra en el carrito
                 CarritoService.addCompra(p);
 
-
+                //Agrega la  visual de la tarjeta
                 Platform.runLater(() -> {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/compra.fxml"));
                         Node node = loader.load();
-
-
                         CompraControlador ctrl = loader.getController();
                         ctrl.setDatosPelicula(p);
-
-
                         ctrl.setOnRemove(c -> {
                             flowCompras.getChildren().remove(ctrl.getRoot());
                             CarritoService.removeCompra(p);
                         });
 
-
                         flowCompras.getChildren().add(node);
-
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
-
-
-            } catch (Exception e) {
+           } catch (Exception e) {
                 e.printStackTrace();
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -143,12 +119,11 @@ public class PedidoControlador {
         });
     }
 
-
     public void shutdown() {
         dbExecutor.shutdown();
     }
 
-
+    //Navega hacia el Login
     @FXML
     private void volverLogin(MouseEvent event) {
         try {
@@ -164,14 +139,12 @@ public class PedidoControlador {
         }
     }
 
-
+    //Navega hacia el Pedido
     @FXML
     private void irPedido(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Pedido.fxml"));
             Parent root = loader.load();
-
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -180,7 +153,7 @@ public class PedidoControlador {
         }
     }
 
-
+    //Navega hacia el Catalogo
     @FXML
     private void irCatalogo(MouseEvent event) {
         try {
@@ -193,6 +166,22 @@ public class PedidoControlador {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    //Navega hacia Favoritos
+    @FXML
+    private void irFavoritos(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Favoritos.fxml");
         }
     }
 }

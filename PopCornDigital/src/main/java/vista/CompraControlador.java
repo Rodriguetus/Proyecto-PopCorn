@@ -12,8 +12,10 @@ import java.util.function.Consumer;
 
 public class CompraControlador {
 
+    //Nodo de la raíz tarjeta
     @FXML private AnchorPane root;
 
+    //Objetos de la tarjeta Compra
     @FXML private ImageView imagenPelicula;
     @FXML private Label tituloLabel;
     @FXML private Label compraIdLabel;
@@ -24,10 +26,14 @@ public class CompraControlador {
     @FXML private Label estadoLabel;
     @FXML private Button btnRemove;
 
+    //Pelicula vinculada a la tarjeta
     private pelicula pelicula;
+
+    //Callback para manejar la eliminación
     private Consumer<CompraControlador> onRemove;
 
     @FXML
+    //El botín de remover ejecuta el callback y elimina la tarjeta
     public void initialize() {
         btnRemove.setOnAction(e -> {
             if (onRemove != null) {
@@ -40,9 +46,7 @@ public class CompraControlador {
         });
     }
 
-    /**
-     * Método principal para rellenar la tarjeta de compra con los datos de la película.
-     */
+    //Rellena los datos de la tarjeta con la película actual
     public void setDatosPelicula(pelicula pelicula) {
         this.pelicula = pelicula;
 
@@ -66,7 +70,7 @@ public class CompraControlador {
             }
         }
     }
-
+//Getter y Setter para la pelicula(Obtener la pelicula y eliminarla)
     public pelicula getPelicula() {
         return pelicula;
     }
@@ -75,6 +79,7 @@ public class CompraControlador {
         this.onRemove = onRemove;
     }
 
+    //Recupera la tarjeta para eliminarla
     public AnchorPane getRoot() {
         return root;
     }
