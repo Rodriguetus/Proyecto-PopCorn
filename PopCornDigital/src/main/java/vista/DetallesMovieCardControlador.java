@@ -21,6 +21,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class DetallesMovieCardControlador {
@@ -88,7 +90,7 @@ private pelicula peliculaActual;
     }
 
     @FXML
-    private void comprarPelicula(MouseEvent event) throws SQLException {
+    private void comprarPelicula(ActionEvent event) throws SQLException {
 
         if (peliculaActual == null) return;
 
@@ -173,6 +175,76 @@ private pelicula peliculaActual;
         } catch (SQLException e) {
             e.printStackTrace();
             // Opcional: Mostrar una alerta de error genérico si falla la BD
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error de Base de Datos");
+            alert.setHeaderText("Ocurrió un error inesperado.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void alquilarPelicula(ActionEvent event) {
+        if (idUsuario <= 0 || peliculaActual == null || peliculaActual.getId() <= 0) {
+            System.out.println("Usuario o película no definidos.");
+            return;
+        }
+
+        int idPelicula = peliculaActual.getId();
+
+        // 1. Comprobar si ya existe el alquiler
+        String checkSql = "SELECT COUNT(*) FROM alquiler WHERE idUsuario = ? AND idPelicula = ?";
+
+        // 2. Insertar si no existe
+        String insertSql = "INSERT INTO alquiler (idUsuario, idPelicula, FechaAlquiler, FechaDevolucion) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = conexion.conexionDB.getConnection();
+             PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
+
+            checkStmt.setInt(1, idUsuario);
+            checkStmt.setInt(2, idPelicula);
+
+            try (ResultSet rs = checkStmt.executeQuery()) {
+
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // Ya alquilada → alerta
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Película ya alquilada");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Ya tienes esta película alquilada.");
+                    alert.showAndWait();
+
+                } else {
+                    // No alquilada → insertar
+                    try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                        LocalDate hoy = LocalDate.now();
+                        LocalDate devolucion = hoy.plusDays(7);
+
+                        insertStmt.setInt(1, idUsuario);
+                        insertStmt.setInt(2, idPelicula);
+                        insertStmt.setDate(3, java.sql.Date.valueOf(hoy));
+                        insertStmt.setDate(4, java.sql.Date.valueOf(devolucion));
+
+                        int filas = insertStmt.executeUpdate();
+                        if (filas > 0) {
+                            System.out.println("Película alquilada para el usuario con ID " + idUsuario);
+
+                            rentButton.setVisible(false); // ocultar botón
+
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Alquiler realizado");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Has alquilado la película correctamente.\nCaduca el " + devolucion.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                            alert.showAndWait();
+                        } else {
+                            System.out.println("No se pudo insertar el alquiler.");
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error de Base de Datos");
             alert.setHeaderText("Ocurrió un error inesperado.");
