@@ -28,7 +28,7 @@ public class AlquilerDAO {
     }
 
     public void modificar(alquiler p) {
-        String sql = "UPDATE alquiler SET idUsuario=?, Estado=?, FechaDevolucion=?, FechaAlquiler=?, idPelicula=? WHERE idAlquiler=?";
+        String sql = "UPDATE alquiler SET idUsuario=?, FechaDevolucion=?, FechaAlquiler=?, idPelicula=? WHERE idAlquiler=?";
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

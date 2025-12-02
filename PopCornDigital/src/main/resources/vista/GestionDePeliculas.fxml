@@ -27,37 +27,42 @@
             <GridPane hgap="10" vgap="10">
                 <children>
 
-                    <Label text="Nombre:" />
-                    <TextField fx:id="txtNombre" promptText="Título de la película" GridPane.columnIndex="1" />
+                    <Label text="Nombre:" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtNombre" promptText="Título de la película" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Año:" GridPane.columnIndex="2" />
-                    <TextField fx:id="txtAno" promptText="Ej: 2025" GridPane.columnIndex="3" />
+                    <Label text="Año:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <TextField fx:id="txtAno" promptText="Ej: 2025" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
-                    <Label text="Precio:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                    <TextField fx:id="txtPrecio" promptText="Ej: 9.99" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Label text="Precio:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtPrecio" promptText="Ej: 9.99" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
-                    <Label text="Stock:" GridPane.rowIndex="1" />
-                    <TextField fx:id="txtStock" promptText="Cantidad disponible" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label text="Stock:" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtStock" promptText="Cantidad disponible" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Label text="Género:" GridPane.rowIndex="3" />
-                    <TextField fx:id="txtGenero" promptText="Acción, Drama..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label text="Género:" GridPane.rowIndex="4" />
+                    <TextField fx:id="txtGenero" promptText="Acción, Drama..." GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                    <Label text="Formato:" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtFormato" promptText="DVD, BluRay, Digital" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label text="Formato:" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtFormato" promptText="DVD, BluRay, Digital" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                    <Label text="Proveedor:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtProveedor" promptText="Nombre proveedor" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                    <Label text="Proveedor:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtProveedor" promptText="Nombre proveedor" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
-                    <Label text="Portada:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                    <TextField fx:id="txtImagen" promptText="URL de la imagen" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                    <Label text="Portada:" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                    <TextField fx:id="txtImagen" promptText="URL de la imagen" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+               <TextField fx:id="txtDescripcion" layoutX="294.0" layoutY="116.0" promptText="Descripcion" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+               <Label layoutX="227.0" layoutY="130.0" text="Descripcion:" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                 </children>
             <columnConstraints>
                <ColumnConstraints />
                <ColumnConstraints />
                <ColumnConstraints />
                <ColumnConstraints />
+               <ColumnConstraints />
+               <ColumnConstraints />
             </columnConstraints>
             <rowConstraints>
+               <RowConstraints />
                <RowConstraints />
                <RowConstraints />
                <RowConstraints />
