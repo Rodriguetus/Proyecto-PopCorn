@@ -153,6 +153,22 @@ public class PedidoControlador {
         }
     }
 
+    //Navega hacia Alquileres
+    @FXML
+    private void irAlquileres(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Alquileres.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Favoritos.fxml");
+        }
+    }
+
     //Navega hacia el Catalogo
     @FXML
     private void irCatalogo(MouseEvent event) {

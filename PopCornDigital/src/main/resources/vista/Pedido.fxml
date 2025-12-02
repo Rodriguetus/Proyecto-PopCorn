@@ -32,6 +32,11 @@
                         <Image url="@../Imagenes/estrella.png" />
                     </image>
                 </ImageView>
+            <ImageView fx:id="AlquilerIcon" fitHeight="40" fitWidth="40" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
+               <image>
+                  <Image url="@../Imagenes/Alquiler.png" />
+               </image>
+            </ImageView>
                 <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40" onMouseClicked="#volverLogin" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
                         <Image url="@../Imagenes/exit.png" />
@@ -50,7 +55,7 @@
             </font>
         </Label>
         <VBox layoutX="99.0" layoutY="226.0" prefHeight="291.0" prefWidth="828.0" />
-        <Label layoutX="98.0" layoutY="109.0" prefHeight="38.0" prefWidth="397.0" text="Tus Compras">
+        <Label layoutX="115.0" layoutY="109.0" prefHeight="38.0" prefWidth="397.0" text="Tus Compras">
             <font>
                 <Font size="21.0" />
             </font>
