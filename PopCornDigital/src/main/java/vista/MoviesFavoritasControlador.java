@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Optional;
 
 public class MoviesFavoritasControlador {
 
@@ -53,32 +56,47 @@ public class MoviesFavoritasControlador {
     }
     @FXML
     private void eliminarDeFavoritos() {
-        int idUsuario = SesionIniciada.getIdUsuario();
-        int idPelicula = peli.getId();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de Eliminación");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Seguro quieres eliminar de Favoritos?");
 
-        String sql = "DELETE FROM favoritos WHERE idUsuario = ? AND idPelicula = ?";
+        Optional<ButtonType> result = alert.showAndWait();
 
-        try (Connection conn = conexion.conexionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            int idUsuario = SesionIniciada.getIdUsuario();
+            int idPelicula = peli.getId();
 
-            stmt.setInt(1, idUsuario);
-            stmt.setInt(2, idPelicula);
+            String sql = "DELETE FROM favoritos WHERE idUsuario = ? AND idPelicula = ?";
 
-            int filas = stmt.executeUpdate();
-            if (filas > 0) {
-                System.out.println("Película eliminada de favoritos: " + peli.getNombre());
+            try (Connection conn = conexion.conexionDB.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-                //Recargar la escena Favoritos.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
-                Parent root = loader.load();
+                stmt.setInt(1, idUsuario);
+                stmt.setInt(2, idPelicula);
 
-                Stage stage = (Stage) posterImage.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
+                int filas = stmt.executeUpdate();
+                if (filas > 0) {
+                    System.out.println("Película eliminada de favoritos: " + peli.getNombre());
+
+                    // Recargar la escena Favoritos.fxml para actualizar la vista
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
+                    Parent root = loader.load();
+
+                    // Usa un componente de la vista (como posterImage) para obtener la Stage
+                    Stage stage = (Stage) posterImage.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Error al eliminar la película de favoritos.");
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            // El usuario presionó "No" (CANCEL) o cerró el diálogo.
+            System.out.println("Eliminación cancelada por el usuario.");
+            // Se cierra sin hacer nada, como lo solicitaste.
         }
     }
 
