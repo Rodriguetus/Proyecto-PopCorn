@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
@@ -51,9 +48,44 @@ public class InicioSesionControlador implements Initializable {
         String correo = correoTextField.getText();
         String contrasena = contrasenaPasswordField.getText();
 
-        if (correo.isEmpty() || contrasena.isEmpty()) {
-            errormsj.setText("Rellene todos los campos");
+        //Validación de todos los campos son obligatorios
+        if(correo.isEmpty() && contrasena.isEmpty()){
+            errormsj.setText("Todos los campos son obligatorios");
             return;
+        }
+
+        //Validación para Correo vacio.
+        if (correo.isEmpty()) {
+            errormsj.setText("Rellene el campo del correo electrónico");
+            return;
+        }
+
+        //Validación para Contraseña vacia
+        if (contrasena.isEmpty()) {
+            errormsj.setText("Rellene el campo de contraseña.");
+            return;
+        }
+
+        //Validación Longitud del Correo
+        if(correo.length()<8){
+            errormsj.setText("El campo del correo debe tener 8 o más carácteres");
+            return;
+        }
+
+        //Comprobar que es un correo(que contenga un @)
+        if(!correo.contains("@")){
+            errormsj.setText("El correo no es válido. Debe contener un @");
+        }
+
+        //Validación Longitud de la Contraseña
+        if(contrasena.length()<8){
+            errormsj.setText("La contraseña debe contener 8 o más caracteres");
+            return;
+        }
+
+        //Validación de que la contraseña contenga por lo menos una mayúscula y un número
+        if (!contrasena.matches("^(?=.*[A-Z])(?=.*\\d).+$")) {
+            errormsj.setText("La contraseña debe incluir mayúscula y número.");
         }
 
         try (Connection conn = conexionDB.getConnection()) {
@@ -86,7 +118,13 @@ public class InicioSesionControlador implements Initializable {
                 abrirVentana("/vista/Catalogo.fxml");
                 return;
             }
-            errormsj.setText("Correo o contraseña incorrectos.");
+
+            //Alert para cuando este incorrecto el correo o contraseña
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error al iniciar sesión");
+            alert.setHeaderText(null); // sin cabecera
+            alert.setContentText("Correo o contraseña incorrectos.");
+            alert.showAndWait();
 
         } catch (SQLException e) {
             errormsj.setText("Error accediendo a la base de datos.");

@@ -1,6 +1,5 @@
 package vista;
 
-
 import dao.PedidoDAO;
 import dto.pelicula;
 import javafx.application.Platform;
