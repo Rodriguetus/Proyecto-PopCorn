@@ -132,6 +132,7 @@ public class PedidoControlador {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Inicio Sesión - PopCorn");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,6 +147,7 @@ public class PedidoControlador {
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Compra de Películas");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,6 +163,7 @@ public class PedidoControlador {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Alquiler de Películas");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,6 +181,7 @@ public class PedidoControlador {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Catálogo de Películas");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,9 +194,9 @@ public class PedidoControlador {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
             Parent root = loader.load();
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Lista Favoritos");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

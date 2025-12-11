@@ -30,11 +30,12 @@ public class InicioSesionControlador implements Initializable {
     private Hyperlink linkRegistro;
 
     //Metodo para abrir las ventanas y omitir repetir codigo.
-    private void abrirVentana(String rutaFXML) {
+    private void abrirVentana(String rutaFXML, String tituloVentana) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
             Stage stage = (Stage) correoTextField.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle(tituloVentana);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +98,7 @@ public class InicioSesionControlador implements Initializable {
             ResultSet rsAdmin = psAdmin.executeQuery();
 
             if (rsAdmin.next()) {
-                abrirVentana("/vista/MenuAdministrador.fxml");
+                abrirVentana("/vista/MenuAdministrador.fxml", "Panel de Admin");
                 return;
             }
 
@@ -113,7 +114,7 @@ public class InicioSesionControlador implements Initializable {
                 int idUsuario = rsUsuario.getInt("idUsuario");
                 SesionIniciada.setIdUsuario(idUsuario);
                 //====================
-                abrirVentana("/vista/Catalogo.fxml");
+                abrirVentana("/vista/Catalogo.fxml", "Catálogo de Películas");
                 return;
             }
 
@@ -137,6 +138,7 @@ public class InicioSesionControlador implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/vista/RegistrarCuenta.fxml"));
             Stage stage = (Stage) correoTextField.getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Registrar Cuenta - PopCorn");
         } catch (IOException e) {
             e.printStackTrace();
         }
