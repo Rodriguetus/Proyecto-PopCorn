@@ -122,6 +122,7 @@
                 Parent root = FXMLLoader.load(getClass().getResource("/vista/InicioSesion.fxml"));
                 Stage stage = (Stage) nombreusuarioTextField.getScene().getWindow();
                 stage.setScene(new Scene(root));
+                stage.setTitle("Inicio Sesión - PopCorn");
             } catch (Exception e) {
                 e.printStackTrace();
             }
