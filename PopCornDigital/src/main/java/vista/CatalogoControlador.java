@@ -2,20 +2,21 @@ package vista;
 
 import dao.PeliculaDAO;
 import dto.pelicula;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CatalogoControlador {
@@ -24,12 +25,32 @@ public class CatalogoControlador {
     @FXML private FlowPane newMoviesPane;
     @FXML private FlowPane recommendedMoviesPane;
 
-    public void initialize() throws SQLException {
-        PeliculaDAO dao = new PeliculaDAO();
-        List<pelicula> peliculas = dao.getPeliculas();
+    // AÑADIDO: Campo de texto para el buscador
+    @FXML private TextField txtBuscador;
 
-        for (pelicula p : peliculas) {
-            addMovieCard(popularMoviesPane, p);
+    private final PeliculaDAO peliculaDAO = new PeliculaDAO();
+
+    public void initialize() throws SQLException {
+        // Inicialización usando el nuevo método auxiliar
+        cargarCatalogoCompleto(popularMoviesPane);
+    }
+
+    // --- MÉTODOS AUXILIARES DE VISUALIZACIÓN ---
+
+    private void cargarCatalogoCompleto(FlowPane pane) throws SQLException {
+        List<pelicula> peliculas = peliculaDAO.getPeliculas();
+        mostrarPeliculasEnFlowPane(pane, peliculas);
+    }
+
+    private void mostrarPeliculasEnFlowPane(FlowPane pane, List<pelicula> peliculas) {
+        pane.getChildren().clear();
+
+        if (peliculas.isEmpty()) {
+            pane.getChildren().add(new Label("No se encontraron resultados para la búsqueda."));
+        } else {
+            for (pelicula p : peliculas) {
+                addMovieCard(pane, p);
+            }
         }
     }
 
@@ -51,6 +72,32 @@ public class CatalogoControlador {
         }
     }
 
+    // --- FUNCIÓN DE BÚSQUEDA ---
+
+    // La firma se ha corregido para no aceptar argumentos, evitando el "argument type mismatch"
+    @FXML
+    private void buscarPeliculas() {
+        String textoBusqueda = txtBuscador.getText().trim();
+
+        try {
+            if (textoBusqueda.isEmpty()) {
+                // Si el buscador está vacío, recarga todo el catálogo
+                cargarCatalogoCompleto(popularMoviesPane);
+            } else {
+                // Llama al nuevo método del DAO
+                List<pelicula> resultados = peliculaDAO.buscarPeliculasPorTitulo(textoBusqueda);
+                // Muestra los resultados de la búsqueda
+                mostrarPeliculasEnFlowPane(popularMoviesPane, resultados);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al realizar la búsqueda en la BD: " + e.getMessage());
+            e.printStackTrace();
+            popularMoviesPane.getChildren().clear();
+            popularMoviesPane.getChildren().add(new Label("Error de conexión al buscar películas."));
+        }
+    }
+
+    // --- MÉTODOS DE NAVEGACIÓN ---
 
     @FXML
     private void volverLogin(MouseEvent event) {
@@ -67,7 +114,6 @@ public class CatalogoControlador {
         }
     }
 
-    //Funcion del boton de pedidos
     @FXML
     private void irPedido(MouseEvent event) {
         try {
@@ -114,17 +160,13 @@ public class CatalogoControlador {
     }
 
 
-    //Para abrir DetallesMovieCard
     private void abrirDetalles(pelicula movie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/DetallesMovieCard.fxml"));
             Parent root = loader.load();
 
-            // Obtener el controlador y pasarle la película
             DetallesMovieCardControlador controller = loader.getController();
-            //====================
-            controller.setDetallesMovieCard(movie); // aquí cambio el nombre del método
-            //====================
+            controller.setDetallesMovieCard(movie);
 
             Stage stage = new Stage();
             stage.setTitle("Detalles de la Película");
@@ -133,6 +175,20 @@ public class CatalogoControlador {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error al abrir DetallesMovieCard.fxml");
+        }
+    }
+
+    @FXML
+    private void abrirFiltrados(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Filtrados.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Filtrados");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

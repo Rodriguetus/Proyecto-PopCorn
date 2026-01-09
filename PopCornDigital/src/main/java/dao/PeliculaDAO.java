@@ -96,4 +96,38 @@ public class PeliculaDAO {
         }
         return list;
     }
+
+    // Dentro de la clase dao.PeliculaDAO
+
+    public List<pelicula> buscarPeliculasPorTitulo(String termino) throws SQLException {
+        List<pelicula> peliculas = new ArrayList<>();
+
+        // CORRECCIÓN: Cambiar 'id' por 'idPelicula' en la consulta SELECT
+        String query = "SELECT idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen, Descripcion FROM pelicula WHERE LOWER(Nombre) LIKE ?";
+
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, "%" + termino.toLowerCase() + "%");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // CORRECCIÓN: Cambiar rs.getInt("id") por rs.getInt("idPelicula")
+                    peliculas.add(new pelicula(
+                            rs.getInt("idPelicula"), // ¡AQUÍ ESTABA EL ERROR!
+                            rs.getString("Nombre"),
+                            rs.getDouble("Precio"),
+                            rs.getInt("Stock"),
+                            rs.getString("Genero"),
+                            rs.getString("Formato"),
+                            rs.getString("Proveedor"),
+                            rs.getInt("AnoSalida"),
+                            rs.getString("Imagen"),
+                            rs.getString("Descripcion")
+                    ));
+                }
+            }
+        }
+        return peliculas;
+    }
 }

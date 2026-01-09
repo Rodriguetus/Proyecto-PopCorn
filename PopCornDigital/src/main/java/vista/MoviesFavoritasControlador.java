@@ -69,7 +69,7 @@ public class MoviesFavoritasControlador {
 
             String sql = "DELETE FROM favoritos WHERE idUsuario = ? AND idPelicula = ?";
 
-            try (Connection conn = conexion.conexionDB.getConnection();
+            try (Connection conn = conexionDB.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
 
                 stmt.setInt(1, idUsuario);

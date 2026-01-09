@@ -18,8 +18,8 @@ public class PedidoDAO {
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, p.getEstado());
-            stmt.setDate(2, new java.sql.Date(p.getfCompra().getTime()));
-            stmt.setDate(3, new java.sql.Date(p.getfLlegada().getTime()));
+            stmt.setDate(2, new Date(p.getfCompra().getTime()));
+            stmt.setDate(3, new Date(p.getfLlegada().getTime()));
             stmt.setInt(4, p.getIdPelicula());
             stmt.setString(5, p.getDireccion());
 
@@ -50,8 +50,8 @@ public class PedidoDAO {
 
             stmt.setString(1, p.getEstado());
 
-            stmt.setDate(2, new java.sql.Date(p.getfCompra().getTime()));
-            stmt.setDate(3, new java.sql.Date(p.getfLlegada().getTime()));
+            stmt.setDate(2, new Date(p.getfCompra().getTime()));
+            stmt.setDate(3, new Date(p.getfLlegada().getTime()));
 
             stmt.setInt(4, p.getIdPelicula());
             stmt.setString(5, p.getDireccion());

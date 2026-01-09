@@ -52,14 +52,14 @@ public class GestionDeAlquilerControlador {
         colFechaAlquiler.setCellValueFactory(cell -> {
             Date d = (Date) cell.getValue().getfAlquiler();
             return new SimpleStringProperty(
-                    d != null ? new java.sql.Date(d.getTime()).toLocalDate().toString() : "--"
+                    d != null ? new Date(d.getTime()).toLocalDate().toString() : "--"
             );
         });
 
         colFechaDevolucion.setCellValueFactory(cell -> {
             Date d = (Date) cell.getValue().getfDevolucion();
             return new SimpleStringProperty(
-                    d != null ? new java.sql.Date(d.getTime()).toLocalDate().toString() : "--"
+                    d != null ? new Date(d.getTime()).toLocalDate().toString() : "--"
             );
         });
         colIdPelicula.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));

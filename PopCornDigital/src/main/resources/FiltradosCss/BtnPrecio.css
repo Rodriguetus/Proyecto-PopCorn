@@ -1,0 +1,65 @@
+.titulo-app {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.precio-boton {
+    -fx-background-color: white;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 999px;
+    -fx-padding: 8 12;
+    -fx-text-fill: #1f2937;
+}
+
+.precio-boton:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0.2, 0, 2);
+}
+
+.filtro-panel {
+    -fx-background-color: white;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 12;
+    -fx-padding: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 24, 0.3, 0, 4);
+}
+
+.filtro-titulo {
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.filtro-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7280;
+}
+
+.filtro-valor {
+    -fx-font-size: 12px;
+    -fx-text-fill: #374151;
+}
+
+.btn-primario {
+    -fx-background-color: #ff7a00;
+    -fx-text-fill: white;
+    -fx-padding: 8 12;
+    -fx-border-radius: 8;
+}
+
+.btn-secundario {
+    -fx-background-color: transparent;
+    -fx-border-color: #e5e7eb;
+    -fx-text-fill: #1f2937;
+    -fx-padding: 8 12;
+    -fx-border-radius: 8;
+}
+
+.placeholder {
+    -fx-text-fill: #9ca3af;
+    -fx-font-style: italic;
+}
+
+.footer {
+    -fx-padding: 8;
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 11px;
+}
