@@ -1,50 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="650" prefWidth="863.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePedidosControlador">
+<BorderPane prefHeight="537.0" prefWidth="863.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.GestionDePedidosControlador">
 
     <top>
         <HBox alignment="CENTER_RIGHT" spacing="15" style="-fx-background-color: #2c3e50; -fx-padding: 10;">
-            <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Admin" textFill="white" />
-            <Button fx:id="btnVolver" onAction="#volverMenu" style="-fx-background-color: #EFB000; -fx-text-fill: black; -fx-font-weight: bold;" text="⬅ Volver" />
+            <Label style="-fx-font-size: 16; -fx-font-weight: bold;" text="Pestaña De Administrador" textFill="white" />
+            <Button fx:id="btnVolver" onAction="#volverMenu" style="-fx-background-color: #EFB000; -fx-text-fill: black; -fx-font-weight: bold;" text="Administrar Peliculas" />
             <Button fx:id="btnCerrar" onAction="#CerrarSesion" style="-fx-background-color: #EFB000; -fx-text-fill: black; -fx-font-weight: bold;" text="Cerrar Sesión" />
         </HBox>
     </top>
 
     <center>
-        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #D6D6D6;">
-            <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="btnAnadir" onAction="#anadirPedido" style="-fx-background-color: #4F6078; -fx-text-fill: white;" text="Añadir Pedido" />
-                <Button fx:id="btnEditar" onAction="#editarPedido" style="-fx-background-color: #4F6078; -fx-text-fill: white;" text="Editar Pedido" />
-                <Button fx:id="btnQuitar" onAction="#quitarPedido" style="-fx-background-color: #4F6078; -fx-text-fill: white;" text="Quitar Pedido" />
-            </HBox>
+        <VBox prefHeight="499.0" prefWidth="863.0" spacing="15" style="-fx-padding: 20; -fx-background-color: #D6D6D6;">
+            <HBox alignment="CENTER" spacing="10" />
 
             <GridPane hgap="10" vgap="10">
                 <children>
 
                     <Label text="Estado:" />
-                    <TextField fx:id="txtEstado" GridPane.columnIndex="1" />
-
-                    <Label text="Fecha Compra(y-m-d):" GridPane.rowIndex="1" />
-                    <TextField fx:id="txtFechaCompra" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                    <Label text="Fecha Llegada(y-m-d):" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                    <TextField fx:id="txtFechaLlegada" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-
-                    <Label text="ID Película:" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtPelicula" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-                    <Label text="Dirección:" GridPane.columnIndex="2" />
-                    <TextField fx:id="txtDireccion" GridPane.columnIndex="3" />
+                    <TextField fx:id="txtEstado" prefWidth="151.0" promptText="Pendiente, pagado" GridPane.columnIndex="1" />
+                   <Button fx:id="btnEditar" onAction="#editarPedido" prefHeight="25.0" prefWidth="107.0" style="-fx-background-color: #4F6078; -fx-text-fill: white;" text="Editar Pedido" GridPane.columnIndex="3" />
 
                 </children>
             <columnConstraints>
-               <ColumnConstraints />
-               <ColumnConstraints />
-               <ColumnConstraints />
-               <ColumnConstraints />
+               <ColumnConstraints maxWidth="243.33333841959634" minWidth="47.66668955485025" prefWidth="47.66668955485025" />
+               <ColumnConstraints maxWidth="271.66664377848304" minWidth="90.66666158040366" prefWidth="139.33338928222656" />
+               <ColumnConstraints maxWidth="464.6666463216145" minWidth="10.0" prefWidth="435.33329264322924" />
+               <ColumnConstraints maxWidth="194.666748046875" minWidth="87.33333333333337" prefWidth="170.66670735677087" />
             </columnConstraints>
             <rowConstraints>
                <RowConstraints />

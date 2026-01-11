@@ -123,7 +123,7 @@ guardando el id en la sesión global y dirige al Catalogo.
             ResultSet rsAdmin = psAdmin.executeQuery();
 
             if (rsAdmin.next()) {
-                abrirVentana("/vista/MenuAdministrador.fxml", "Panel de Admin");
+                abrirVentana("/vista/GestionDePeliculas.fxml", "Panel de Admin");
                 return;
             }
 

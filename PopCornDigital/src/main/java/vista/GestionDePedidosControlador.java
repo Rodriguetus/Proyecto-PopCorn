@@ -13,24 +13,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class GestionDePedidosControlador {
 
-    @FXML private Button btnAnadir;
     @FXML private Button btnEditar;
-    @FXML private Button btnQuitar;
     @FXML private Button btnVolver;
     @FXML private Button btnCerrar;
 
     @FXML private TableView<pedido> tablaPedidos;
 
-    @FXML private TextField txtEstado;
-    @FXML private TextField txtFechaCompra;
-    @FXML private TextField txtFechaLlegada;
-    @FXML private TextField txtPelicula;
-    @FXML private TextField txtDireccion;
+    @FXML private ComboBox<String> cmbEstado;
 
     @FXML private TableColumn<pedido, Integer> colId;
     @FXML private TableColumn<pedido, String> colEstado;
@@ -39,13 +32,13 @@ public class GestionDePedidosControlador {
     @FXML private TableColumn<pedido, Integer> colIdPelicula;
     @FXML private TableColumn<pedido, String> colDireccion;
 
-
     private PedidoDAO pedidoDAO;
 
     @FXML
     public void initialize() {
         pedidoDAO = new PedidoDAO();
 
+        // Columnas
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         colFechaCompra.setCellValueFactory(cell ->
@@ -54,6 +47,18 @@ public class GestionDePedidosControlador {
                 new SimpleStringProperty(cell.getValue().getfLlegada().toString()));
         colIdPelicula.setCellValueFactory(new PropertyValueFactory<>("idPelicula"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        cmbEstado.setItems(
+                FXCollections.observableArrayList("pendiente", "pagado")
+        );
+
+        tablaPedidos.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldPedido, newPedido) -> {
+                    if (newPedido != null) {
+                        cmbEstado.setValue(newPedido.getEstado());
+                    }
+                }
+        );
 
         try {
             cargarPedido();
@@ -69,32 +74,6 @@ public class GestionDePedidosControlador {
     }
 
     @FXML
-    private void anadirPedido() {
-
-        if (txtEstado.getText().isEmpty() ||
-                txtFechaCompra.getText().isEmpty() ||
-                txtFechaLlegada.getText().isEmpty() ||
-                txtPelicula.getText().isEmpty() ||
-                txtDireccion.getText().isEmpty()) {
-
-            mostrarAlerta("Rellena todos los campos.");
-            return;
-        }
-
-        pedido p = new pedido();
-        p.setEstado(txtEstado.getText());
-        p.setfCompra(Date.valueOf(txtFechaCompra.getText()));
-        p.setfLlegada(Date.valueOf(txtFechaLlegada.getText()));
-        p.setIdPelicula(Integer.parseInt(txtPelicula.getText()));
-        p.setDireccion(txtDireccion.getText());
-
-        pedidoDAO.insertar(p);
-
-        mostrarAlerta("Pedido añadido.");
-        limpiarCampos();
-    }
-
-    @FXML
     private void editarPedido() {
 
         pedido p = tablaPedidos.getSelectionModel().getSelectedItem();
@@ -104,59 +83,23 @@ public class GestionDePedidosControlador {
             return;
         }
 
-        if (!txtEstado.getText().isEmpty())
-            p.setEstado(txtEstado.getText());
+        String estado = cmbEstado.getValue();
 
-        if (!txtFechaCompra.getText().isEmpty())
-            p.setfCompra(Date.valueOf(txtFechaCompra.getText()));
-
-        if (!txtFechaLlegada.getText().isEmpty())
-            p.setfLlegada(Date.valueOf(txtFechaLlegada.getText()));
-
-        if (!txtPelicula.getText().isEmpty())
-            p.setIdPelicula(Integer.parseInt(txtPelicula.getText()));
-
-        if (!txtDireccion.getText().isEmpty())
-            p.setDireccion(txtDireccion.getText());
-
-        pedidoDAO.modificar(p);
-
-        mostrarAlerta("Pedido actualizado.");
-        limpiarCampos();
-    }
-
-    @FXML
-    private void quitarPedido() {
-
-        pedido p = tablaPedidos.getSelectionModel().getSelectedItem();
-
-        if (p == null) {
-            mostrarAlerta("Selecciona un pedido.");
+        if (estado == null) {
+            mostrarAlerta("Selecciona un estado.");
             return;
         }
 
-        boolean ok = pedidoDAO.eliminar(p.getId());
+        p.setEstado(estado);
+        pedidoDAO.modificar(p);
 
-        if (ok) mostrarAlerta("Pedido eliminado.");
-        else mostrarAlerta("Error al eliminar.");
-    }
-
-    private void mostrarAlerta(String msg) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION, msg);
-        a.show();
-    }
-
-    private void limpiarCampos() {
-        txtEstado.clear();
-        txtFechaCompra.clear();
-        txtFechaLlegada.clear();
-        txtPelicula.clear();
-        txtDireccion.clear();
+        mostrarAlerta("Pedido actualizado.");
+        tablaPedidos.refresh();
     }
 
     @FXML
     private void volverMenu() {
-        cambiarVista("MenuAdministrador.fxml", btnVolver);
+        cambiarVista("GestionDePeliculas.fxml", btnVolver);
     }
 
     @FXML
@@ -176,5 +119,10 @@ public class GestionDePedidosControlador {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void mostrarAlerta(String msg) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION, msg);
+        a.show();
     }
 }

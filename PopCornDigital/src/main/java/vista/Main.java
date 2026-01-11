@@ -17,7 +17,6 @@ public class Main extends Application {
 
             Scene scene = new Scene(root, 700, 506);
 
-            primaryStage.setTitle("Inicio Sesión - PopCorn");
             primaryStage.setScene(scene);
             primaryStage.show();
 

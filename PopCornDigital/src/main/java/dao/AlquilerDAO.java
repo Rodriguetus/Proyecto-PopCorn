@@ -1,85 +1,91 @@
 package dao;
 
 import conexion.conexionDB;
-import dto.alquiler;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AlquilerDAO {
-    public void alquiler(alquiler p) {
-        String sql = "INSERT INTO alquiler (idAlquiler, idUsuario, FechaDevolucion, FechaAlquiler, idPelicula) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = conexionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    public static int crearAlquiler(
+            int idPelicula,
+            int cantidad,
+            int idUsuario
+    ) {
 
-            stmt.setInt(1, p.getId());
-            stmt.setInt(2, p.getIdUsuario());
-            stmt.setDate(3, (Date) p.getfDevolucion());
-            stmt.setDate(4, (Date) p.getfAlquiler());
-            stmt.setInt(5, p.getIdPelicula());
+        String updateStockSql = """
+            UPDATE pelicula
+            SET stock = stock - ?
+            WHERE idPelicula = ? AND stock >= ?
+        """;
 
-            stmt.executeUpdate();
+        String insertAlquilerSql = """
+            INSERT INTO alquiler (idUsuario, idPelicula, FechaAlquiler, FechaDevolucion)
+            VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))
+        """;
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+        try (Connection conn = conexionDB.getConnection()) {
 
-    public void modificar(alquiler p) {
-        String sql = "UPDATE alquiler SET idUsuario=?, FechaDevolucion=?, FechaAlquiler=?, idPelicula=? WHERE idAlquiler=?";
+            conn.setAutoCommit(false);
 
-        try (Connection conn = conexionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try (PreparedStatement psStock = conn.prepareStatement(updateStockSql)) {
+                psStock.setInt(1, cantidad);
+                psStock.setInt(2, idPelicula);
+                psStock.setInt(3, cantidad);
 
-            stmt.setInt(1, p.getIdUsuario());
-            stmt.setDate(2, (Date) p.getfDevolucion());
-            stmt.setDate(3, (Date) p.getfAlquiler());
-            stmt.setInt(4, p.getIdPelicula());
-            stmt.setInt(5, p.getId());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean eliminar(int id) {
-        String sql = "DELETE FROM alquiler WHERE idAlquiler = ?";
-
-        try (Connection conn = conexionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public List<alquiler> getAlquileres() throws SQLException {
-        List<alquiler> list = new ArrayList<>();
-        String sql = "SELECT * FROM alquiler";
-
-        try (Connection conn = conexionDB.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-
-            while (rs.next()) {
-                alquiler a = new alquiler();
-                a.setId(rs.getInt("idAlquiler"));
-                a.setIdUsuario(rs.getInt("idUsuario"));
-                a.setfAlquiler(rs.getDate("FechaAlquiler"));
-                a.setfDevolucion(rs.getDate("FechaDevolucion"));
-                a.setIdPelicula(rs.getInt("idPelicula"));
-
-                list.add(a);
+                if (psStock.executeUpdate() == 0) {
+                    conn.rollback();
+                    return -1;
+                }
             }
+
+            try (PreparedStatement psAlquiler =
+                         conn.prepareStatement(insertAlquilerSql, Statement.RETURN_GENERATED_KEYS)) {
+
+                psAlquiler.setInt(1, idUsuario);
+                psAlquiler.setInt(2, idPelicula);
+                psAlquiler.executeUpdate();
+
+                ResultSet rs = psAlquiler.getGeneratedKeys();
+                if (rs.next()) {
+                    conn.commit();
+                    return rs.getInt(1); // idAlquiler
+                }
+            }
+
+            conn.rollback();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return list;
+
+        return -1;
     }
 
+    public static boolean tieneAlquilerActivo(int idPelicula, int idUsuario) {
+
+        String sql = """
+        SELECT 1
+        FROM alquiler
+        WHERE idPelicula = ?
+          AND idUsuario = ?
+          AND FechaDevolucion > CURRENT_DATE
+        LIMIT 1
+    """;
+
+        try (Connection con = conexionDB.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idPelicula);
+            ps.setInt(2, idUsuario);
+
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
 
 }
+

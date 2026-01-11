@@ -2,7 +2,7 @@ package vista;
 
 import dao.PeliculaDAO;
 import dto.pelicula;
-import javafx.collections.*;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,7 +25,7 @@ public class GestionDePeliculasControlador {
     @FXML private TextField txtNombre;
     @FXML private TextField txtAno;
     @FXML private TextField txtStock;
-    @FXML private TextField txtFormato;
+    @FXML private ComboBox<String> cmbFormato;
     @FXML private TextField txtGenero;
     @FXML private TextField txtProveedor;
     @FXML private TextField txtPrecio;
@@ -59,6 +59,18 @@ public class GestionDePeliculasControlador {
         colImagen.setCellValueFactory(new PropertyValueFactory<>("imagen"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
 
+        cmbFormato.setItems(
+                FXCollections.observableArrayList("DVD", "Blu-ray", "4K UHD")
+        );
+
+        tablaPeliculas.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldPeli, newPeli) -> {
+                    if (newPeli != null) {
+                        cmbFormato.setValue(newPeli.getFormato());
+                    }
+                }
+        );
+
         try {
             cargarPeliculas();
         } catch (SQLException e) {
@@ -73,29 +85,13 @@ public class GestionDePeliculasControlador {
     }
 
     @FXML
-    private void quitarPelicula() throws SQLException {
-        pelicula seleccionada = tablaPeliculas.getSelectionModel().getSelectedItem();
-
-        if (seleccionada == null) {
-            mostrarAlerta("Selecciona una película para eliminar.");
-            return;
-        }
-
-        boolean eliminado = peliculaDAO.eliminar(seleccionada.getId());
-
-        if (eliminado) {
-            mostrarAlerta("Película eliminada correctamente.");
-            cargarPeliculas();
-        } else {
-            mostrarAlerta("Error al eliminar la película.");
-        }
-    }
-
-    @FXML
     private void anadirPelicula() throws SQLException {
-        if (txtNombre.getText().isEmpty() || txtAno.getText().isEmpty() || txtStock.getText().isEmpty() ||
-                txtFormato.getText().isEmpty() || txtGenero.getText().isEmpty() || txtProveedor.getText().isEmpty() ||
-                txtPrecio.getText().isEmpty() || txtImagen.getText().isEmpty() || txtDescripcion.getText().isEmpty()) {
+
+        if (txtNombre.getText().isEmpty() || txtAno.getText().isEmpty()
+                || txtStock.getText().isEmpty() || cmbFormato.getValue() == null
+                || txtGenero.getText().isEmpty() || txtProveedor.getText().isEmpty()
+                || txtPrecio.getText().isEmpty() || txtImagen.getText().isEmpty()
+                || txtDescripcion.getText().isEmpty()) {
 
             mostrarAlerta("Rellena todos los campos antes de añadir.");
             return;
@@ -104,12 +100,12 @@ public class GestionDePeliculasControlador {
         try {
             pelicula nueva = new pelicula();
             nueva.setNombre(txtNombre.getText());
-            nueva.setPrecio(Double.parseDouble(txtPrecio.getText()));
+            nueva.setAnoSalida(Integer.parseInt(txtAno.getText()));
             nueva.setStock(Integer.parseInt(txtStock.getText()));
-            nueva.setFormato(txtFormato.getText());
+            nueva.setFormato(cmbFormato.getValue());
             nueva.setGenero(txtGenero.getText());
             nueva.setProveedor(txtProveedor.getText());
-            nueva.setAnoSalida(Integer.parseInt(txtAno.getText()));
+            nueva.setPrecio(Double.parseDouble(txtPrecio.getText()));
             nueva.setImagen(txtImagen.getText());
             nueva.setDescripcion(txtDescripcion.getText());
 
@@ -120,12 +116,13 @@ public class GestionDePeliculasControlador {
             limpiarCampos();
 
         } catch (NumberFormatException e) {
-            mostrarAlerta("Valores numéricos inválidos en Año, Stock o Precio.");
+            mostrarAlerta("Valores numéricos inválidos.");
         }
     }
 
     @FXML
     private void editarPelicula() throws SQLException {
+
         pelicula seleccionada = tablaPeliculas.getSelectionModel().getSelectedItem();
 
         if (seleccionada == null) {
@@ -134,33 +131,32 @@ public class GestionDePeliculasControlador {
         }
 
         try {
-            if (!txtNombre.getText().isEmpty()) {
+            if (!txtNombre.getText().isEmpty())
                 seleccionada.setNombre(txtNombre.getText());
-            }
-            if (!txtAno.getText().isEmpty()) {
+
+            if (!txtAno.getText().isEmpty())
                 seleccionada.setAnoSalida(Integer.parseInt(txtAno.getText()));
-            }
-            if (!txtStock.getText().isEmpty()) {
+
+            if (!txtStock.getText().isEmpty())
                 seleccionada.setStock(Integer.parseInt(txtStock.getText()));
-            }
-            if (!txtFormato.getText().isEmpty()) {
-                seleccionada.setFormato(txtFormato.getText());
-            }
-            if (!txtGenero.getText().isEmpty()) {
+
+            if (cmbFormato.getValue() != null)
+                seleccionada.setFormato(cmbFormato.getValue());
+
+            if (!txtGenero.getText().isEmpty())
                 seleccionada.setGenero(txtGenero.getText());
-            }
-            if (!txtProveedor.getText().isEmpty()) {
+
+            if (!txtProveedor.getText().isEmpty())
                 seleccionada.setProveedor(txtProveedor.getText());
-            }
-            if (!txtPrecio.getText().isEmpty()) {
+
+            if (!txtPrecio.getText().isEmpty())
                 seleccionada.setPrecio(Double.parseDouble(txtPrecio.getText()));
-            }
-            if (!txtImagen.getText().isEmpty()) {
+
+            if (!txtImagen.getText().isEmpty())
                 seleccionada.setImagen(txtImagen.getText());
-            }
-            if (!txtDescripcion.getText().isEmpty()) {
+
+            if (!txtDescripcion.getText().isEmpty())
                 seleccionada.setDescripcion(txtDescripcion.getText());
-            }
 
             peliculaDAO.modificar(seleccionada);
 
@@ -169,22 +165,37 @@ public class GestionDePeliculasControlador {
             limpiarCampos();
 
         } catch (NumberFormatException e) {
-            mostrarAlerta("Valores numéricos inválidos en Año, Stock o Precio.");
+            mostrarAlerta("Valores numéricos inválidos.");
         }
     }
 
+    @FXML
+    private void quitarPelicula() throws SQLException {
 
+        pelicula seleccionada = tablaPeliculas.getSelectionModel().getSelectedItem();
+
+        if (seleccionada == null) {
+            mostrarAlerta("Selecciona una película para eliminar.");
+            return;
+        }
+
+        if (peliculaDAO.eliminar(seleccionada.getId())) {
+            mostrarAlerta("Película eliminada correctamente.");
+            cargarPeliculas();
+        } else {
+            mostrarAlerta("Error al eliminar la película.");
+        }
+    }
 
     private void mostrarAlerta(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alert.show();
+        new Alert(Alert.AlertType.INFORMATION, mensaje).show();
     }
 
     private void limpiarCampos() {
         txtNombre.clear();
         txtAno.clear();
         txtStock.clear();
-        txtFormato.clear();
+        cmbFormato.setValue(null);
         txtGenero.clear();
         txtProveedor.clear();
         txtPrecio.clear();
@@ -194,7 +205,7 @@ public class GestionDePeliculasControlador {
 
     @FXML
     private void volverMenu() {
-        cambiarVista("MenuAdministrador.fxml", btnVolver);
+        cambiarVista("GestionDePedidos.fxml", btnVolver);
     }
 
     @FXML
@@ -204,18 +215,13 @@ public class GestionDePeliculasControlador {
 
     private void cambiarVista(String fxml, Button origen) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
-
+            Parent root = FXMLLoader.load(getClass().getResource(fxml));
             Stage stage = (Stage) origen.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-
         } catch (IOException e) {
-            System.err.println("Error cargando vista: " + fxml);
             e.printStackTrace();
         }
     }
 }
-
 
