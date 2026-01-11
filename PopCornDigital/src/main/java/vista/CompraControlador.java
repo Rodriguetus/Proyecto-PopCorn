@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,8 +29,6 @@ public class CompraControlador {
     @FXML private Label fechaEsperadaLabel;
     @FXML private Label estadoLabel;
     @FXML private Button btnRemove;
-
-    // IMPORTANTE: Este botón debe tener fx:id="btnConfirmar" en tu archivo FXML
     @FXML private Button btnConfirmar;
 
     private pelicula pelicula;
@@ -37,6 +36,9 @@ public class CompraControlador {
 
     private Consumer<CompraControlador> onRemove;
 
+/*
+Inicializa los componentes cargando la vista.
+ */
     @FXML
     public void initialize() {
         btnRemove.setOnAction(e -> {
@@ -61,7 +63,10 @@ public class CompraControlador {
             }
         });
     }
-
+/*
+Recibe los datos de la película de la compra para mostrarlos en la carta rellenando asi cada
+etiqueta de esta misma.
+ */
     public void setDatosPelicula(pelicula pelicula, pedido pedido) {
         this.pelicula = pelicula;
         this.pedidoActual = pedido;
@@ -93,7 +98,9 @@ public class CompraControlador {
             }
         }
     }
-
+/*
+Metodo auxiliar que cambia los estados de Pendiente a Pagado de manera visual.
+ */
     private void actualizarEstadoVisual(String estado) {
         estadoLabel.setText("Estado: " + estado);
         if ("Pagado".equalsIgnoreCase(estado)) {
@@ -105,11 +112,16 @@ public class CompraControlador {
         }
     }
 
+/*
+Metodo que realiza al hacer click en el boton de confirmar compra verificando si hay saldo suficiente
+reduciendo su saldo y actualizando el estadod del pedido de pendiente a pagado en la base de datos
+ */
     @FXML
     private void confirmarCompra(ActionEvent event) {
         // Si no hay pedido real cargado, no hacemos nada
         if (pedidoActual == null || "Pagado".equals(pedidoActual.getEstado())) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Aviso", "No se puede procesar el pago de este elemento aún.");
+
+            mostrarAlertaPersonalizada("Aviso", "No se puede procesar el pago de este elemento aún.");
             return;
         }
 
@@ -132,8 +144,7 @@ public class CompraControlador {
                         "Nuevo saldo: " + String.format("%.2f", (saldoActual - precio)) + "€");
             }
         } else {
-            mostrarAlerta(Alert.AlertType.WARNING, "Saldo Insuficiente",
-                    "Te faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
+            mostrarAlertaPersonalizada("Saldo insuficiente", "Te faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
         }
     }
 
@@ -142,6 +153,28 @@ public class CompraControlador {
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+/*
+Metodo para implementar la alerta personalizada del css.
+ */
+    private void mostrarAlertaPersonalizada(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+
+        //Aplicar Css
+        // 1. Obtenemos el DialogPane de la alerta
+        DialogPane dialogPane = alert.getDialogPane();
+
+        // 2. Cargamos el CSS
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/css/Alerta.css").toExternalForm()
+        );
+
+        // 3. Añadimos la clase CSS específica
+        dialogPane.getStyleClass().add("alerta-popcorn");
         alert.showAndWait();
     }
 

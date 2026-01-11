@@ -1,0 +1,40 @@
+/* 1. Fondo General de la pantalla principal */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #F4F6F7; /* Gris muy suave, casi blanco */
+}
+
+/* 2. Barra Lateral (Sidebar) */
+.sidebar {
+    -fx-background-color: #2C3E50; /* Azul oscuro */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 0);
+}
+
+/* Botones del menú lateral */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #BDC3C7; /* Gris claro */
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-padding: 10 20;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #34495E; /* Un poco más claro al pasar el ratón */
+    -fx-text-fill: #F1C40F; /* Texto amarillo/dorado al pasar el ratón */
+}
+
+/* 3. Títulos (Cabecera) */
+.titulo-principal {
+    -fx-text-fill: #2C3E50;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.subtitulo {
+    -fx-text-fill: #7F8C8D; /* Gris medio */
+    -fx-font-size: 18px;
+    -fx-font-weight: normal;
+}
+

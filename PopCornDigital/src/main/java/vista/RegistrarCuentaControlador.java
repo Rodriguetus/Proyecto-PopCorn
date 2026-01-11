@@ -39,6 +39,9 @@
         @FXML
         private Hyperlink linkInicio;
 
+        /*
+        Realiza varias validaciones y si esta correcto guarda al usuario y redirige a la vista del Login.
+         */
         @FXML
         private void registrarCuenta(ActionEvent event) {
 

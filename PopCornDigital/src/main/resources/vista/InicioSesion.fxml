@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #D6D6D6;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #D6D6D6;" stylesheets="@../css/Inicio.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
 
     <children>
 

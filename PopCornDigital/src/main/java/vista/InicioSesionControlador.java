@@ -40,7 +40,32 @@ public class InicioSesionControlador implements Initializable {
             e.printStackTrace();
         }
     }
+/*
+Metodo para mostrar el Alert con el css implementado.
+ */
+    private void mostrarAlertaPersonalizada(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
 
+        //Aplicar Css
+        // 1. Obtenemos el DialogPane de la alerta
+        DialogPane dialogPane = alert.getDialogPane();
+
+        // 2. Cargamos el CSS
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/css/Alerta.css").toExternalForm()
+        );
+
+        // 3. Añadimos la clase CSS específica
+        dialogPane.getStyleClass().add("alerta-popcorn");
+        alert.showAndWait();
+    }
+/*
+Conecta con la base de datos y comprueba si cumple las validaciones y si es Admin o Usuario si es correcto los datos
+guardando el id en la sesión global y dirige al Catalogo.
+ */
     @FXML
     private void iniciarSesion() {
         errormsj.setText("");
@@ -118,15 +143,10 @@ public class InicioSesionControlador implements Initializable {
                 return;
             }
 
-            //Alert para cuando este incorrecto el correo o contraseña
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error al iniciar sesión");
-            alert.setHeaderText(null); // sin cabecera
-            alert.setContentText("Correo o contraseña incorrectos.");
-            alert.showAndWait();
+            mostrarAlertaPersonalizada("Error al iniciar sesión", "Correo o contraseña incorrectos.");
 
         } catch (SQLException e) {
-            errormsj.setText("Error accediendo a la base de datos.");
+            mostrarAlertaPersonalizada("Error de Conexión", "Error accediendo a la base de datos.");
             e.printStackTrace();
         }
     }

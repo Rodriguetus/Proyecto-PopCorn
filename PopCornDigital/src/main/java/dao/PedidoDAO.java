@@ -9,6 +9,8 @@ import java.util.List;
 
 public class PedidoDAO {
 
+    /*Inserta un nuevo pedido en la base datos usando un Prepared Statement
+    obteniendo el id para devolverla al finalizar*/
     public int insertar(pedido p) {
 
         String sql = "INSERT INTO pedido (Estado, FechaCompra, FechaLlegada, idPelicula, Direccion, Correo) " +
@@ -42,7 +44,10 @@ public class PedidoDAO {
             return -1;
         }
     }
-
+/*
+Actualiza todos los campos de un pedido ya existente identificandolo
+por su ID usando un update.
+ */
     public void modificar(pedido p) {
         String sql = "UPDATE pedido SET Estado=?, FechaCompra=?, FechaLlegada=?, idPelicula=?, Direccion=?, Correo=? WHERE idPedido=?";
 
@@ -62,7 +67,9 @@ public class PedidoDAO {
             e.printStackTrace();
         }
     }
-
+/*
+Elimina un registro usando el id y una sentenia delete
+ */
     public boolean eliminar(int id) {
         String sql = "DELETE FROM pedido WHERE idPedido = ?";
 
@@ -77,7 +84,10 @@ public class PedidoDAO {
             return false;
         }
     }
-
+/*
+Obtiene la lista de los pedidos mediante un select usando un ResultSet que mapea
+cada objeto pedido y manda la lista de resultado.
+ */
     public List<pedido> getPedidos() throws SQLException {
         List<pedido> list = new ArrayList<>();
         String sql = "SELECT * FROM pedido";
@@ -101,7 +111,9 @@ public class PedidoDAO {
         return list;
     }
 
-    // Añade esto dentro de PedidoDAO.java
+/*
+Modifica la columna de los estados para cambia el estado.
+ */
     public boolean actualizarEstado(int idPedido, String nuevoEstado) {
         String sql = "UPDATE pedido SET Estado = ? WHERE idPedido = ?";
 
@@ -117,7 +129,10 @@ public class PedidoDAO {
             return false;
         }
     }
-
+/*
+Realiza una transacción completa bloqueando y verificando el stock disponible
+reduciendolo si hay y creando el pedido o hace un rollback deshaciendo los cambios si da error.
+ */
     public static int createPedidoAndReduceStock(int idPelicula, int quantity, String direccion, String correo) throws SQLException {
         String selectStock = "SELECT Stock FROM pelicula WHERE idPelicula = ? FOR UPDATE";
         String updateStock = "UPDATE pelicula SET Stock = Stock - ? WHERE idPelicula = ?";
@@ -175,7 +190,9 @@ public class PedidoDAO {
             throw ex;
         }
     }
-
+/*
+Realiza la búsqueda de la película del pedido para devolver el stock que se ha bajado.
+ */
     public static boolean cancelarPedido(int idPedido) {
         String selectSql = "SELECT idPelicula FROM pedido WHERE idPedido = ?";
         String updateStock = "UPDATE pelicula SET Stock = Stock + 1 WHERE idPelicula = ?";
@@ -228,10 +245,11 @@ public class PedidoDAO {
             }
         }
     }
-
+/*
+Busca y devuelve el último pedido realizado por un usuario para una película
+ordenandolo por id de manera descendente y limitando los resultados a 1 para mostrar solo el ultimo.
+ */
     public pedido buscarUltimoPedido(int idPelicula, String correo) {
-        // CORRECCIÓN: Quitamos "AND Estado = 'Pendiente'"
-        // y añadimos "ORDER BY idPedido DESC LIMIT 1" para traer siempre el más reciente.
         String sql = "SELECT * FROM pedido WHERE idPelicula = ? AND Correo = ? ORDER BY idPedido DESC LIMIT 1";
 
         try (java.sql.Connection conn = conexion.conexionDB.getConnection();

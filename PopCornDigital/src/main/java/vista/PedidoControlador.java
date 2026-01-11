@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -77,6 +78,30 @@ public class PedidoControlador {
         addPurchase(p, 1, "");
     }
 
+/*
+Metodo para mostrar el Alert personalizado que implementa css
+ */
+    private void mostrarAlertaPersonalizada(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+
+        //Aplicar Css
+        // 1. Obtenemos el DialogPane de la alerta
+        DialogPane dialogPane = alert.getDialogPane();
+
+        // 2. Cargamos el CSS
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/css/Alerta.css").toExternalForm()
+        );
+
+        // 3. Añadimos la clase CSS específica
+        dialogPane.getStyleClass().add("alerta-popcorn");
+        alert.showAndWait();
+    }
+
+
     //Añade una compra a la base de datos y al carrito modificando el stock
     public void addPurchase(pelicula p, int quantity, String direccion) {
         String correoUsuario = "admin@gmail.com"; // O SesionIniciada.getCorreo()
@@ -89,11 +114,7 @@ public class PedidoControlador {
                 // Si devuelve -1 es que falló
                 if (idPedido == -1) {
                     Platform.runLater(() -> {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Stock insuficiente");
-                        alert.setHeaderText(null);
-                        alert.setContentText("No hay stock suficiente o ocurrió un error.");
-                        alert.showAndWait();
+                        mostrarAlertaPersonalizada("Stock insuficiente", "No hay stock suficiente o ocurrió un error.");
                     });
                     return;
                 }
