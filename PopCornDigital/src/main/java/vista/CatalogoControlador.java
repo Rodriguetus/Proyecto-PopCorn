@@ -53,6 +53,10 @@ public class CatalogoControlador {
             }
         }
     }
+    public void mostrarPeliculasFiltradas(List<pelicula> peliculas) {
+        mostrarPeliculasEnFlowPane(popularMoviesPane, peliculas);
+    }
+
 
     private void addMovieCard(FlowPane pane, pelicula movie) {
         try {
@@ -183,6 +187,10 @@ public class CatalogoControlador {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Filtrados.fxml"));
             Parent root = loader.load();
+
+            FiltradosController filtrosController = loader.getController();
+            filtrosController.setCatalogoControlador(this);
+
             Stage stage = new Stage();
             stage.setTitle("Filtrados");
             stage.setScene(new Scene(root));

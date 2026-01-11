@@ -130,4 +130,41 @@ public class PeliculaDAO {
         }
         return peliculas;
     }
+    public static List<pelicula> filtrarPeliculas(String formato, String proveedor, String genero, String anio) {
+        List<pelicula> lista = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder("SELECT * FROM pelicula WHERE 1=1");
+
+        if (formato != null) query.append(" AND formato = '").append(formato).append("'");
+        if (proveedor != null) query.append(" AND proveedor = '").append(proveedor).append("'");
+        if (genero != null) query.append(" AND genero = '").append(genero).append("'");
+        if (anio != null) query.append(" AND AnoSalida = ").append(anio);
+
+        try (Connection conn = conexionDB.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query.toString())) {
+
+            while (rs.next()) {
+                pelicula p = new pelicula(
+                        rs.getInt("idPelicula"),
+                        rs.getString("nombre"),
+                        rs.getDouble("precio"),
+                        rs.getInt("stock"),
+                        rs.getString("genero"),
+                        rs.getString("formato"),
+                        rs.getString("proveedor"),
+                        rs.getInt("AnoSalida"),
+                        rs.getString("imagen"),
+                        rs.getString("descripcion")
+                );
+                lista.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
 }

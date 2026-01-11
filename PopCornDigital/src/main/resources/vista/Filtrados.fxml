@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="350" prefWidth="450" styleClass="root-pane" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FiltradosController">
+<BorderPane prefHeight="350" prefWidth="450" styleClass="root-pane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.FiltradosController">
 
     <center>
         <VBox fx:id="contenedorFiltros" alignment="TOP_CENTER" spacing="15" styleClass="filters-vbox" BorderPane.alignment="CENTER">
@@ -29,7 +29,7 @@
             <padding>
                 <Insets bottom="15" left="15" right="15" top="15" />
             </padding>
-            <Button fx:id="btnFiltrar" mnemonicParsing="false" styleClass="primary-button" text="Filtrar" />
+            <Button fx:id="btnFiltrar" mnemonicParsing="false" onMouseClicked="#reiniciarFiltros" styleClass="primary-button" text="Reiniciar" />
         </HBox>
     </bottom>
 </BorderPane>
