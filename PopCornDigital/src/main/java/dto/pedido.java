@@ -1,8 +1,6 @@
 package dto;
 
-
 import java.util.Date;
-
 
 public class pedido {
     private int id;
@@ -11,28 +9,29 @@ public class pedido {
     private Date fLlegada;
     private int idPelicula;
     private String direccion;
+    private String correo;
 
-
-    public pedido(int id, String estado, Date fCompra, Date fLlegada, int idPelicula, String direccion) {
-        this.id=id;
+    public pedido(int id, String estado, Date fCompra, Date fLlegada, int idPelicula, String direccion, String correo) {
+        this.id = id;
         this.estado = estado;
         this.fCompra = fCompra;
         this.fLlegada = fLlegada;
         this.idPelicula = idPelicula;
         this.direccion = direccion;
+        this.correo = correo;
     }
 
-
-    public pedido(String estado, Date fCompra, Date fLlegada, int idPelicula, String direccion) {
+    public pedido(String estado, Date fCompra, Date fLlegada, int idPelicula, String direccion, String correo) {
         this.estado = estado;
         this.fCompra = fCompra;
         this.fLlegada = fLlegada;
         this.idPelicula = idPelicula;
         this.direccion = direccion;
+        this.correo = correo;
     }
-
 
     public pedido() {}
+
     public int getId() {
         return id;
     }
@@ -69,6 +68,10 @@ public class pedido {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+    public String getCorreo() {
+        return correo;
+    }
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 }
-
-

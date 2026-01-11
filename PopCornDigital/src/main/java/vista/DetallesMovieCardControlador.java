@@ -47,8 +47,8 @@ public class DetallesMovieCardControlador {
 
     // Imagen del póster
     @FXML private ImageView posterImage;
-//==========================================
-private pelicula peliculaActual;
+    //==========================================
+    private pelicula peliculaActual;
 
     public void setPelicula(pelicula peli) {
         this.peliculaActual = peli;
@@ -94,22 +94,33 @@ private pelicula peliculaActual;
 
         if (peliculaActual == null) return;
 
-        // 1. Guardar pedido en la BD (como hacía antes)
-        PedidoDAO dao = new PedidoDAO();
-        boolean ok = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "");
+        String correoUsuario = "admin@gmail.com";
+        // O: String correoUsuario = SesionIniciada.getCorreo();
 
-        if (!ok) {
-            System.out.println("No hay stock suficiente.");
+        // 1. Guardar pedido en la BD
+        int idPedido = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "", correoUsuario);
+
+        // Si devuelve -1 significa que hubo error o falta de stock
+        if (idPedido == -1) {
+            System.out.println("No hay stock suficiente o hubo un error al crear el pedido.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error de Stock");
+            alert.setContentText("No se pudo procesar la compra. Verifique el stock.");
+            alert.showAndWait();
             return;
         }
 
-        // 2. Guardar en memoria
+        // 2. Guardar en memoria (Carrito)
         CarritoService.addCompra(peliculaActual);
 
         // 3. Abrir Pedido.fxml
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Pedido.fxml"));
             Parent root = loader.load();
+
+            // Opcional: Si necesitas pasar el ID del pedido recién creado a la siguiente pantalla,
+            // podrías obtener el controlador aquí y pasárselo, pero como PedidoControlador
+            // carga del CarritoService, lo dejamos así por ahora.
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -253,4 +264,3 @@ private pelicula peliculaActual;
         }
     }
 }
-

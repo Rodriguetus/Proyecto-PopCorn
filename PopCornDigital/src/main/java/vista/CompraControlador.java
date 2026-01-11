@@ -1,7 +1,13 @@
 package vista;
 
+import dao.PedidoDAO;
+import dao.DaoUsuario;
+import dto.SesionIniciada;
+import dto.pedido;
 import dto.pelicula;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,10 +18,7 @@ import java.util.function.Consumer;
 
 public class CompraControlador {
 
-    //Nodo de la raíz tarjeta
     @FXML private AnchorPane root;
-
-    //Objetos de la tarjeta Compra
     @FXML private ImageView imagenPelicula;
     @FXML private Label tituloLabel;
     @FXML private Label compraIdLabel;
@@ -26,16 +29,29 @@ public class CompraControlador {
     @FXML private Label estadoLabel;
     @FXML private Button btnRemove;
 
-    //Pelicula vinculada a la tarjeta
-    private pelicula pelicula;
+    // IMPORTANTE: Este botón debe tener fx:id="btnConfirmar" en tu archivo FXML
+    @FXML private Button btnConfirmar;
 
-    //Callback para manejar la eliminación
+    private pelicula pelicula;
+    private pedido pedidoActual; // Guardamos el objeto pedido
+
     private Consumer<CompraControlador> onRemove;
 
     @FXML
-    //El botín de remover ejecuta el callback y elimina la tarjeta
     public void initialize() {
         btnRemove.setOnAction(e -> {
+
+            if (pedidoActual != null) {
+                // Llamamos al DAO para que sume 1 al stock y borre la fila en BD
+                boolean borrado = PedidoDAO.cancelarPedido(pedidoActual.getId());
+
+                if (borrado) {
+                    System.out.println("Pedido cancelado y stock recuperado.");
+                } else {
+                    System.out.println("Error al cancelar el pedido en BD.");
+                }
+            }
+
             if (onRemove != null) {
                 onRemove.accept(this);
             } else {
@@ -46,19 +62,26 @@ public class CompraControlador {
         });
     }
 
-    //Rellena los datos de la tarjeta con la película actual
-    public void setDatosPelicula(pelicula pelicula) {
+    public void setDatosPelicula(pelicula pelicula, pedido pedido) {
         this.pelicula = pelicula;
+        this.pedidoActual = pedido;
 
         tituloLabel.setText(pelicula.getNombre());
         proveedorLabel.setText("Proveedor: " + pelicula.getProveedor());
         cantidadLabel.setText("Cantidad: 1 unidad");
 
-        compraIdLabel.setText("Compra #" + System.currentTimeMillis());
-        fechaCompraLabel.setText("Compra: " + java.time.LocalDate.now());
-        fechaEsperadaLabel.setText("Entrega: " + java.time.LocalDate.now().plusDays(7));
-
-        estadoLabel.setText("Estado: Pendiente");
+        if (pedido != null) {
+            compraIdLabel.setText("Compra #" + pedido.getId());
+            fechaCompraLabel.setText("Compra: " + pedido.getfCompra());
+            fechaEsperadaLabel.setText("Entrega: " + pedido.getfLlegada());
+            actualizarEstadoVisual(pedido.getEstado());
+        } else {
+            // Valores por defecto si aún no hay pedido (ej. vista carrito)
+            compraIdLabel.setText("Pendiente de procesar");
+            fechaCompraLabel.setText("--/--/----");
+            fechaEsperadaLabel.setText("--/--/----");
+            actualizarEstadoVisual("Pendiente");
+        }
 
         if (pelicula.getImagen() != null && !pelicula.getImagen().isEmpty()) {
             try {
@@ -70,17 +93,59 @@ public class CompraControlador {
             }
         }
     }
-//Getter y Setter para la pelicula(Obtener la pelicula y eliminarla)
-    public pelicula getPelicula() {
-        return pelicula;
+
+    private void actualizarEstadoVisual(String estado) {
+        estadoLabel.setText("Estado: " + estado);
+        if ("Pagado".equalsIgnoreCase(estado)) {
+            estadoLabel.setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+            if (btnConfirmar != null) btnConfirmar.setDisable(true);
+        } else {
+            estadoLabel.setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
+            if (btnConfirmar != null) btnConfirmar.setDisable(false);
+        }
     }
 
-    public void setOnRemove(Consumer<CompraControlador> onRemove) {
-        this.onRemove = onRemove;
+    @FXML
+    private void confirmarCompra(ActionEvent event) {
+        // Si no hay pedido real cargado, no hacemos nada
+        if (pedidoActual == null || "Pagado".equals(pedidoActual.getEstado())) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Aviso", "No se puede procesar el pago de este elemento aún.");
+            return;
+        }
+
+        int idUsuario = SesionIniciada.getIdUsuario();
+        double precio = pelicula.getPrecio();
+
+        DaoUsuario usuarioDAO = new DaoUsuario();
+        double saldoActual = usuarioDAO.getSaldo(idUsuario);
+
+        if (saldoActual >= precio) {
+            boolean exito = usuarioDAO.restarSaldo(idUsuario, precio);
+            if (exito) {
+                PedidoDAO pedidoDAO = new PedidoDAO();
+                pedidoDAO.actualizarEstado(pedidoActual.getId(), "Pagado");
+
+                pedidoActual.setEstado("Pagado");
+                actualizarEstadoVisual("Pagado");
+
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Pago realizado",
+                        "Nuevo saldo: " + String.format("%.2f", (saldoActual - precio)) + "€");
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.WARNING, "Saldo Insuficiente",
+                    "Te faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
+        }
     }
 
-    //Recupera la tarjeta para eliminarla
-    public AnchorPane getRoot() {
-        return root;
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
     }
+
+    public pelicula getPelicula() { return pelicula; }
+    public void setOnRemove(Consumer<CompraControlador> onRemove) { this.onRemove = onRemove; }
+    public AnchorPane getRoot() { return root; }
 }

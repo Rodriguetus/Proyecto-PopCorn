@@ -2,6 +2,7 @@ package vista;
 
 import dao.PedidoDAO;
 import dto.pelicula;
+import dto.pedido;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -46,12 +45,21 @@ public class PedidoControlador {
     private void cargarCarrito() {
         flowCompras.getChildren().clear();
 
+        // Simulación de usuario (o usa SesionIniciada.getCorreo() si lo tienes)
+        String correoUsuario = "admin@gmail.com";
+
         for (pelicula p : CarritoService.getCarrito()) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/compra.fxml"));
                 Node node = loader.load();
                 CompraControlador ctrl = loader.getController();
-                ctrl.setDatosPelicula(p);
+
+                // 1. Buscamos el pedido real en la BD
+                dto.pedido pedidoReal = pedidoDAO.buscarUltimoPedido(p.getId(), correoUsuario);
+
+                // 2. Se lo pasamos a la tarjeta (Si es null, la tarjeta se mostrará pero no dejará pagar)
+                ctrl.setDatosPelicula(p, pedidoReal);
+
                 ctrl.setOnRemove(c -> {
                     flowCompras.getChildren().remove(ctrl.getRoot());
                     CarritoService.removeCompra(p);
@@ -71,30 +79,42 @@ public class PedidoControlador {
 
     //Añade una compra a la base de datos y al carrito modificando el stock
     public void addPurchase(pelicula p, int quantity, String direccion) {
+        String correoUsuario = "admin@gmail.com"; // O SesionIniciada.getCorreo()
+
         dbExecutor.submit(() -> {
             try {
-                boolean ok = PedidoDAO.createPedidoAndReduceStock(p.getId(), quantity, direccion);
-                if (!ok) {
+                // 1. CAMBIO: Ahora recibimos un int (idPedido)
+                int idPedido = PedidoDAO.createPedidoAndReduceStock(p.getId(), quantity, direccion, correoUsuario);
+
+                // Si devuelve -1 es que falló
+                if (idPedido == -1) {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.WARNING);
                         alert.setTitle("Stock insuficiente");
                         alert.setHeaderText(null);
-                        alert.setContentText("No hay stock suficiente para: " + p.getNombre());
+                        alert.setContentText("No hay stock suficiente o ocurrió un error.");
                         alert.showAndWait();
                     });
                     return;
                 }
 
-                //Guarda la compra en el carrito
+                // 2. CREAMOS EL OBJETO PEDIDO con los datos recién generados
+                // Esto sirve para que la tarjeta tenga ID y sepa que está "Pendiente"
+                dto.pedido nuevoPedido = new dto.pedido();
+                nuevoPedido.setId(idPedido);
+                nuevoPedido.setEstado("Pendiente");
+                nuevoPedido.setfCompra(new java.util.Date()); // Fecha hoy
+                nuevoPedido.setfLlegada(new java.util.Date(System.currentTimeMillis() + 7L * 24 * 3600 * 1000)); // Fecha +7 dias
+
                 CarritoService.addCompra(p);
 
-                //Agrega la  visual de la tarjeta
                 Platform.runLater(() -> {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/compra.fxml"));
                         Node node = loader.load();
                         CompraControlador ctrl = loader.getController();
-                        ctrl.setDatosPelicula(p);
+                        ctrl.setDatosPelicula(p, nuevoPedido);
+
                         ctrl.setOnRemove(c -> {
                             flowCompras.getChildren().remove(ctrl.getRoot());
                             CarritoService.removeCompra(p);
@@ -105,13 +125,11 @@ public class PedidoControlador {
                         e.printStackTrace();
                     }
                 });
-           } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("No se pudo procesar la compra: " + e.getMessage());
+                    alert.setContentText("Error: " + e.getMessage());
                     alert.showAndWait();
                 });
             }
@@ -204,4 +222,3 @@ public class PedidoControlador {
         }
     }
 }
-
