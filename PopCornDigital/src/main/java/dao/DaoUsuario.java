@@ -88,4 +88,18 @@ public class  DaoUsuario {
             return false;
         }
     }
+
+    //Metodo para devolver el dinero al cancelar el Pedido
+    public boolean sumarSaldo(int idUsuario, double cantidad) {
+        String sql = "UPDATE usuario SET Saldo = Saldo + ? WHERE idUsuario = ?";
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, cantidad);
+            stmt.setInt(2, idUsuario);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -34,7 +34,6 @@ public class PedidoControlador {
 
     public PedidoControlador() {}
 
-
     @FXML
     public void initialize() {
         //Carga el carrito
@@ -45,8 +44,6 @@ public class PedidoControlador {
     //Carga el carrito y genera las tarjetas correspondientes
     private void cargarCarrito() {
         flowCompras.getChildren().clear();
-
-        // Simulación de usuario (o usa SesionIniciada.getCorreo() si lo tienes)
         String correoUsuario = "admin@gmail.com";
 
         for (pelicula p : CarritoService.getCarrito()) {
