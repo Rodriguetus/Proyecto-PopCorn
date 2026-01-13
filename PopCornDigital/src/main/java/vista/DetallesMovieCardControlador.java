@@ -242,7 +242,7 @@ public class DetallesMovieCardControlador {
             return;
         }
 
-        // 5️⃣ Restar saldo (PAGO)
+        // 5️Restar saldo (PAGO)
         boolean saldoActualizado = usuarioDAO.restarSaldo(idUsuario, precio);
         if (!saldoActualizado) {
             mostrarAlerta(
