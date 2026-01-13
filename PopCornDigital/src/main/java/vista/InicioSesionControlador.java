@@ -107,11 +107,6 @@ guardando el id en la sesión global y dirige al Catalogo.
             return;
         }
 
-        //Validación de que la contraseña contenga por lo menos una mayúscula y un número
-        if (!contrasena.matches("^(?=.*[A-Z])(?=.*\\d).+$")) {
-            errormsj.setText("La contraseña debe incluir mayúscula y número.");
-        }
-
         try (Connection conn = conexionDB.getConnection()) {
 
             //Inicio Sesion(Si es Admin)

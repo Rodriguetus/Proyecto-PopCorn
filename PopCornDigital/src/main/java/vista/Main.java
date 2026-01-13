@@ -16,7 +16,7 @@ public class Main extends Application {
             Parent root = loader.load();
 
             Scene scene = new Scene(root, 700, 506);
-
+            primaryStage.setTitle("Inicio Sesión - PopCorn");
             primaryStage.setScene(scene);
             primaryStage.show();
 

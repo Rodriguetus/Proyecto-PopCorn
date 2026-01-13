@@ -42,23 +42,53 @@ Inicializa los componentes cargando la vista.
     @FXML
     public void initialize() {
         btnRemove.setOnAction(e -> {
+            if (pedidoActual == null) return;
 
-            if (pedidoActual != null) {
-                // Llamamos al DAO para que sume 1 al stock y borre la fila en BD
-                boolean borrado = PedidoDAO.cancelarPedido(pedidoActual.getId());
+            boolean operacionExitosa = false;
+            DaoUsuario daoUsuario = new DaoUsuario();
+            PedidoDAO daoPedido = new PedidoDAO();
 
-                if (borrado) {
-                    System.out.println("Pedido cancelado y stock recuperado.");
+            //SI el pedido ya estaba PAGADO -> Hay que devolver el dinero y borrar
+            if ("Pagado".equalsIgnoreCase(pedidoActual.getEstado())) {
+
+                int idUsuario = SesionIniciada.getIdUsuario();
+                double precio = pelicula.getPrecio(); // O pedidoActual.getPrecioTotal() si lo tienes
+
+                // 1. Devolvemos el dinero usando el metodo de sumar saldo.
+                boolean devuelto = daoUsuario.sumarSaldo(idUsuario, precio);
+
+                if (devuelto) {
+                    // 2. Si se devolvió la plata, borramos el pedido de la BD
+                    boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
+
+                    if (eliminado) {
+                        mostrarAlerta(Alert.AlertType.INFORMATION, "Compra Cancelada",
+                                "Se ha eliminado la compra y se han devuelto " + precio + "€ a tu cuenta.");
+                        operacionExitosa = true;
+                    } else {
+                        mostrarAlertaPersonalizada("Error Crítico", "Dinero devuelto pero error al borrar el registro.");
+                    }
                 } else {
-                    System.out.println("Error al cancelar el pedido en BD.");
+                    mostrarAlertaPersonalizada("Error", "No se pudo devolver el saldo. La compra no se ha eliminado.");
+                }
+            }
+            else {
+                boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
+                if (eliminado) {
+                    System.out.println("Pedido pendiente eliminado.");
+                    operacionExitosa = true;
+                } else {
+                    mostrarAlertaPersonalizada("Error", "No se pudo eliminar el pedido de la base de datos.");
                 }
             }
 
-            if (onRemove != null) {
-                onRemove.accept(this);
-            } else {
-                if (root.getParent() instanceof javafx.scene.layout.Pane pane) {
-                    pane.getChildren().remove(root);
+            if (operacionExitosa) {
+                if (onRemove != null) {
+                    onRemove.accept(this);
+                } else {
+                    if (root.getParent() instanceof javafx.scene.layout.Pane pane) {
+                        pane.getChildren().remove(root);
+                    }
                 }
             }
         });

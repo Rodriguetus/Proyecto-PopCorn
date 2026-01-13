@@ -52,6 +52,42 @@
             String contrasena = contrasenaPasswordField.getText();
             String repetir = repetirContrasenaPasswordField.getText();
 
+            //Validación de todos los campos son obligatorios
+            if(correo.isEmpty() && contrasena.isEmpty()){
+                errorLabel.setText("Todos los campos son obligatorios");
+                return;
+            }
+
+            //Validación para Correo vacio.
+            if (correo.isEmpty()) {
+                errorLabel.setText("Rellene el campo del correo electrónico");
+                return;
+            }
+
+            //Validación para Contraseña vacia
+            if (contrasena.isEmpty()) {
+                errorLabel.setText("Rellene el campo de contraseña.");
+                return;
+            }
+
+            //Validación Longitud del Correo
+            if(correo.length()<8){
+                errorLabel.setText("El campo del correo debe tener 8 o más carácteres");
+                return;
+            }
+
+            //Comprobar que es un correo(que contenga un @)
+            if(!correo.contains("@")){
+                errorLabel.setText("El correo no es válido. Debe contener un @");
+                return;
+            }
+
+            //Validación Longitud de la Contraseña
+            if(contrasena.length()<8){
+                errorLabel.setText("La contraseña debe contener 8 o más caracteres");
+                return;
+            }
+
             //Validación si todos los campos están vacios.
             if (nombre.isEmpty() && correo.isEmpty() && contrasena.isEmpty() && repetir.isEmpty()) {
                 errorLabel.setText("Todos los campos están vacíos. Debes rellenar el formulario.");
@@ -79,6 +115,7 @@
             //Comprobar que es un correo(que contenga un @)
             if(!correo.contains("@")){
                 errorLabel.setText("El correo no es válido. Debe contener un @");
+                return;
             }
 
             //Validación para nombre Vacio
