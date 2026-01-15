@@ -266,4 +266,24 @@ ordenandolo por id de manera descendente y limitando los resultados a 1 para mos
         }
         return null; // Si devuelve null, la tarjeta se pondrá en modo default
     }
+
+    public static boolean haCompradoPelicula(String correo, int idPelicula) {
+        String sql = "SELECT COUNT(*) FROM pedido WHERE Correo = ? AND idPelicula = ?";
+
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, correo);
+            ps.setInt(2, idPelicula);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

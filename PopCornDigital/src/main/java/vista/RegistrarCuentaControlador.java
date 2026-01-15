@@ -96,7 +96,7 @@
 
             //Validación tamaño del nombre de usuario a crear
             if(!nombre.matches("^[A-Za-z0-9_]{6,15}$")) {
-                errorLabel.setText("El nombre debe tener entre 6 y 15 caracteres.");
+                errorLabel.setText("El nombre solo debe tener entre 6 y 15 caracteres o letras o _.");
                 return;
             }
 

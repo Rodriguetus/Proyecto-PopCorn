@@ -121,6 +121,8 @@ public class FavoritoControlador {
             System.out.println("Error al cargar el acceso a los pedidos.fxml");
         }
     }
+    public void irSaldo(MouseEvent mouseEvent) {
+    }
     @FXML
     private void irAlquileres(MouseEvent event) {
         try {

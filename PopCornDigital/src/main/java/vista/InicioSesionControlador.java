@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +37,7 @@ public class InicioSesionControlador implements Initializable {
             Stage stage = (Stage) correoTextField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle(tituloVentana);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("Imagenes/PopCorn.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,10 +132,12 @@ guardando el id en la sesión global y dirige al Catalogo.
             ResultSet rsUsuario = psUsuario.executeQuery();
 
             if (rsUsuario.next()) {
-                //====================
+
                 int idUsuario = rsUsuario.getInt("idUsuario");
+                String correoUsuario=rsUsuario.getString("Correo");
                 SesionIniciada.setIdUsuario(idUsuario);
-                //====================
+                SesionIniciada.setCorreo(correoUsuario);
+
                 abrirVentana("/vista/Catalogo.fxml", "Catálogo de Películas");
                 return;
             }

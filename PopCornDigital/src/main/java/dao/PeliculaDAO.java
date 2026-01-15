@@ -166,5 +166,4 @@ public class PeliculaDAO {
 
         return lista;
     }
-
 }

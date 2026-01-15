@@ -63,6 +63,7 @@ public class DetallesMovieCardControlador {
      */
 
     public void setDetallesMovieCard(pelicula movie) {
+        String correoUsuario=SesionIniciada.getCorreo();
         this.peliculaActual = movie;
 
         titleLabel.setText(movie.getNombre());
@@ -89,6 +90,14 @@ public class DetallesMovieCardControlador {
         } else {
             rentButton.setVisible(false);
             buyButton.setVisible(true);
+
+            if (PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId())) {
+                buyButton.setDisable(true);
+                buyButton.setText("En compras");
+            } else {
+                buyButton.setDisable(false);
+                buyButton.setText("Comprar");
+            }
         }
     }
 
@@ -116,22 +125,13 @@ public class DetallesMovieCardControlador {
         // 2. Guardar en memoria (Carrito)
         CarritoService.addCompra(peliculaActual);
 
-        // 3. Abrir Pedido.fxml
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Pedido.fxml"));
-            Parent root = loader.load();
+        buyButton.setDisable(true);
+        buyButton.setText("En compras");
 
-            // Opcional: Si necesitas pasar el ID del pedido recién creado a la siguiente pantalla,
-            // podrías obtener el controlador aquí y pasárselo, pero como PedidoControlador
-            // carga del CarritoService, lo dejamos así por ahora.
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Compra insertada en pedidos correctamente");
+        alert.setHeaderText("Compra insertada en pedidos");
+        alert.showAndWait();
     }
 
     @FXML

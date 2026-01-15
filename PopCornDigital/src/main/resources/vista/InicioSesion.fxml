@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -8,62 +9,89 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #D6D6D6;" stylesheets="@../css/Inicio.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #D6D6D6;" stylesheets="@../css/inicio.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.InicioSesionControlador">
 
-    <children>
+    <AnchorPane prefHeight="190.0" style="-fx-background-color: #2c3e50;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <children>
+            <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <children>
+                    <StackPane>
+                        <Circle fill="DODGERBLUE" radius="50.0" stroke="BLACK" />
+                        <ImageView fitHeight="70" fitWidth="70">
+                            <image>
+                                <Image url="@../Imagenes/PopCorn.png" />
+                            </image>
+                        </ImageView>
+                    </StackPane>
 
-        <AnchorPane prefHeight="190.0" prefWidth="700.0" style="-fx-background-color: #2c3e50;">
-            <children>
-                <Circle fill="DODGERBLUE" layoutX="364.0" layoutY="78.0" radius="50.0" stroke="BLACK" />
-                <ImageView fitHeight="70" fitWidth="70" layoutX="330.0" layoutY="43.0">
-                    <image>
-                        <Image url="@../Imagenes/PopCorn.png" />
-                    </image>
-                </ImageView>
+                    <Label text="PopCorn Digital" textFill="WHITE">
+                        <font>
+                            <Font size="23" />
+                        </font>
+                    </Label>
 
-                <Label layoutX="283.0" layoutY="129.0" text="PopCorn Digital" textFill="WHITE">
-                    <font>
-                        <Font size="23" />
-                    </font>
-                </Label>
+                    <Label text="Accede a tu cuenta" textFill="WHITE">
+                        <font>
+                            <Font size="15" />
+                        </font>
+                    </Label>
+                </children>
+                <padding>
+                    <Insets top="15.0" />
+                </padding>
+            </VBox>
+        </children>
+    </AnchorPane>
 
-                <Label layoutX="302.0" layoutY="163.0" text="Accede a tu cuenta" textFill="WHITE">
-                    <font>
-                        <Font size="15" />
-                    </font>
-                </Label>
-            </children>
-        </AnchorPane>
+    <VBox alignment="CENTER" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
+        <children>
 
-        <Label layoutX="250.0" layoutY="214.0" text="Correo Electrónico" />
-        <Label layoutX="250.0" layoutY="286.0" text="Contraseña" />
+            <VBox maxWidth="350.0" spacing="5.0">
+                <Label text="Correo Electrónico" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                        <image>
+                            <Image url="@../Imagenes/Usuario.png" />
+                        </image>
+                    </ImageView>
+                    <TextField fx:id="correoTextField" promptText="Correo Electrónico" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
 
-        <TextField fx:id="correoTextField" layoutX="243.0" layoutY="237.0" prefHeight="26" prefWidth="306" promptText="Correo Electrónico" />
+            <VBox maxWidth="350.0" spacing="5.0">
+                <Label text="Contraseña" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <ImageView fitHeight="30.0" fitWidth="30.0" preserveRatio="true">
+                        <image>
+                            <Image url="@../Imagenes/Contrasena.png.png" />
+                        </image>
+                    </ImageView>
+                    <PasswordField fx:id="contrasenaPasswordField" promptText="Contraseña" HBox.hgrow="ALWAYS" />
+                </HBox>
+            </VBox>
 
-        <!-- CAMBIADO A PasswordField -->
-        <PasswordField fx:id="contrasenaPasswordField" layoutX="243.0" layoutY="310.0" prefHeight="26" prefWidth="306" promptText="Contraseña" />
+            <Label fx:id="errormsj" textFill="red" wrapText="true" />
 
-        <Button layoutX="305" layoutY="366" onAction="#iniciarSesion" style="-fx-background-color: #4F6078;" text="Iniciar Sesión" textFill="WHITE" />
+            <Button onAction="#iniciarSesion" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #4F6078;" text="Iniciar Sesión" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="12.0" />
+                </font>
+            </Button>
 
-        <Label fx:id="errormsj" layoutX="266" layoutY="341" textFill="red" />
+            <HBox alignment="CENTER" spacing="5.0">
+                <Label text="¿No tienes cuenta?" />
+                <Hyperlink fx:id="linkRegistro" text="Regístrate aquí" />
+            </HBox>
 
-        <Label layoutX="236" layoutY="408" text="¿No tienes cuenta?" />
-        <Hyperlink fx:id="linkRegistro" layoutX="352" layoutY="405" text="Regístrate aquí" />
-
-        <ImageView fitHeight="37" fitWidth="30" layoutX="199.0" layoutY="232.0">
-            <image>
-                <Image url="@../Imagenes/Usuario.png" />
-            </image>
-        </ImageView>
-
-        <ImageView fitHeight="37" fitWidth="30" layoutX="199.0" layoutY="305.0">
-            <image>
-                <Image url="@../Imagenes/Contrasena.png.png" />
-            </image>
-        </ImageView>
-
-    </children>
+        </children>
+        <padding>
+            <Insets bottom="20.0" top="20.0" />
+        </padding>
+    </VBox>
 </AnchorPane>

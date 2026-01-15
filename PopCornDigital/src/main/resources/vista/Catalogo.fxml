@@ -3,11 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?> <?import javafx.scene.image.Image?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?> <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="506.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.CatalogoControlador">
 
@@ -18,24 +20,29 @@
                     <Image url="@../Imagenes/PopCorn.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="homeIcon" fitHeight="40" fitWidth="40" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="60.0" preserveRatio="true" style="-fx-cursor: hand;">
                 <image>
                     <Image url="@../Imagenes/lupa.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="searchIcon" fitHeight="40" fitWidth="40" onMouseClicked="#irPedido" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fx:id="searchIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irPedido" preserveRatio="true" style="-fx-cursor: hand;">
                 <image>
                     <Image url="@../Imagenes/Envio.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="favoritesIcon" fitHeight="40" fitWidth="40" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fx:id="favoritesIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;">
                 <image>
                     <Image url="@../Imagenes/estrella.png" />
                 </image>
             </ImageView>
-            <ImageView fx:id="AlquilerIcon" fitHeight="40" fitWidth="40" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
+            <ImageView fx:id="AlquilerIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
                 <image>
                     <Image url="@../Imagenes/Alquiler.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="SaldoIcon" fitHeight="42.0" fitWidth="60.0" layoutX="40.0" layoutY="312.0" onMouseClicked="#irSaldo" preserveRatio="true" style="-fx-cursor: hand;">
+                <image>
+                    <Image url="@../Imagenes/Saldo.png" />
                 </image>
             </ImageView>
             <ImageView fx:id="exitIcon" fitHeight="40" fitWidth="40" onMouseClicked="#volverLogin" preserveRatio="true" style="-fx-cursor: hand;">
@@ -55,12 +62,7 @@
                     <HBox alignment="CENTER_LEFT" spacing="15">
                         <Button fx:id="btnFiltrados" onAction="#abrirFiltrados" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Filtrados" />
 
-                        <TextField
-                                fx:id="txtBuscador"
-                                promptText="Buscador"
-                                prefWidth="300"
-                                style="-fx-font-size: 14px; -fx-padding: 8px;"
-                                onAction="#buscarPeliculas" /> <ImageView fitHeight="24" fitWidth="24" preserveRatio="true" onMouseClicked="#buscarPeliculas" style="-fx-cursor: hand;">
+                        <TextField fx:id="txtBuscador" onAction="#buscarPeliculas" prefWidth="300" promptText="Buscador" style="-fx-font-size: 14px; -fx-padding: 8px;" /> <ImageView fitHeight="24" fitWidth="24" onMouseClicked="#buscarPeliculas" preserveRatio="true" style="-fx-cursor: hand;">
                         <image>
                             <Image url="@../Imagenes/lupa.png" />
                         </image>

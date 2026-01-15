@@ -239,4 +239,7 @@ Metodo para mostrar el Alert personalizado que implementa css
             System.out.println("Error al cargar Favoritos.fxml");
         }
     }
+
+    public void irSaldo(MouseEvent mouseEvent) {
+    }
 }

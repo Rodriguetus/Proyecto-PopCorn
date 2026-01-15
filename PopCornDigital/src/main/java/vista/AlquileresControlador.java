@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.ImageView;
@@ -120,7 +121,8 @@ public class AlquileresControlador {
     private void irFavoritos() {
         cambiarVista("Favoritos.fxml", favoritesIcon);
     }
-
+    private void irSaldo(MouseEvent mouseEvent) {
+    }
     @FXML
     private void irAlquiler() {
         cambiarVista("Alquiler.fxml", AlquilerIcon);

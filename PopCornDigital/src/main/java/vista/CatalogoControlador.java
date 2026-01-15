@@ -163,6 +163,8 @@ public class CatalogoControlador {
         }
     }
 
+    public void irSaldo(MouseEvent mouseEvent) {
+    }
 
     private void abrirDetalles(pelicula movie) {
         try {
