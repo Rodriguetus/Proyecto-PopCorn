@@ -24,51 +24,75 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Controlador encargado de gestionar la vista de detalles de una película.
+ * Permite mostrar información detallada, comprar, alquilar y marcar como favorita.
+ */
 public class DetallesMovieCardControlador {
 
-    // Labels principales
+    /** Label que muestra el título de la película. */
     @FXML private Label titleLabel;
+
+    /** Label que muestra la descripción de la película. */
     @FXML private Label descriptionLabel;
 
-    // Labels de información extra
+    /** Label que muestra el año de salida. */
     @FXML private Label yearLabel;
+
+    /** Label que muestra el formato de la película. */
     @FXML private Label formatLabel;
+
+    /** Label que muestra el proveedor de la película. */
     @FXML private Label providerLabel;
+
+    /** Label que muestra el género de la película. */
     @FXML private Label genreLabel;
+
+    /** Label que muestra el stock disponible. */
     @FXML private Label stockLabel;
+
+    /** Label que muestra el precio de la película. */
     @FXML private Label priceLabel;
 
-    // Botones
+    /** Botón para marcar como favorita. */
     @FXML private Button favoriteButton;
+
+    /** ID del usuario actualmente logueado. */
     private int idUsuario = SesionIniciada.getIdUsuario();
+
+    /** Botón para comprar la película. */
     @FXML private Button buyButton;
+
+    /** Botón para alquilar la película. */
     @FXML private Button rentButton;
 
-    // Imagen del póster
+    /** Imagen del póster de la película. */
     @FXML private ImageView posterImage;
-    //==========================================
+
+    /** Objeto película actualmente mostrado en la vista. */
     private pelicula peliculaActual;
 
+    /**
+     * Establece la película actual sin actualizar la interfaz.
+     *
+     * @param peli película seleccionada
+     */
     public void setPelicula(pelicula peli) {
         this.peliculaActual = peli;
-        // aquí también puedes actualizar labels, imagen, etc.
     }
 
     /**
-     * Método para rellenar la vista de detalles con los datos de la película.
+     * Rellena la vista con los datos de la película seleccionada.
+     *
+     * @param movie película cuyos detalles se mostrarán
      */
-
     public void setDetallesMovieCard(pelicula movie) {
-        String correoUsuario=SesionIniciada.getCorreo();
+        String correoUsuario = SesionIniciada.getCorreo();
         this.peliculaActual = movie;
 
         titleLabel.setText(movie.getNombre());
         descriptionLabel.setText(movie.getDescripcion());
-
         yearLabel.setText(String.valueOf(movie.getAnoSalida()));
         formatLabel.setText(movie.getFormato());
         providerLabel.setText(movie.getProveedor());
@@ -101,20 +125,22 @@ public class DetallesMovieCardControlador {
         }
     }
 
+    /**
+     * Procesa la compra de la película actual.
+     *
+     * @param event evento de acción del botón
+     * @throws SQLException si ocurre un error al interactuar con la base de datos
+     */
     @FXML
     private void comprarPelicula(ActionEvent event) throws SQLException {
 
         if (peliculaActual == null) return;
 
         String correoUsuario = "admin@gmail.com";
-        // O: String correoUsuario = SesionIniciada.getCorreo();
 
-        // 1. Guardar pedido en la BD
         int idPedido = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "", correoUsuario);
 
-        // Si devuelve -1 significa que hubo error o falta de stock
         if (idPedido == -1) {
-            System.out.println("No hay stock suficiente o hubo un error al crear el pedido.");
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error de Stock");
             alert.setContentText("No se pudo procesar la compra. Verifique el stock.");
@@ -122,7 +148,6 @@ public class DetallesMovieCardControlador {
             return;
         }
 
-        // 2. Guardar en memoria (Carrito)
         CarritoService.addCompra(peliculaActual);
 
         buyButton.setDisable(true);
@@ -134,6 +159,11 @@ public class DetallesMovieCardControlador {
         alert.showAndWait();
     }
 
+    /**
+     * Marca la película actual como favorita para el usuario.
+     *
+     * @param event evento del botón
+     */
     @FXML
     private void marcarFavorito(ActionEvent event) {
         if (idUsuario <= 0 || peliculaActual == null || peliculaActual.getId() <= 0) {
@@ -143,10 +173,7 @@ public class DetallesMovieCardControlador {
 
         int idPelicula = peliculaActual.getId();
 
-        // 1. Consulta para VERIFICAR si ya existe
         String checkSql = "SELECT COUNT(*) FROM favoritos WHERE idUsuario = ? AND idPelicula = ?";
-
-        // 2. Consulta para INSERTAR (solo si no existe)
         String insertSql = "INSERT INTO favoritos (idUsuario, idPelicula) VALUES (?, ?)";
 
         try (Connection conn = conexion.conexionDB.getConnection();
@@ -157,19 +184,15 @@ public class DetallesMovieCardControlador {
 
             try (ResultSet rs = checkStmt.executeQuery()) {
 
-
                 if (rs.next() && rs.getInt(1) > 0) {
-
-                    //  existe
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Película Duplicada");
-                    alert.setHeaderText(null); // No usamos cabecera
+                    alert.setHeaderText(null);
                     alert.setContentText("Esta película ya está en Favoritos");
                     alert.showAndWait();
 
                 } else {
 
-                    // No existe, procedemos a INSERTAR
                     try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
 
                         insertStmt.setInt(1, idUsuario);
@@ -177,10 +200,7 @@ public class DetallesMovieCardControlador {
 
                         int filas = insertStmt.executeUpdate();
                         if (filas > 0) {
-                            System.out.println("Película marcada como favorita para el usuario con ID " + idUsuario);
                             favoriteButton.setStyle("-fx-background-color: yellow; -fx-text-fill: black; -fx-font-size: 14px; -fx-background-radius: 8;");
-                        } else {
-                            System.out.println("No se pudo insertar el favorito.");
                         }
                     }
                 }
@@ -188,7 +208,6 @@ public class DetallesMovieCardControlador {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Mostrar una alerta de error genérico si falla la BD
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error de Base de Datos");
             alert.setHeaderText("Ocurrió un error inesperado.");
@@ -197,76 +216,60 @@ public class DetallesMovieCardControlador {
         }
     }
 
+    /**
+     * Procesa el alquiler de la película actual.
+     *
+     * @param event evento del botón
+     */
     @FXML
     private void alquilarPelicula(ActionEvent event) {
 
-        // 1️Validaciones básicas
         if (idUsuario <= 0 || peliculaActual == null) {
             mostrarAlerta("Usuario o película no válidos.");
             return;
         }
 
-        // 2️Comprobar que NO esté ya alquilada por el usuario
-        if (AlquilerDAO.tieneAlquilerActivo(
-                peliculaActual.getId(),
-                idUsuario)) {
-
-            mostrarAlerta(
-                    "Ya tienes esta película alquilada."
-            );
+        if (AlquilerDAO.tieneAlquilerActivo(peliculaActual.getId(), idUsuario)) {
+            mostrarAlerta("Ya tienes esta película alquilada.");
             return;
         }
 
-        // 3️Comprobar saldo
         double precio = peliculaActual.getPrecio();
         DaoUsuario usuarioDAO = new DaoUsuario();
         double saldoActual = usuarioDAO.getSaldo(idUsuario);
 
         if (saldoActual < precio) {
-            mostrarAlerta(
-                    "Saldo insuficiente.\n" +
-                            "Te faltan " + String.format("%.2f", (precio - saldoActual)) + "€"
-            );
+            mostrarAlerta("Saldo insuficiente.\nTe faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
             return;
         }
 
-        // 4️Crear alquiler (reserva + stock)
-        int idAlquiler = AlquilerDAO.crearAlquiler(
-                peliculaActual.getId(),
-                1,
-                idUsuario
-        );
+        int idAlquiler = AlquilerDAO.crearAlquiler(peliculaActual.getId(), 1, idUsuario);
 
         if (idAlquiler == -1) {
             mostrarAlerta("No hay stock suficiente para alquilar esta película.");
             return;
         }
 
-        // 55Restar saldo (PAGO)
         boolean saldoActualizado = usuarioDAO.restarSaldo(idUsuario, precio);
         if (!saldoActualizado) {
-            mostrarAlerta(
-                    "Error al procesar el pago.\n" +
-                            "Inténtalo de nuevo."
-            );
+            mostrarAlerta("Error al procesar el pago.\nInténtalo de nuevo.");
             return;
         }
 
-        // 6️Marcar alquiler/pedido como PAGADO
         PedidoDAO pedidoDAO = new PedidoDAO();
         pedidoDAO.actualizarEstado(idAlquiler, "Pagado");
 
-        // 7️Feedback + UI
         rentButton.setDisable(true);
 
-        mostrarAlerta(
-                "Alquiler realizado correctamente.\n" +
-                        "Duración: 7 días.\n" +
-                        "Nuevo saldo: " +
-                        String.format("%.2f", (saldoActual - precio)) + "€"
-        );
+        mostrarAlerta("Alquiler realizado correctamente.\nDuración: 7 días.\nNuevo saldo: " +
+                String.format("%.2f", (saldoActual - precio)) + "€");
     }
 
+    /**
+     * Muestra una alerta informativa con el mensaje indicado.
+     *
+     * @param msg mensaje a mostrar
+     */
     private void mostrarAlerta(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);

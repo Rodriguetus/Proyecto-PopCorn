@@ -53,7 +53,7 @@ public class PedidoControlador {
                 CompraControlador ctrl = loader.getController();
 
                 // 1. Buscamos el pedido real en la BD
-                dto.pedido pedidoReal = pedidoDAO.buscarUltimoPedido(p.getId(), correoUsuario);
+                pedido pedidoReal = pedidoDAO.buscarUltimoPedido(p.getId(), correoUsuario);
 
                 // 2. Se lo pasamos a la tarjeta (Si es null, la tarjeta se mostrará pero no dejará pagar)
                 ctrl.setDatosPelicula(p, pedidoReal);
@@ -118,7 +118,7 @@ Metodo para mostrar el Alert personalizado que implementa css
 
                 // 2. CREAMOS EL OBJETO PEDIDO con los datos recién generados
                 // Esto sirve para que la tarjeta tenga ID y sepa que está "Pendiente"
-                dto.pedido nuevoPedido = new dto.pedido();
+                pedido nuevoPedido = new pedido();
                 nuevoPedido.setId(idPedido);
                 nuevoPedido.setEstado("Pendiente");
                 nuevoPedido.setfCompra(new java.util.Date()); // Fecha hoy

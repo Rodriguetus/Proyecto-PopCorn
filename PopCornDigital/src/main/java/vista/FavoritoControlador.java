@@ -19,37 +19,63 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Controlador encargado de gestionar la vista de películas favoritas del usuario.
+ * Carga las películas marcadas como favoritas y permite navegar entre distintas vistas.
+ */
 public class FavoritoControlador {
 
-    // Iconos de navegación lateral
+    // ---------------- ICONOS DE NAVEGACIÓN ----------------
+
+    /** Icono del logo principal. */
     @FXML private ImageView logoImage;
+
+    /** Icono para volver al inicio. */
     @FXML private ImageView homeIcon;
+
+    /** Icono para ir al buscador. */
     @FXML private ImageView searchIcon;
+
+    /** Icono para acceder a favoritos. */
     @FXML private ImageView favoritesIcon;
+
+    /** Icono para acceder a configuración. */
     @FXML private ImageView settingsIcon;
 
-    // Contenedor principal
+    // ---------------- CONTENEDORES PRINCIPALES ----------------
+
+    /** Scroll principal del catálogo. */
     @FXML private ScrollPane catalogScroll;
+
+    /** Contenedor vertical del catálogo. */
     @FXML private VBox catalogContainer;
 
-    // Secciones de películas
+    // ---------------- SECCIONES DE PELÍCULAS ----------------
+
+    /** Contenedor de películas populares. */
     @FXML private FlowPane popularMoviesPane;
+
+    /** Contenedor de películas nuevas. */
     @FXML private FlowPane newMoviesPane;
+
+    /** Contenedor de películas recomendadas. */
     @FXML private FlowPane recommendedMoviesPane;
 
-    /**
-     * Se ejecuta al cargar la vista. Crea las cartas de películas favoritas.
-     */
-    @FXML private FlowPane favoritosPane; // contenedor en Favoritos.fxml donde se mostrarán las cartas
+    /** Contenedor donde se mostrarán las películas favoritas del usuario. */
+    @FXML private FlowPane favoritosPane;
 
+    /**
+     * Método que se ejecuta automáticamente al cargar la vista.
+     * Llama al método encargado de cargar las películas favoritas del usuario.
+     */
     @FXML
     public void initialize() {
         cargarFavoritosUsuario();
     }
 
     /**
-     * Consulta la tabla favoritos según el idUsuario de SesionIniciada
-     * y crea las cartas llamando al método CrearMovieFav de MoviesFavoritasControlador.
+     * Consulta la base de datos para obtener las películas favoritas del usuario actual.
+     * Por cada película encontrada, carga su tarjeta visual y la añade al contenedor correspondiente.
      */
     private void cargarFavoritosUsuario() {
         int idUsuario = SesionIniciada.getIdUsuario();
@@ -74,14 +100,13 @@ public class FavoritoControlador {
                 peli.setPrecio(rs.getDouble("precio"));
                 peli.setImagen(rs.getString("imagen"));
 
-                //Cargar la carta de favoritos y pasarle la película
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/MoviesFavoritas.fxml"));
                 Parent card = loader.load();
 
                 MoviesFavoritasControlador controlador = loader.getController();
                 controlador.CrearMovieFav(peli);
 
-                favoritosPane.getChildren().add(card); // añadir la carta al FlowPane
+                favoritosPane.getChildren().add(card);
             }
 
         } catch (Exception e) {
@@ -90,7 +115,11 @@ public class FavoritoControlador {
         }
     }
 
-
+    /**
+     * Navega a la vista de inicio de sesión.
+     *
+     * @param event evento de clic del usuario
+     */
     @FXML
     private void volverLogin(MouseEvent event) {
         try {
@@ -106,7 +135,11 @@ public class FavoritoControlador {
         }
     }
 
-    //Funcion del boton de pedidos
+    /**
+     * Navega a la vista de pedidos del usuario.
+     *
+     * @param event evento de clic del usuario
+     */
     @FXML
     private void irPedido(MouseEvent event) {
         try {
@@ -121,8 +154,20 @@ public class FavoritoControlador {
             System.out.println("Error al cargar el acceso a los pedidos.fxml");
         }
     }
+
+    /**
+     * Método reservado para futura implementación de la vista de saldo.
+     *
+     * @param mouseEvent evento de clic del usuario
+     */
     public void irSaldo(MouseEvent mouseEvent) {
     }
+
+    /**
+     * Navega a la vista de alquileres del usuario.
+     *
+     * @param event evento de clic del usuario
+     */
     @FXML
     private void irAlquileres(MouseEvent event) {
         try {
@@ -138,6 +183,11 @@ public class FavoritoControlador {
         }
     }
 
+    /**
+     * Regresa al catálogo principal de películas.
+     *
+     * @param event evento de clic del usuario
+     */
     @FXML
     private void volverCatalogo(MouseEvent event) {
         try {
@@ -152,6 +202,5 @@ public class FavoritoControlador {
             System.out.println("Error al cargar Catalogo.fxml");
         }
     }
-
 
 }

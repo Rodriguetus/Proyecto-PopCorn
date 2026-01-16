@@ -242,16 +242,16 @@ ordenandolo por id de manera descendente y limitando los resultados a 1 para mos
     public pedido buscarUltimoPedido(int idPelicula, String correo) {
         String sql = "SELECT * FROM pedido WHERE idPelicula = ? AND Correo = ? ORDER BY idPedido DESC LIMIT 1";
 
-        try (java.sql.Connection conn = conexion.conexionDB.getConnection();
-             java.sql.PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idPelicula);
             stmt.setString(2, correo);
 
-            java.sql.ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                dto.pedido p = new dto.pedido();
+                pedido p = new pedido();
                 p.setId(rs.getInt("idPedido"));
                 p.setEstado(rs.getString("Estado")); // Aquí vendrá "Pagado" si ya pagaste
                 p.setfCompra(rs.getDate("FechaCompra"));
@@ -261,7 +261,7 @@ ordenandolo por id de manera descendente y limitando los resultados a 1 para mos
                 p.setCorreo(rs.getString("Correo"));
                 return p;
             }
-        } catch (java.sql.SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null; // Si devuelve null, la tarjeta se pondrá en modo default

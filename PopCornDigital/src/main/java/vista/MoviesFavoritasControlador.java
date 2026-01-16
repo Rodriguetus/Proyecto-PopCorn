@@ -19,20 +19,50 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 
+/**
+ * Controlador encargado de gestionar la visualización de una película dentro de la sección de favoritos.
+ * Permite mostrar los datos de la película y eliminarla de la lista de favoritos del usuario.
+ */
 public class MoviesFavoritasControlador {
 
+    /** Imagen del póster de la película. */
     @FXML private ImageView posterImage;
+
+    /** Label que muestra el nombre de la película. */
     @FXML private Label nombreLabel;
+
+    /** Label que muestra el precio de la película. */
     @FXML private Label precioLabel;
+
+    /** Label que muestra el stock disponible. */
     @FXML private Label stockLabel;
+
+    /** Label que muestra el año de salida de la película. */
     @FXML private Label anoLabel;
+
+    /** Label que muestra el formato de la película. */
     @FXML private Label formatoLabel;
+
+    /** Label que muestra el proveedor de la película. */
     @FXML private Label proveedorLabel;
+
+    /** Label que muestra el género de la película. */
     @FXML private Label generoLabel;
+
+    /** Label que muestra la descripción de la película. */
     @FXML private Label descripcionLabel;
+
+    /** Botón para eliminar la película de favoritos. */
     @FXML private Button btnEliminarFavorito;
+
+    /** Objeto película asociado a esta tarjeta. */
     private pelicula peli;
 
+    /**
+     * Rellena la tarjeta con los datos de la película proporcionada.
+     *
+     * @param peli objeto {@link pelicula} que contiene los datos a mostrar
+     */
     public void CrearMovieFav(pelicula peli) {
         this.peli = peli;
 
@@ -54,6 +84,12 @@ public class MoviesFavoritasControlador {
             }
         }
     }
+
+    /**
+     * Elimina la película actual de la lista de favoritos del usuario.
+     * Muestra un cuadro de confirmación antes de proceder.
+     * Si la eliminación es exitosa, recarga la vista de favoritos.
+     */
     @FXML
     private void eliminarDeFavoritos() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -64,6 +100,7 @@ public class MoviesFavoritasControlador {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
+
             int idUsuario = SesionIniciada.getIdUsuario();
             int idPelicula = peli.getId();
 
@@ -76,14 +113,13 @@ public class MoviesFavoritasControlador {
                 stmt.setInt(2, idPelicula);
 
                 int filas = stmt.executeUpdate();
+
                 if (filas > 0) {
                     System.out.println("Película eliminada de favoritos: " + peli.getNombre());
 
-                    // Recargar la escena Favoritos.fxml para actualizar la vista
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Favoritos.fxml"));
                     Parent root = loader.load();
 
-                    // Usa un componente de la vista (como posterImage) para obtener la Stage
                     Stage stage = (Stage) posterImage.getScene().getWindow();
                     stage.setScene(new Scene(root));
                     stage.show();
@@ -93,10 +129,9 @@ public class MoviesFavoritasControlador {
                 e.printStackTrace();
                 System.err.println("Error al eliminar la película de favoritos.");
             }
+
         } else {
-            // El usuario presionó "No" (CANCEL) o cerró el diálogo.
             System.out.println("Eliminación cancelada por el usuario.");
-            // Se cierra sin hacer nada, como lo solicitaste.
         }
     }
 
