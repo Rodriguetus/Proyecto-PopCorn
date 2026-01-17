@@ -14,7 +14,6 @@
     import javafx.scene.control.PasswordField;
     import javafx.scene.control.TextField;
     import javafx.stage.Stage;
-    import javafx.scene.control.Alert;
 
     import java.net.URL;
     import java.util.ResourceBundle;
@@ -56,21 +55,6 @@
             //Validación de todos los campos son obligatorios
             if(correo.isEmpty() && contrasena.isEmpty()){
                 errorLabel.setText("Todos los campos son obligatorios");
-                return;
-            }
-
-            //Validación correo ya en uso.
-            DaoUsuario daoValidacion = new DaoUsuario();
-            DaoAdministrador daoAdminValidacion = new DaoAdministrador();
-
-            if (daoValidacion.existeCorreo(correo) || daoAdminValidacion.existeCorreo(correo)) {
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de Registro");
-                alert.setHeaderText(null);
-                alert.setContentText("El correo introducido ya está registrado en nuestra base de datos.");
-                alert.showAndWait();
-
                 return;
             }
 

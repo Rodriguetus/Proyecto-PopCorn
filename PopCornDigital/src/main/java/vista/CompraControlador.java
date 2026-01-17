@@ -14,8 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import java.util.Optional;
-import javafx.scene.control.ButtonType;
 
 import java.util.function.Consumer;
 
@@ -46,63 +44,50 @@ Inicializa los componentes cargando la vista.
         btnRemove.setOnAction(e -> {
             if (pedidoActual == null) return;
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmar Cancelación");
-            alert.setHeaderText(null);
-            alert.setContentText("¿Estás seguro de que deseas cancelar esta compra? Esta acción no se puede deshacer.");
-            try {
-                DialogPane dialogPane = alert.getDialogPane();
-                dialogPane.getStylesheets().add(getClass().getResource("/css/Alerta.css").toExternalForm());
-                dialogPane.getStyleClass().add("alerta-popcorn");
-            } catch (Exception ex) {
-            }
+            boolean operacionExitosa = false;
+            DaoUsuario daoUsuario = new DaoUsuario();
+            PedidoDAO daoPedido = new PedidoDAO();
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                boolean operacionExitosa = false;
-                DaoUsuario daoUsuario = new DaoUsuario();
-                PedidoDAO daoPedido = new PedidoDAO();
+            //SI el pedido ya estaba PAGADO -> Hay que devolver el dinero y borrar
+            if ("Pagado".equalsIgnoreCase(pedidoActual.getEstado())) {
 
-                //SI el pedido ya estaba PAGADO -> Hay que devolver el dinero y borrar
-                if ("Pagado".equalsIgnoreCase(pedidoActual.getEstado())) {
+                int idUsuario = SesionIniciada.getIdUsuario();
+                double precio = pelicula.getPrecio(); // O pedidoActual.getPrecioTotal() si lo tienes
 
-                    int idUsuario = SesionIniciada.getIdUsuario();
-                    double precio = pelicula.getPrecio();
+                // 1. Devolvemos el dinero usando el metodo de sumar saldo.
+                boolean devuelto = daoUsuario.sumarSaldo(idUsuario, precio);
 
-                    // 1. Devolvemos el dinero usando el metodo de sumar saldo.
-                    boolean devuelto = daoUsuario.sumarSaldo(idUsuario, precio);
-
-                    if (devuelto) {
-                        // 2. Si se devolvió la plata, borramos el pedido de la BD
-                        boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
-
-                        if (eliminado) {
-                            mostrarAlerta(Alert.AlertType.INFORMATION, "Compra Cancelada",
-                                    "Se ha eliminado la compra y se han devuelto " + precio + "€ a tu cuenta.");
-                            operacionExitosa = true;
-                        } else {
-                            mostrarAlertaPersonalizada("Error Crítico", "Dinero devuelto pero error al borrar el registro.");
-                        }
-                    } else {
-                        mostrarAlertaPersonalizada("Error", "No se pudo devolver el saldo. La compra no se ha eliminado.");
-                    }
-                } else {
+                if (devuelto) {
+                    // 2. Si se devolvió la plata, borramos el pedido de la BD
                     boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
+
                     if (eliminado) {
-                        System.out.println("Pedido pendiente eliminado.");
+                        mostrarAlerta(Alert.AlertType.INFORMATION, "Compra Cancelada",
+                                "Se ha eliminado la compra y se han devuelto " + precio + "€ a tu cuenta.");
                         operacionExitosa = true;
                     } else {
-                        mostrarAlertaPersonalizada("Error", "No se pudo eliminar el pedido de la base de datos.");
+                        mostrarAlertaPersonalizada("Error Crítico", "Dinero devuelto pero error al borrar el registro.");
                     }
+                } else {
+                    mostrarAlertaPersonalizada("Error", "No se pudo devolver el saldo. La compra no se ha eliminado.");
                 }
+            }
+            else {
+                boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
+                if (eliminado) {
+                    System.out.println("Pedido pendiente eliminado.");
+                    operacionExitosa = true;
+                } else {
+                    mostrarAlertaPersonalizada("Error", "No se pudo eliminar el pedido de la base de datos.");
+                }
+            }
 
-                if (operacionExitosa) {
-                    if (onRemove != null) {
-                        onRemove.accept(this);
-                    } else {
-                        if (root.getParent() instanceof javafx.scene.layout.Pane pane) {
-                            pane.getChildren().remove(root);
-                        }
+            if (operacionExitosa) {
+                if (onRemove != null) {
+                    onRemove.accept(this);
+                } else {
+                    if (root.getParent() instanceof javafx.scene.layout.Pane pane) {
+                        pane.getChildren().remove(root);
                     }
                 }
             }
@@ -120,18 +105,17 @@ etiqueta de esta misma.
         proveedorLabel.setText("Proveedor: " + pelicula.getProveedor());
         cantidadLabel.setText("Cantidad: 1 unidad");
 
-        if (pedido == null || "Pendiente".equalsIgnoreCase(pedido.getEstado())) {
-
-            compraIdLabel.setText("Pendiente de procesar");
-            fechaCompraLabel.setText("--/--/----");
-            fechaEsperadaLabel.setText("--/--/----");
-            actualizarEstadoVisual("Pendiente");
-
-        } else {
+        if (pedido != null) {
             compraIdLabel.setText("Compra #" + pedido.getId());
             fechaCompraLabel.setText("Compra: " + pedido.getfCompra());
             fechaEsperadaLabel.setText("Entrega: " + pedido.getfLlegada());
             actualizarEstadoVisual(pedido.getEstado());
+        } else {
+            // Valores por defecto si aún no hay pedido (ej. vista carrito)
+            compraIdLabel.setText("Pendiente de procesar");
+            fechaCompraLabel.setText("--/--/----");
+            fechaEsperadaLabel.setText("--/--/----");
+            actualizarEstadoVisual("Pendiente");
         }
 
         if (pelicula.getImagen() != null && !pelicula.getImagen().isEmpty()) {
@@ -164,7 +148,7 @@ reduciendo su saldo y actualizando el estadod del pedido de pendiente a pagado e
  */
     @FXML
     private void confirmarCompra(ActionEvent event) {
-
+        // Si no hay pedido real cargado, no hacemos nada
         if (pedidoActual == null || "Pagado".equals(pedidoActual.getEstado())) {
 
             mostrarAlertaPersonalizada("Aviso", "No se puede procesar el pago de este elemento aún.");
@@ -182,15 +166,6 @@ reduciendo su saldo y actualizando el estadod del pedido de pendiente a pagado e
             if (exito) {
                 PedidoDAO pedidoDAO = new PedidoDAO();
                 pedidoDAO.actualizarEstado(pedidoActual.getId(), "Pagado");
-
-                pedido pedidoRenovado = pedidoDAO.obtenerPorId(pedidoActual.getId());
-                if (pedidoRenovado != null) {
-                    this.pedidoActual = pedidoRenovado;
-                    setDatosPelicula(this.pelicula, this.pedidoActual);
-                } else {
-                    pedidoActual.setEstado("Pagado");
-                    actualizarEstadoVisual("Pagado");
-                }
 
                 pedidoActual.setEstado("Pagado");
                 actualizarEstadoVisual("Pagado");

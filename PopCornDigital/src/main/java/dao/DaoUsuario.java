@@ -103,22 +103,6 @@ public class  DaoUsuario {
         }
     }
 
-    //Metodo para comprobar si ya existe el correo en la base de datos
-    public boolean existeCorreo(String correo) {
-        String sql = "SELECT count(*) FROM usuario WHERE correo = ?";
-        try (java.sql.Connection con = conexionDB.getConnection();
-             java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, correo);
-            java.sql.ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                // Si devuelve > 0, es que existe
-                return rs.getInt(1) > 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
