@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #F4F6F7;" stylesheets="@../css/pedido.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.SaldoControlador">
+    <children>
+        <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="25.0" style="-fx-background-color: #2c3e50; -fx-padding: 20 0 20 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ImageView fitHeight="70.0" fitWidth="70.0" preserveRatio="true">
+                    <image> <Image url="@../Imagenes/PopCorn.png" /> </image>
+                    <VBox.margin> <Insets bottom="20.0" /> </VBox.margin>
+                </ImageView>
+
+                <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#irCatalogo" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image> <Image url="@../Imagenes/lupa.png" /> </image>
+                </ImageView>
+
+                <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#irPedido" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image> <Image url="@../Imagenes/Envio.png" /> </image>
+                </ImageView>
+
+                <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image> <Image url="@../Imagenes/estrella.png" /> </image>
+                </ImageView>
+
+                <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image> <Image url="@../Imagenes/Alquiler.png" /> </image>
+                </ImageView>
+
+                <ImageView fitHeight="34.0" fitWidth="55.0" preserveRatio="true" style="-fx-cursor: hand; -fx-opacity: 0.5;">
+                    <image> <Image url="@../Imagenes/Saldo.png" /> </image>
+                </ImageView>
+
+                <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#volverLogin" preserveRatio="true" style="-fx-cursor: hand;">
+                    <image> <Image url="@../Imagenes/exit.png" /> </image>
+                    <VBox.margin> <Insets top="20.0" /> </VBox.margin>
+                </ImageView>
+            </children>
+        </VBox>
+
+        <VBox alignment="CENTER" layoutX="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label text="Mi Cartera Digital" textFill="#2c3e50">
+                    <font> <Font name="System Bold" size="36.0" /> </font>
+                </Label>
+
+                <VBox alignment="CENTER" maxWidth="500.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-padding: 30;">
+                    <children>
+                        <HBox alignment="CENTER" spacing="10.0">
+                            <children>
+                                <Label text="Usuario:" textFill="#7f8c8d">
+                                    <font> <Font size="18.0" /> </font>
+                                </Label>
+                                <Label fx:id="labelCorreo" text="usuario@email.com" textFill="#2c3e50">
+                                    <font> <Font name="System Bold" size="18.0" /> </font>
+                                </Label>
+                            </children>
+                        </HBox>
+
+                        <Label text="Saldo Disponible" textFill="#7f8c8d">
+                            <font> <Font size="16.0" /> </font>
+                        </Label>
+
+                        <Label fx:id="labelSaldo" text="0.00 €" textFill="#27ae60">
+                            <font> <Font name="System Bold" size="48.0" /> </font>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <Button fx:id="btnIncorporarSaldo" mnemonicParsing="false" onAction="#incorporarSaldo" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30 10 30; -fx-cursor: hand; -fx-background-radius: 5;" text="Incorporar Saldo">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

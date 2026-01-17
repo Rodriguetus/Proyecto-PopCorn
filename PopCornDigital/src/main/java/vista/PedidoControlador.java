@@ -32,7 +32,8 @@ public class PedidoControlador {
     private final PedidoDAO pedidoDAO = new PedidoDAO();
 
 
-    public PedidoControlador() {}
+    public PedidoControlador() {
+    }
 
     @FXML
     public void initialize() {
@@ -75,9 +76,9 @@ public class PedidoControlador {
         addPurchase(p, 1, "");
     }
 
-/*
-Metodo para mostrar el Alert personalizado que implementa css
- */
+    /*
+    Metodo para mostrar el Alert personalizado que implementa css
+     */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);
@@ -105,7 +106,6 @@ Metodo para mostrar el Alert personalizado que implementa css
 
         dbExecutor.submit(() -> {
             try {
-                // 1. CAMBIO: Ahora recibimos un int (idPedido)
                 int idPedido = PedidoDAO.createPedidoAndReduceStock(p.getId(), quantity, direccion, correoUsuario);
 
                 // Si devuelve -1 es que falló
@@ -116,12 +116,10 @@ Metodo para mostrar el Alert personalizado que implementa css
                     return;
                 }
 
-                // 2. CREAMOS EL OBJETO PEDIDO con los datos recién generados
-                // Esto sirve para que la tarjeta tenga ID y sepa que está "Pendiente"
                 pedido nuevoPedido = new pedido();
                 nuevoPedido.setId(idPedido);
                 nuevoPedido.setEstado("Pendiente");
-                nuevoPedido.setfCompra(new java.util.Date()); // Fecha hoy
+                nuevoPedido.setfCompra(new java.util.Date());
                 nuevoPedido.setfLlegada(new java.util.Date(System.currentTimeMillis() + 7L * 24 * 3600 * 1000)); // Fecha +7 dias
 
                 CarritoService.addCompra(p);
@@ -240,6 +238,19 @@ Metodo para mostrar el Alert personalizado que implementa css
         }
     }
 
-    public void irSaldo(MouseEvent mouseEvent) {
+    @FXML
+    public void irSaldo(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Saldo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mi Cartera - PopCorn");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Saldo.fxml");
+        }
     }
 }

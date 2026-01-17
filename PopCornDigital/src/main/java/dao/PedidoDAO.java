@@ -286,4 +286,30 @@ ordenandolo por id de manera descendente y limitando los resultados a 1 para mos
         }
         return false;
     }
+
+    public pedido obtenerPorId(int idPedido) {
+        String sql = "SELECT * FROM pedido WHERE idPedido = ?";
+
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedido);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new pedido(
+                        rs.getInt("idPedido"),
+                        rs.getString("Estado"),
+                        rs.getDate("FechaCompra"),
+                        rs.getDate("FechaLlegada"),
+                        rs.getInt("idPelicula"),
+                        rs.getString("Direccion"),
+                        rs.getString("Correo")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
