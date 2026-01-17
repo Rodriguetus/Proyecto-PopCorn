@@ -1,5 +1,6 @@
 package vista;
 
+import conexion.conexionDB;
 import dto.SesionIniciada;
 import dto.pelicula;
 import javafx.fxml.FXML;
@@ -88,7 +89,7 @@ public class FavoritoControlador {
         int idUsuario = SesionIniciada.getIdUsuario();
         String sql = "SELECT p.* FROM favoritos f JOIN pelicula p ON f.idPelicula = p.idPelicula WHERE f.idUsuario = ?";
 
-        try (Connection conn = conexion.conexionDB.getConnection();
+        try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idUsuario);
@@ -204,9 +205,21 @@ public class FavoritoControlador {
     /**
      * Método reservado para futura implementación de la vista de saldo.
      *
-     * @param mouseEvent evento de clic del usuario
+     * @param event evento de clic del usuario
      */
-    public void irSaldo(MouseEvent mouseEvent) {
+    public void irSaldo(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Saldo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mi Cartera - PopCorn");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Saldo.fxml");
+        }
     }
 
     /**

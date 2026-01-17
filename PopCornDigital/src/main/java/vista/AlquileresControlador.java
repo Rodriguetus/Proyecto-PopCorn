@@ -28,6 +28,7 @@ public class AlquileresControlador {
     @FXML private ImageView searchIcon;
     @FXML private ImageView favoritesIcon;
     @FXML private ImageView AlquilerIcon;
+    @FXML private ImageView SaldoIcon;
     @FXML private ImageView settingsIcon;
 
     @FXML private ScrollPane catalogScroll;
@@ -121,7 +122,9 @@ public class AlquileresControlador {
     private void irFavoritos() {
         cambiarVista("Favoritos.fxml", favoritesIcon);
     }
+    @FXML
     private void irSaldo(MouseEvent mouseEvent) {
+        cambiarVista("Saldo.fxml", SaldoIcon);
     }
     @FXML
     private void irAlquiler() {
@@ -132,6 +135,7 @@ public class AlquileresControlador {
     private void CerrarSesion() {
         cambiarVista("InicioSesion.fxml", settingsIcon);
     }
+
 
     private void cambiarVista(String fxml, ImageView origen) {
         try {

@@ -37,7 +37,7 @@ public class InicioSesionControlador implements Initializable {
             Stage stage = (Stage) correoTextField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle(tituloVentana);
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("Imagenes/PopCorn.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/Imagenes/PopCorn.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

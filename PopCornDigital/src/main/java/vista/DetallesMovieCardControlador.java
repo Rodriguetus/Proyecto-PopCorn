@@ -115,7 +115,20 @@ public class DetallesMovieCardControlador {
             rentButton.setVisible(false);
             buyButton.setVisible(true);
 
-            if (PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId())) {
+            // 1. Verificamos si está en la Base de Datos
+            boolean compradaEnBD = PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId());
+
+            // 2. Verificamos si está en el Carrito local (sesión actual)
+            boolean enCarrito = false;
+            for (pelicula p : CarritoService.getCarrito()) {
+                if (p.getId() == movie.getId()) {
+                    enCarrito = true;
+                    break;
+                }
+            }
+
+            // Si se cumple CUALQUIERA de las dos, deshabilitamos el botón
+            if (compradaEnBD || enCarrito) {
                 buyButton.setDisable(true);
                 buyButton.setText("En compras");
             } else {
@@ -136,7 +149,7 @@ public class DetallesMovieCardControlador {
 
         if (peliculaActual == null) return;
 
-        String correoUsuario = "admin@gmail.com";
+        String correoUsuario = SesionIniciada.getCorreo();
 
         int idPedido = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "", correoUsuario);
 
