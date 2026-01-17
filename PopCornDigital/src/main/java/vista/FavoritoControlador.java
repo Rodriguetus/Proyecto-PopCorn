@@ -77,6 +77,13 @@ public class FavoritoControlador {
      * Consulta la base de datos para obtener las películas favoritas del usuario actual.
      * Por cada película encontrada, carga su tarjeta visual y la añade al contenedor correspondiente.
      */
+    /**
+     * Carga las películas favoritas del usuario desde la base de datos,
+     * genera una card por cada película y la agrega al panel correspondiente.
+     *
+     * Cada card incluye un evento de clic que abre la vista DetallesPelicula
+     * en una ventana nueva sin cerrar ni reemplazar la ventana actual.
+     */
     private void cargarFavoritosUsuario() {
         int idUsuario = SesionIniciada.getIdUsuario();
         String sql = "SELECT p.* FROM favoritos f JOIN pelicula p ON f.idPelicula = p.idPelicula WHERE f.idUsuario = ?";
@@ -88,6 +95,10 @@ public class FavoritoControlador {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+
+                // ------------------------------
+                // 1. Crear objeto película
+                // ------------------------------
                 pelicula peli = new pelicula();
                 peli.setId(rs.getInt("idPelicula"));
                 peli.setNombre(rs.getString("nombre"));
@@ -100,12 +111,46 @@ public class FavoritoControlador {
                 peli.setPrecio(rs.getDouble("precio"));
                 peli.setImagen(rs.getString("imagen"));
 
+                // ------------------------------
+                // 2. Cargar la card FXML
+                // ------------------------------
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/MoviesFavoritas.fxml"));
                 Parent card = loader.load();
 
                 MoviesFavoritasControlador controlador = loader.getController();
                 controlador.CrearMovieFav(peli);
 
+                // ------------------------------
+                // 3. Evento de clic: abrir detalles en ventana nueva
+                // ------------------------------
+                card.setOnMouseClicked(event -> {
+                    try {
+                        /**
+                         * Al hacer clic en la card:
+                         * - Se carga la vista DetallesPelicula.fxml
+                         * - Se pasa la película seleccionada al controlador
+                         * - Se abre una nueva ventana independiente
+                         */
+                        FXMLLoader detalleLoader = new FXMLLoader(getClass().getResource("/vista/DetallesMovieCard.fxml"));
+                        Parent detalleRoot = detalleLoader.load();
+
+                        DetallesMovieCardControlador detalleController = detalleLoader.getController();
+                        detalleController.setDetallesMovieCard(peli);
+
+                        // Crear nueva ventana
+                        Stage nuevaVentana = new Stage();
+                        nuevaVentana.setTitle("Detalles de " + peli.getNombre());
+                        nuevaVentana.setScene(new Scene(detalleRoot));
+                        nuevaVentana.show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                // ------------------------------
+                // 4. Agregar card al panel
+                // ------------------------------
                 favoritosPane.getChildren().add(card);
             }
 
@@ -114,6 +159,7 @@ public class FavoritoControlador {
             System.out.println("Error al cargar películas favoritas.");
         }
     }
+
 
     /**
      * Navega a la vista de inicio de sesión.
