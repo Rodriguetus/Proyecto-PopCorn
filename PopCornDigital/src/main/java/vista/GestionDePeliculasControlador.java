@@ -102,8 +102,6 @@ public class GestionDePeliculasControlador {
     /** DAO para la gestión de películas */
     private PeliculaDAO peliculaDAO;
 
-    private static final String IMAGEN_POR_DEFECTO = "imagenes/default.jpg";
-
     /**
      * Inicializa el controlador y configura los componentes de la vista.
      *
