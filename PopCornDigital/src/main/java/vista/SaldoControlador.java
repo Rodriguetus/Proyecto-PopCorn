@@ -18,6 +18,10 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador encargado de la vista del saldo pudiendo tanto realizar una vista del saldo
+ * que posee el usuario como el poder ingresar más saldo dentro de la cuenta.
+ */
 public class SaldoControlador implements Initializable {
 
     @FXML private Label labelCorreo;
@@ -30,6 +34,9 @@ public class SaldoControlador implements Initializable {
         cargarDatosUsuario();
     }
 
+    /**
+     * Obtiene el correo electrónico del usuario mediante los getters de SesionIniciada para mostrarlos en la vista.
+     */
     private void cargarDatosUsuario() {
         // Obtenemos datos de la sesión
         String correo = SesionIniciada.getCorreo();
@@ -41,6 +48,14 @@ public class SaldoControlador implements Initializable {
         labelSaldo.setText(String.format("%.2f €", saldoActual));
     }
 
+    /**
+     * Abre un diálogo de entrada para que el usuario ingrese el saldo a su cuenta
+     *
+     * El metodo incorporarSaldo gestiona la validación de que sea una cantidad tanto numérica como positiva
+     * y la actualiza de manera persistente en la base de datos.
+     *
+     * @param event El evento disparado con el botón al que se le ha hecho click.
+     */
     @FXML
     private void incorporarSaldo(ActionEvent event) {
         TextInputDialog dialog = new TextInputDialog();
@@ -76,6 +91,13 @@ public class SaldoControlador implements Initializable {
         });
     }
 
+    /**
+     * Muestra una alerta informativa
+     *
+     * @param tipo El tipo de alerta
+     * @param titulo El titulo de la ventana
+     * @param contenido El contenido del mensaje informativo
+     */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -84,6 +106,12 @@ public class SaldoControlador implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Muestra una alerta personalizada con css
+     *
+     * @param titulo Titulo de la ventana
+     * @param contenido Información principal del alert
+     */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -98,6 +126,8 @@ public class SaldoControlador implements Initializable {
         }
         alert.showAndWait();
     }
+
+    //Metodos de navegación hacia las otras vistas.
 
     @FXML
     private void irCatalogo(MouseEvent event) { navegar(event, "/vista/Catalogo.fxml", "Catálogo"); }
