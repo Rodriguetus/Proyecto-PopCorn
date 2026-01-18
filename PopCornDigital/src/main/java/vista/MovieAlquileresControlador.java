@@ -74,9 +74,6 @@ public class MovieAlquileresControlador {
     /** Alquiler actual de la película */
     private alquiler alquilerActual;
 
-    private pelicula pelicula;
-    private alquiler alquilerActual;
-
     /**
      * Inicializa el controlador y la vista asociada.
      *

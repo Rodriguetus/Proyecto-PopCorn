@@ -77,7 +77,6 @@ public class GestionDePedidosControlador {
     /** Objeto DAO para el acceso a los datos de pedidos */
     private PedidoDAO pedidoDAO;
 
-    private PedidoDAO pedidoDAO;
     /**
      * Inicializa el controlador y configura los componentes de la vista.
      *
