@@ -1,89 +1,247 @@
 package vista;
 
-import conexion.conexionDB;
+import dao.AlquilerDAO;
+import dao.DaoUsuario;
 import dto.SesionIniciada;
+import dto.alquiler;
 import dto.pelicula;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
+import javafx.scene.layout.AnchorPane;
+/**
+ * Controlador JavaFX encargado de gestionar la vista de un alquiler de película.
+ *
+ * <p>
+ * Esta clase se utiliza para mostrar los detalles de una película alquilada,
+ * incluyendo información como el título, proveedor, fechas de alquiler
+ * y la imagen asociada. Además, permite confirmar el alquiler pendiente
+ * realizando el pago correspondiente.
+ * </p>
+ *
+ * <p>
+ * El controlador interactúa con la capa de acceso a datos mediante
+ * {@link dao.AlquilerDAO} y {@link dao.DaoUsuario}, y obtiene información
+ * del usuario autenticado a través de {@link dto.SesionIniciada}.
+ * </p>
+ *
+ * <p>
+ * Está diseñada para ser utilizada junto a un archivo FXML que define
+ * la interfaz gráfica del alquiler.
+ * </p>
+ *
+ * @author LaureanoCL
+ * @version 1.0
+ * @since 1.0
+ */
 public class MovieAlquileresControlador {
 
-    @FXML private ImageView posterImage;
-    @FXML private Label nombreLabel;
-    @FXML private Label precioLabel;
-    @FXML private Label stockLabel;
-    @FXML private Label anoLabel;
-    @FXML private Label formatoLabel;
+    /** Contenedor raíz de la vista */
+    @FXML private AnchorPane root;
+
+    /** Imagen representativa de la película */
+    @FXML private ImageView imagenPelicula;
+
+    /** Etiqueta que muestra el título de la película */
+    @FXML private Label tituloLabel;
+
+    /** Etiqueta que muestra el identificador del alquiler */
+    @FXML private Label alquilerIdLabel;
+
+    /** Etiqueta que muestra la cantidad alquilada */
+    @FXML private Label cantidadLabel;
+
+    /** Etiqueta que muestra el proveedor de la película */
     @FXML private Label proveedorLabel;
-    @FXML private Label generoLabel;
-    @FXML private Label descripcionLabel;
-    @FXML private Label Falquilar;
-    @FXML private Label Fcaduca;
-    @FXML private Button rentButton;   // 🔥 botón de alquiler
 
-    private pelicula peli;
+    /** Etiqueta que muestra la fecha de inicio del alquiler */
+    @FXML private Label fechaInicioLabel;
 
-    public void CrearMovieAlquiler(pelicula peli, LocalDate fAlquila, LocalDate fCaduca) {
-        this.peli = peli;
+    /** Etiqueta que muestra la fecha de fin del alquiler */
+    @FXML private Label fechaFinLabel;
 
-        nombreLabel.setText(peli.getNombre());
-        precioLabel.setText(peli.getPrecio() + " €");
-        stockLabel.setText("Stock: " + peli.getStock());
-        anoLabel.setText("Año: " + peli.getAnoSalida());
-        formatoLabel.setText("Formato: " + peli.getFormato());
-        proveedorLabel.setText("Proveedor: " + peli.getProveedor());
-        generoLabel.setText("Género: " + peli.getGenero());
-        descripcionLabel.setText(peli.getDescripcion());
+    /** Botón para confirmar el alquiler */
+    @FXML private Button btnConfirmar;
 
-        cargarFechasAlquiler();
+    /** Película asociada al alquiler */
+    private pelicula pelicula;
 
-        if (peli.getImagen() != null && !peli.getImagen().isEmpty()) {
+    /** Alquiler actual de la película */
+    private alquiler alquilerActual;
+
+    private pelicula pelicula;
+    private alquiler alquilerActual;
+
+    /**
+     * Inicializa el controlador y la vista asociada.
+     *
+     * <p>
+     * Este método se ejecuta automáticamente al cargarse el archivo FXML.
+     * En esta implementación no contiene lógica adicional, ya que los datos
+     * se cargan dinámicamente mediante el método {@link #setDatosPelicula}.
+     * </p>
+     */
+    @FXML
+    public void initialize() {
+        // Ya no hay lógica de eliminación
+    }
+
+    /**
+     * Asigna los datos de la película y del alquiler a la vista.
+     *
+     * <p>
+     * Muestra la información básica de la película y, si el alquiler ya ha sido
+     * confirmado, también las fechas correspondientes. En caso contrario,
+     * se muestra como alquiler pendiente.
+     * </p>
+     *
+     * @param pelicula película asociada al alquiler
+     * @param alquiler alquiler actual de la película
+     */
+    public void setDatosPelicula(pelicula pelicula, alquiler alquiler) {
+
+        this.pelicula = pelicula;
+        this.alquilerActual = alquiler;
+
+        tituloLabel.setText(pelicula.getNombre());
+        proveedorLabel.setText("Proveedor: " + pelicula.getProveedor());
+        cantidadLabel.setText("Cantidad: 1 unidad");
+
+        // permitir alquileres SIN fechas
+        if (alquiler != null && alquiler.getfAlquiler() != null) {
+
+            alquilerIdLabel.setText("Alquiler #" + alquiler.getId());
+            fechaInicioLabel.setText("Inicio: " + alquiler.getfAlquiler());
+            fechaFinLabel.setText("Fin: " + alquiler.getfDevolucion());
+
+        } else {
+
+            // ALQUILER PENDIENTE (fechas NULL)
+            alquilerIdLabel.setText("Pendiente de confirmar");
+            fechaInicioLabel.setText("--/--/----");
+            fechaFinLabel.setText("--/--/----");
+        }
+
+        // Imagen (con control de errores)
+        if (pelicula.getImagen() != null && !pelicula.getImagen().isBlank()) {
             try {
-                Image img = new Image(getClass().getResource(peli.getImagen()).toExternalForm());
-                posterImage.setImage(img);
+                imagenPelicula.setImage(
+                        new javafx.scene.image.Image(
+                                getClass().getResource(pelicula.getImagen()).toExternalForm()
+                        )
+                );
             } catch (Exception e) {
-                System.err.println("No se pudo cargar la imagen: " + e.getMessage());
+                System.out.println("No se pudo cargar la imagen: " + pelicula.getImagen());
             }
         }
     }
 
-    private void cargarFechasAlquiler() {
-        String sql = "SELECT fechaAlquiler, fechaDevolucion FROM alquiler WHERE idPelicula = ?";
+    /**
+     * Confirma el alquiler pendiente realizando el pago correspondiente.
+     *
+     * <p>
+     * Comprueba si el usuario dispone de saldo suficiente para pagar el alquiler.
+     * En caso afirmativo, descuenta el saldo y actualiza las fechas del alquiler.
+     * Si el saldo es insuficiente o el alquiler ya está confirmado, se muestra
+     * un mensaje de error.
+     * </p>
+     *
+     * @param event evento generado al pulsar el botón de confirmar alquiler
+     */
+    @FXML
+    private void confirmarAlquiler(ActionEvent event) {
 
-        try (Connection con = conexionDB.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        // Ya está pagado o no es válido
+        if (alquilerActual == null || alquilerActual.getfAlquiler() != null) {
+            mostrarAlertaPersonalizada(
+                    "Aviso",
+                    "Este alquiler ya está pagado o no se puede procesar."
+            );
+            return;
+        }
 
-            ps.setInt(1, peli.getId());
+        int idUsuario = SesionIniciada.getIdUsuario();
+        double precio = pelicula.getPrecio();
 
-            var rs = ps.executeQuery();
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DaoUsuario usuarioDAO = new DaoUsuario();
+        double saldoActual = usuarioDAO.getSaldo(idUsuario);
 
-            if (rs.next()) {
-                LocalDate fAlquila = rs.getDate("fechaAlquiler").toLocalDate();
-                LocalDate fCaduca = rs.getDate("fechaDevolucion").toLocalDate();
+        if (saldoActual >= precio) {
+            boolean exito = usuarioDAO.restarSaldo(idUsuario, precio);
+            if (exito) {
+                AlquilerDAO.actualizarFechas(alquilerActual.getId());
 
-                Falquilar.setText("Alquilado: " + fAlquila.format(format));
-                Fcaduca.setText("Caduca: " + fCaduca.format(format));
-            } else {
-                // no existe alquiler
-                Falquilar.setText("Alquilado: --/--/----");
-                Fcaduca.setText("Caduca: --/--/----");
+                mostrarAlerta(
+                        Alert.AlertType.INFORMATION,
+                        "Pago realizado",
+                        "Nuevo saldo: " + String.format("%.2f", saldoActual - precio) + "€"
+                );
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            mostrarAlertaPersonalizada(
+                    "Saldo insuficiente",
+                    "Te faltan " + String.format("%.2f", precio - saldoActual) + "€"
+            );
         }
     }
 
+    /**
+     * Muestra una alerta estándar al usuario.
+     *
+     * @param tipo tipo de alerta a mostrar
+     * @param titulo título de la ventana de alerta
+     * @param contenido mensaje informativo
+     */
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+
+    /**
+     * Muestra una alerta personalizada con estilos CSS.
+     *
+     * @param titulo título de la alerta
+     * @param contenido mensaje de error mostrado al usuario
+     */
+    private void mostrarAlertaPersonalizada(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/css/alerta.css").toExternalForm()
+        );
+        dialogPane.getStyleClass().add("alerta-popcorn");
+
+        alert.showAndWait();
+    }
+
+    /**
+     * Devuelve la película asociada al alquiler.
+     *
+     * @return película actual
+     */
+    public pelicula getPelicula() {
+        return pelicula;
+    }
+    /**
+     * Devuelve el contenedor raíz de la vista.
+     *
+     * @return panel raíz (AnchorPane)
+     */
+    public AnchorPane getRoot() {
+        return root;
+    }
 }
+
+

@@ -15,25 +15,78 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * Controlador JavaFX encargado de la gestión de los pedidos del sistema.
+ *
+ * <p>
+ * Esta clase permite visualizar, editar y actualizar el estado de los pedidos
+ * realizados por los usuarios. Los pedidos se muestran en una tabla y su estado
+ * puede modificarse mediante un desplegable.
+ * </p>
+ *
+ * <p>
+ * El controlador interactúa con la capa de acceso a datos a través de
+ * {@link dao.PedidoDAO}, encargándose de obtener y actualizar la información
+ * persistida en la base de datos.
+ * </p>
+ *
+ * <p>
+ * Además, gestiona la navegación entre vistas administrativas y el cierre
+ * de sesión del usuario.
+ * </p>
+ *
+ * @author LaureanoCL
+ * @version 1.0
+ * @since 1.0
+ */
 public class GestionDePedidosControlador {
 
+    /** Botón para editar el estado de un pedido */
     @FXML private Button btnEditar;
+
+    /** Botón para volver al menú anterior */
     @FXML private Button btnVolver;
+
+    /** Botón para cerrar la sesión */
     @FXML private Button btnCerrar;
 
+    /** Tabla que muestra la lista de pedidos */
     @FXML private TableView<pedido> tablaPedidos;
 
+    /** ComboBox para seleccionar el estado del pedido */
     @FXML private ComboBox<String> cmbEstado;
 
+    /** Columna que muestra el identificador del pedido */
     @FXML private TableColumn<pedido, Integer> colId;
+
+    /** Columna que muestra el estado del pedido */
     @FXML private TableColumn<pedido, String> colEstado;
+
+    /** Columna que muestra la fecha de compra */
     @FXML private TableColumn<pedido, String> colFechaCompra;
+
+    /** Columna que muestra la fecha estimada de llegada */
     @FXML private TableColumn<pedido, String> colFechaLlegada;
+
+    /** Columna que muestra el identificador de la película asociada */
     @FXML private TableColumn<pedido, Integer> colIdPelicula;
+
+    /** Columna que muestra la dirección de envío */
     @FXML private TableColumn<pedido, String> colDireccion;
 
+    /** Objeto DAO para el acceso a los datos de pedidos */
     private PedidoDAO pedidoDAO;
 
+    private PedidoDAO pedidoDAO;
+    /**
+     * Inicializa el controlador y configura los componentes de la vista.
+     *
+     * <p>
+     * Define las columnas de la tabla, inicializa el ComboBox de estados,
+     * establece los listeners necesarios y carga los pedidos desde la
+     * base de datos.
+     * </p>
+     */
     @FXML
     public void initialize() {
         pedidoDAO = new PedidoDAO();
@@ -67,12 +120,26 @@ public class GestionDePedidosControlador {
         }
     }
 
+    /**
+     * Carga la lista de pedidos desde la base de datos.
+     *
+     * @throws SQLException si ocurre un error durante el acceso a los datos
+     */
     private void cargarPedido() throws SQLException {
         tablaPedidos.setItems(
                 FXCollections.observableArrayList(pedidoDAO.getPedidos())
         );
     }
 
+    /**
+     * Modifica el estado del pedido seleccionado.
+     *
+     * <p>
+     * Valida que exista un pedido seleccionado y que se haya elegido
+     * un estado válido antes de actualizar la información en la base
+     * de datos.
+     * </p>
+     */
     @FXML
     private void editarPedido() {
 
@@ -97,16 +164,28 @@ public class GestionDePedidosControlador {
         tablaPedidos.refresh();
     }
 
+    /**
+     * Vuelve al menú de gestión de películas.
+     */
     @FXML
     private void volverMenu() {
         cambiarVista("GestionDePeliculas.fxml", btnVolver);
     }
 
+    /**
+     * Cierra la sesión actual y redirige a la pantalla de inicio de sesión.
+     */
     @FXML
     private void CerrarSesion() {
         cambiarVista("InicioSesion.fxml", btnCerrar);
     }
 
+    /**
+     * Cambia la vista actual cargando un nuevo archivo FXML.
+     *
+     * @param fxml nombre del archivo FXML que se desea cargar
+     * @param origen botón desde el que se obtiene la ventana actual
+     */
     private void cambiarVista(String fxml, Button origen) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
@@ -121,6 +200,11 @@ public class GestionDePedidosControlador {
         }
     }
 
+    /**
+     * Muestra una alerta informativa al usuario.
+     *
+     * @param msg mensaje que se desea mostrar
+     */
     private void mostrarAlerta(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION, msg);
         a.show();
