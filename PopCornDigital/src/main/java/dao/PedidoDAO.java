@@ -2,6 +2,7 @@ package dao;
 
 import conexion.conexionDB;
 import dto.pedido;
+import dto.pelicula;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -327,5 +328,67 @@ public class PedidoDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public class ParPedidoPelicula { // Clase auxiliar o usa un Map, pero esto es más claro
+        public pedido pedido;
+        public pelicula pelicula;
+
+        public ParPedidoPelicula(pedido pedido, pelicula pelicula) {
+            this.pedido = pedido;
+            this.pelicula = pelicula;
+        }
+    }
+
+    public List<ParPedidoPelicula> obtenerHistorialPedidos(String correoUsuario) {
+        List<ParPedidoPelicula> lista = new ArrayList<>();
+
+        String sql = "SELECT p.*, ped.* FROM pedido ped " +
+                "JOIN pelicula p ON ped.idPelicula = p.idPelicula " +
+                "WHERE ped.Correo = ?";
+
+        try (Connection conn = conexion.conexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, correoUsuario);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                pelicula peli = new pelicula();
+                peli.setId(rs.getInt("idPelicula"));
+                peli.setNombre(rs.getString("nombre"));
+                peli.setImagen(rs.getString("imagen"));
+                peli.setPrecio(rs.getDouble("precio"));
+                peli.setProveedor(rs.getString("proveedor"));
+                pedido ped = new pedido();
+
+                ped.setId(rs.getInt("idPedido"));
+
+                ped.setEstado(rs.getString("estado"));
+                try {
+                    ped.setfCompra(rs.getDate("fechaCompra"));
+                } catch (Exception e) {
+                    ped.setfCompra(rs.getDate("fCompra"));
+                }
+
+                try {
+                    ped.setfLlegada(rs.getDate("fechaLlegada"));
+                } catch (Exception e) {
+                    try {
+                        ped.setfLlegada(rs.getDate("fechaEntrega"));
+                    } catch (Exception ex) {
+                        ped.setfLlegada(rs.getDate("fLlegada"));
+                    }
+                }
+
+                ped.setDireccion(rs.getString("direccion"));
+                ped.setCorreo(rs.getString("Correo"));
+
+                lista.add(new ParPedidoPelicula(ped, peli));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

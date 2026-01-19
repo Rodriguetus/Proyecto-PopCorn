@@ -88,7 +88,8 @@ public class CompraControlador {
                         boolean eliminado = daoPedido.eliminarPedido(pedidoActual.getId());
 
                         if (eliminado) {
-                            mostrarAlertaPersonalizada("Compra Cancleada", "Se ha eliminado la compra y se han devuelto \" + precio + \"€ a tu cuenta.");
+                            mostrarAlertaPersonalizada("Compra Cancelada",
+                                    "Se ha eliminado la compra y se han devuelto " + precio + "€ a tu cuenta.");
                             operacionExitosa = true;
                         } else {
                             mostrarAlertaPersonalizada("Error Crítico", "Dinero devuelto pero error al borrar el registro.");
@@ -194,7 +195,8 @@ public class CompraControlador {
                 pedidoDAO.actualizarEstado(pedidoActual.getId(), "Pagado");
                 pedidoActual.setEstado("Pagado");
                 setDatosPelicula(this.pelicula, this.pedidoActual);
-                mostrarAlertaPersonalizada("Pago realizado", "Nuevo saldo: \" + String.format(\"%.2f\", (saldoActual - precio)) + \"€");
+                mostrarAlertaPersonalizada("Pago realizado",
+                        "Nuevo saldo: " + String.format("%.2f", (saldoActual - precio)) + "€");
                 }
         } else {
             mostrarAlertaPersonalizada("Saldo insuficiente", "Te faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
@@ -212,7 +214,7 @@ public class CompraControlador {
     Metodo para implementar la alerta personalizada del css.
      */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(contenido);

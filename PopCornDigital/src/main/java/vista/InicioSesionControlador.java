@@ -37,7 +37,16 @@ public class InicioSesionControlador implements Initializable {
             Stage stage = (Stage) correoTextField.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle(tituloVentana);
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("Imagenes/PopCorn.png")));
+            try {
+                java.io.InputStream imgStream = getClass().getResourceAsStream("/Imagenes/PopCorn.png");
+                if (imgStream != null) {
+                    stage.getIcons().add(new Image(imgStream));
+                } else {
+                    System.out.println("AVISO: No se encontró la imagen '/Imagenes/PopCorn.png'. Revisa la carpeta resources.");
+                }
+            } catch (Exception e) {
+                System.out.println("AVISO: Error al cargar el icono de la ventana (la app continúa).");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +55,7 @@ public class InicioSesionControlador implements Initializable {
 Metodo para mostrar el Alert con el css implementado.
  */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(contenido);

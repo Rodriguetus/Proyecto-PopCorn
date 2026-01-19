@@ -46,22 +46,18 @@ public class PedidoControlador {
     private void cargarCarrito() {
         flowCompras.getChildren().clear();
         String correoUsuario = dto.SesionIniciada.getCorreo();
+        var historial = pedidoDAO.obtenerHistorialPedidos(correoUsuario);
 
-        for (pelicula p : CarritoService.getCarrito()) {
+        for (PedidoDAO.ParPedidoPelicula par : historial) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/compra.fxml"));
                 Node node = loader.load();
                 CompraControlador ctrl = loader.getController();
 
-                // 1. Buscamos el pedido real en la BD
-                pedido pedidoReal = pedidoDAO.buscarUltimoPedido(p.getId(), correoUsuario);
-
-                // 2. Se lo pasamos a la tarjeta (Si es null, la tarjeta se mostrará pero no dejará pagar)
-                ctrl.setDatosPelicula(p, pedidoReal);
+                ctrl.setDatosPelicula(par.pelicula, par.pedido);
 
                 ctrl.setOnRemove(c -> {
                     flowCompras.getChildren().remove(ctrl.getRoot());
-                    CarritoService.removeCompra(p);
                 });
 
                 flowCompras.getChildren().add(node);
@@ -80,7 +76,7 @@ public class PedidoControlador {
     Metodo para mostrar el Alert personalizado que implementa css
      */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(contenido);
