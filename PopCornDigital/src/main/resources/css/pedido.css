@@ -20,19 +20,6 @@
     -fx-transition: all 0.3s;
 }
 
-.sidebar-icon:hover {
-    -fx-opacity: 1.0;
-    -fx-effect: dropshadow(three-pass-box, rgba(241, 196, 15, 0.6), 10, 0, 0, 0); /* Brillo Amarillo */
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
-}
-
-/* Icono activo (opcional, si quieres marcar dónde estás) */
-.sidebar-icon-active {
-    -fx-opacity: 1.0;
-    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.3), 5, 0, 0, 0);
-}
-
 /* 4. Encabezado */
 .header-container {
     -fx-padding: 20 0 10 0;
