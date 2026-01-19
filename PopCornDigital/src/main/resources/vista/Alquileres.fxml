@@ -24,7 +24,7 @@
             <ImageView fx:id="favoritesIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;"> <image> <Image url="@../Imagenes/estrella.png" /> </image> </ImageView>
             <ImageView fx:id="AlquilerIcon" fitHeight="45.0" fitWidth="46.0" preserveRatio="true" style="-fx-cursor: hand;"> <image> <Image url="@../Imagenes/alquileres.png" /> </image> </ImageView>
             <ImageView fx:id="SaldoIcon" fitHeight="42.0" fitWidth="60.0" layoutX="40.0" layoutY="312.0" onMouseClicked="#irSaldo" preserveRatio="true" style="-fx-cursor: hand;"> <image> <Image url="@../Imagenes/Cartera.png" /> </image> </ImageView>
-            <ImageView fx:id="settingsIcon" fitHeight="43.0" fitWidth="48.0" onMouseClicked="#CerrarSesion" preserveRatio="true" style="-fx-cursor: hand;"> <image> <Image url="@../Imagenes/CerrarSesion.png" /> </image> </ImageView>
+            <ImageView fx:id="exitIcon" fitHeight="43.0" fitWidth="48.0" onMouseClicked="#CerrarSesion" preserveRatio="true" style="-fx-cursor: hand;"> <image> <Image url="@../Imagenes/CerrarSesion.png" /> </image> </ImageView>
         </VBox>
     </left>
 

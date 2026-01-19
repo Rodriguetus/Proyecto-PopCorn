@@ -30,7 +30,7 @@ import java.sql.ResultSet;
  *
  * <p>
  * El controlador obtiene la información desde la base de datos utilizando
- * consultas SQL y crea objetos {@link dto.pelicula} y {@link dto.alquiler}
+ * consultas SQL y crea objetos {@link pelicula} y {@link alquiler}
  * para representar los datos obtenidos.
  * </p>
  *
@@ -96,7 +96,7 @@ public class AlquileresControlador {
      * </p>
      *
      * <p>
-     * Cada tarjeta es gestionada por {@link vista.MovieAlquileresControlador},
+     * Cada tarjeta es gestionada por {@link MovieAlquileresControlador},
      * al que se le pasan los datos de la película y del alquiler.
      * </p>
      */

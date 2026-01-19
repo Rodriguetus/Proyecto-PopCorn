@@ -65,7 +65,7 @@ public class AlquilerDAO {
         LIMIT 1
     """;
 
-        try (Connection conn = conexion.conexionDB.getConnection();
+        try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idPelicula);

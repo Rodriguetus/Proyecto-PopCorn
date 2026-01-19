@@ -1,0 +1,82 @@
+/* compra.css */
+
+/* 1. Contenedor Principal (La Tarjeta) */
+.compra-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-border-radius: 10px;
+    -fx-border-color: #BDC3C7; /* Borde gris suave */
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2); /* Sombra suave */
+}
+
+/* Efecto al pasar el ratón por encima de la tarjeta */
+.compra-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(52, 152, 219, 0.3), 10, 0, 0, 2); /* Resplandor azul */
+    -fx-border-color: #3498DB;
+}
+
+/* 2. Imagen */
+.image-container {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+}
+
+/* 3. Tipografía */
+.card-titulo {
+    -fx-text-fill: #2C3E50; /* Azul oscuro */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.card-subtitulo {
+    -fx-text-fill: #7F8C8D; /* Gris */
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+.card-texto {
+    -fx-text-fill: #34495E; /* Gris oscuro para lectura */
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}
+
+.card-estado {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    /* El color lo maneja el controlador (Naranja/Verde), pero aquí definimos la base */
+}
+
+/* 4. Botones */
+.btn-base {
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+/* Botón Confirmar (Verde) */
+.btn-confirmar {
+    -fx-background-color: #27AE60;
+}
+.btn-confirmar:hover {
+    -fx-background-color: #2ECC71;
+}
+.btn-confirmar:pressed {
+    -fx-background-color: #1E8449;
+}
+.btn-confirmar:disabled {
+    -fx-opacity: 0.6;
+    -fx-background-color: #95A5A6;
+}
+
+/* Botón Cancelar (Rojo) */
+.btn-cancelar {
+    -fx-background-color: #C0392B;
+}
+.btn-cancelar:hover {
+    -fx-background-color: #E74C3C;
+}
+.btn-cancelar:pressed {
+    -fx-background-color: #922B21;
+}

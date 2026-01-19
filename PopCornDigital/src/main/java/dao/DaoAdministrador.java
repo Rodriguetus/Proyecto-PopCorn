@@ -65,11 +65,11 @@ public class DaoAdministrador {
     //Metodo para comprobar si ya existe el correo en la base de datos
     public boolean existeCorreo(String correo) {
         String sql = "SELECT count(*) FROM administrador WHERE correo = ?";
-        try (java.sql.Connection con = conexionDB.getConnection();
-             java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = conexionDB.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, correo);
-            java.sql.ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 // Si devuelve > 0, es que existe

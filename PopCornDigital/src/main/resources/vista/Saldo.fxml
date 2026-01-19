@@ -9,16 +9,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0"
-            stylesheets="@../css/saldo.css"
-            xmlns="http://javafx.com/javafx/24.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="vista.SaldoControlador">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../css/saldo.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.SaldoControlador">
 
     <children>
-        <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="25.0"
-              styleClass="sidebar"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="25.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <ImageView fitHeight="70.0" fitWidth="70.0" preserveRatio="true">
                     <image>
@@ -29,45 +23,37 @@
                     </VBox.margin>
                 </ImageView>
 
-                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irCatalogo"
-                           preserveRatio="true" styleClass="sidebar-icon">
+                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irCatalogo" preserveRatio="true" styleClass="sidebar-icon">
                     <image>
-                        <Image url="@../Imagenes/lupa.png" />
+                        <Image url="@../Imagenes/Catalogo.png" />
                     </image>
                 </ImageView>
 
-                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irPedido"
-                           preserveRatio="true" styleClass="sidebar-icon">
+                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irPedido" preserveRatio="true" styleClass="sidebar-icon">
                     <image>
                         <Image url="@../Imagenes/Envio.png" />
                     </image>
                 </ImageView>
 
-                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos"
-                           preserveRatio="true" styleClass="sidebar-icon">
+                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos" preserveRatio="true" styleClass="sidebar-icon">
                     <image>
                         <Image url="@../Imagenes/estrella.png" />
                     </image>
                 </ImageView>
 
-                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irAlquileres"
-                           preserveRatio="true" styleClass="sidebar-icon">
+                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irAlquileres" preserveRatio="true" styleClass="sidebar-icon">
                     <image>
-                        <Image url="@../Imagenes/Alquiler.png" />
+                        <Image url="@../Imagenes/alquileres.png" />
                     </image>
                 </ImageView>
 
-                <ImageView fitHeight="42.0" fitWidth="60.0"
-                           preserveRatio="true" styleClass="sidebar-icon-active">
+                <ImageView fitHeight="42.0" fitWidth="60.0" preserveRatio="true" styleClass="sidebar-icon-active">
                     <image>
                         <Image url="@../Imagenes/Cartera.png" />
                     </image>
                 </ImageView>
 
-                <VBox VBox.vgrow="ALWAYS" />
-
-                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#volverLogin"
-                           preserveRatio="true" styleClass="sidebar-icon">
+                <ImageView fitHeight="42.0" fitWidth="60.0" onMouseClicked="#volverLogin" preserveRatio="true" styleClass="sidebar-icon">
                     <image>
                         <Image url="@../Imagenes/exit.png" />
                     </image>
@@ -78,9 +64,7 @@
             </children>
         </VBox>
 
-        <VBox alignment="CENTER" layoutX="100.0" spacing="30.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" layoutX="100.0" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
 
                 <Label styleClass="titulo-vista" text="Mi Cartera Digital" />
@@ -100,9 +84,7 @@
                     </children>
                 </VBox>
 
-                <Button fx:id="btnIncorporarSaldo" mnemonicParsing="false"
-                        onAction="#incorporarSaldo"
-                        styleClass="btn-accion" text="Incorporar Saldo" />
+                <Button fx:id="btnIncorporarSaldo" mnemonicParsing="false" onAction="#incorporarSaldo" styleClass="btn-accion" text="Incorporar Saldo" />
             </children>
         </VBox>
     </children>

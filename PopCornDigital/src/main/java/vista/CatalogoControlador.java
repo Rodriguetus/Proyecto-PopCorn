@@ -226,7 +226,19 @@ public class CatalogoControlador {
      *
      * @param mouseEvent evento de clic del usuario
      */
-    public void irSaldo(MouseEvent mouseEvent) {
+    @FXML
+    private void irSaldo(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Saldo.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar Saldo.fxml");
+        }
     }
 
     /**

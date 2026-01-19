@@ -1,0 +1,92 @@
+/* saldo.css */
+
+/* 1. Fondo General */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #ECF0F1; /* Gris suave */
+}
+
+/* 2. Barra Lateral (Sidebar) - Reutilizamos el estilo consistente */
+.sidebar {
+    -fx-background-color: #2C3E50;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 0);
+    -fx-padding: 20 0 20 0;
+}
+
+.sidebar-icon {
+    -fx-cursor: hand;
+    -fx-opacity: 0.7;
+    -fx-transition: all 0.3s;
+}
+
+.sidebar-icon:hover {
+    -fx-opacity: 1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(241, 196, 15, 0.6), 10, 0, 0, 0);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+/* Icono activo (indica que estamos en esta sección) */
+.sidebar-icon-active {
+    -fx-opacity: 1.0;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 255, 255, 0.5), 5, 0, 0, 0);
+}
+
+/* 3. Título de la Vista */
+.titulo-vista {
+    -fx-text-fill: #2C3E50;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 2, 0, 1, 1);
+}
+
+/* 4. Tarjeta de Saldo (Contenedor Central) */
+.tarjeta-saldo {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
+    -fx-padding: 40px;
+    -fx-alignment: center;
+}
+
+/* 5. Textos dentro de la tarjeta */
+.texto-etiqueta {
+    -fx-text-fill: #7F8C8D; /* Gris medio */
+    -fx-font-size: 16px;
+}
+
+.texto-valor-usuario {
+    -fx-text-fill: #2C3E50; /* Azul oscuro */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.texto-saldo-grande {
+    -fx-text-fill: #27AE60; /* Verde Dinero */
+    -fx-font-size: 54px; /* Muy grande */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(one-pass-box, rgba(39, 174, 96, 0.3), 0, 0, 0, 3);
+}
+
+/* 6. Botón de Acción */
+.btn-accion {
+    -fx-background-color: #2980B9; /* Azul brillante */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 25px; /* Botón píldora */
+    -fx-cursor: hand;
+    -fx-padding: 12 35 12 35;
+    -fx-effect: dropshadow(three-pass-box, rgba(41, 128, 185, 0.4), 5, 0, 0, 3);
+}
+
+.btn-accion:hover {
+    -fx-background-color: #3498DB;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.btn-accion:pressed {
+    -fx-background-color: #1A5276;
+    -fx-translate-y: 2;
+}

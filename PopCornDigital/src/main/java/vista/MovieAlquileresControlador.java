@@ -29,8 +29,8 @@ import java.time.LocalDate;
  *
  * <p>
  * El controlador interactúa con la capa de acceso a datos mediante
- * {@link dao.AlquilerDAO} y {@link dao.DaoUsuario}, y obtiene información
- * del usuario autenticado a través de {@link dto.SesionIniciada}.
+ * {@link AlquilerDAO} y {@link DaoUsuario}, y obtiene información
+ * del usuario autenticado a través de {@link SesionIniciada}.
  * </p>
  *
  * <p>
@@ -174,7 +174,7 @@ public class MovieAlquileresControlador {
         if (pelicula.getImagen() != null && !pelicula.getImagen().isBlank()) {
             try {
                 imagenPelicula.setImage(
-                        new javafx.scene.image.Image(
+                        new Image(
                                 getClass().getResource(pelicula.getImagen()).toExternalForm()
                         )
                 );

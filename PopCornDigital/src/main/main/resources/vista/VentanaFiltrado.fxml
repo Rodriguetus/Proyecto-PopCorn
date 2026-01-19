@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controlador.filtradosController.FiltradosController"
+            stylesheets="@FiltradosCss/BtnPrecio.css">
+
+    <!-- Barra superior -->
+    <top>
+        <ToolBar>
+            <Label text="Mi Aplicación de Filtros" styleClass="titulo-app"/>
+        </ToolBar>
+    </top>
+
+    <!-- Contenido principal -->
+    <center>
+        <VBox spacing="20" padding="20">
+
+            <!-- Filtro de precio -->
+            <VBox spacing="10">
+                <Button fx:id="btnPrecio" text="Precio: 1€ - 1000€" styleClass="precio-boton"/>
+
+                <VBox fx:id="panelFiltro" spacing="12" styleClass="filtro-panel" visible="false">
+                    <Label text="Precio" styleClass="filtro-titulo"/>
+
+                    <HBox spacing="20">
+                        <VBox spacing="6">
+                            <Label text="Mín" styleClass="filtro-label"/>
+                            <Slider fx:id="sliderMin" min="1" max="1000" value="1" blockIncrement="1"/>
+                            <Label fx:id="labelMin" text="1€" styleClass="filtro-valor"/>
+                        </VBox>
+                        <VBox spacing="6">
+                            <Label text="Máx" styleClass="filtro-label"/>
+                            <Slider fx:id="sliderMax" min="1" max="1000" value="1000" blockIncrement="1"/>
+                            <Label fx:id="labelMax" text="1000€" styleClass="filtro-valor"/>
+                        </VBox>
+                    </HBox>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Button fx:id="btnLimpiar" text="Limpiar" styleClass="btn-secundario"/>
+                        <Button fx:id="btnAplicar" text="Aplicar" styleClass="btn-primario"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+
+            <!-- Aquí podrás meter más cosas después -->
+            <Label text="(Aquí irán más componentes...)" styleClass="placeholder"/>
+
+        </VBox>
+    </center>
+
+    <!-- Pie de página -->
+    <bottom>
+        <Label text="© 2025 Mi Proyecto" alignment="CENTER" styleClass="footer"/>
+    </bottom>
+</BorderPane>

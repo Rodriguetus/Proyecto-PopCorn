@@ -26,7 +26,7 @@ import java.sql.SQLException;
  *
  * <p>
  * El controlador interactúa con la capa de acceso a datos a través de
- * {@link dao.PedidoDAO}, encargándose de obtener y actualizar la información
+ * {@link PedidoDAO}, encargándose de obtener y actualizar la información
  * persistida en la base de datos.
  * </p>
  *
