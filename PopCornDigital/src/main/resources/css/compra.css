@@ -1,157 +1,82 @@
-/* --- CONFIGURACIÓN GENERAL (Tu base) --- */
-.root {
-    -fx-font-family: 'Segoe UI', sans-serif;
-    -fx-background-color: #F4F6F7;
-}
+/* compra.css */
 
-/* Sidebar y Menú (Tus estilos originales) */
-.sidebar {
-    -fx-background-color: #2C3E50;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 0);
-}
-
-.sidebar-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #BDC3C7;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-    -fx-alignment: BASELINE_LEFT;
-    -fx-padding: 12 20;
-}
-
-.sidebar-button:hover {
-    -fx-background-color: #34495E;
-    -fx-text-fill: #F1C40F;
-    -fx-effect: dropshadow(one-pass-box, rgba(241,196,15,0.3), 5, 0, 0, 0);
-}
-
-/* --- ESTILO DE LA TARJETA (Mapeado al FXML nuevo) --- */
-
-/* 1. Contenedor de la Tarjeta (.card-pane) */
-.card-pane {
-    /* Tu gradiente oscuro vertical */
-    -fx-background-color: linear-gradient(to bottom, #34495E, #2C3E50);
-    -fx-background-radius: 12px;
-    -fx-border-radius: 12px;
-    -fx-border-color: #4E6A85;
+/* 1. Contenedor Principal (La Tarjeta) */
+.compra-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10px; /* Bordes redondeados */
+    -fx-border-radius: 10px;
+    -fx-border-color: #BDC3C7; /* Borde gris suave */
     -fx-border-width: 1px;
-    /* Tu sombra profunda */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 12, 0, 4, 4);
-    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2); /* Sombra suave */
 }
 
-/* 2. Contenedor de Imagen */
+/* Efecto al pasar el ratón por encima de la tarjeta */
+.compra-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(52, 152, 219, 0.3), 10, 0, 0, 2); /* Resplandor azul */
+    -fx-border-color: #3498DB;
+}
+
+/* 2. Imagen */
 .image-container {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0, 0, 2);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
 }
 
-/* 3. Títulos y Textos */
-.lbl-titulo {
-    -fx-text-fill: #FFFFFF;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.5), 2, 0, 1, 1);
-}
-
-.lbl-subtitulo {
-    -fx-text-fill: #95a5a6; /* Gris azulado suave */
-    -fx-font-size: 11px;
-}
-
-.lbl-campo {
-    -fx-text-fill: #BDC3C7; /* Gris claro */
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-min-width: 65px;
-}
-
-.lbl-valor {
-    -fx-text-fill: #ECF0F1; /* Blanco casi puro */
-    -fx-font-size: 12px;
-}
-
-/* Estados */
-.lbl-estado-pendiente {
-    -fx-text-fill: #F39C12; /* Tu naranja brillante */
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.8), 2, 0, 1, 1);
-}
-
-/* --- NUEVO: SECCIÓN DE CANTIDAD (Botones + y -) --- */
-
-.qty-container {
-    -fx-background-color: rgba(0, 0, 0, 0.2); /* Fondo sutil para la zona de cantidad */
-    -fx-background-radius: 8px;
-    -fx-padding: 4 8 4 8; /* Padding interno */
-}
-
-.lbl-qty-valor {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
+/* 3. Tipografía */
+.card-titulo {
+    -fx-text-fill: #2C3E50; /* Azul oscuro */
     -fx-font-size: 16px;
-    -fx-min-width: 25px;
-    -fx-alignment: center;
+    -fx-font-weight: bold;
 }
 
-/* Botones circulares pequeños */
-.btn-qty {
-    -fx-background-color: #4E6A85; /* Azul grisáceo medio */
-    -fx-text-fill: white;
+.card-subtitulo {
+    -fx-text-fill: #7F8C8D; /* Gris */
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+.card-texto {
+    -fx-text-fill: #34495E; /* Gris oscuro para lectura */
+    -fx-font-size: 12px;
+    -fx-font-weight: normal;
+}
+
+.card-estado {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    /* El color lo maneja el controlador (Naranja/Verde), pero aquí definimos la base */
+}
+
+/* 4. Botones */
+.btn-base {
+    -fx-background-radius: 5px;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
-
-    /* Hacerlos redondos */
-    -fx-background-radius: 50%;
-    -fx-min-width: 26px;
-    -fx-min-height: 26px;
-    -fx-max-width: 26px;
-    -fx-max-height: 26px;
-
     -fx-cursor: hand;
-    -fx-padding: 0; /* Centrar el texto + o - */
+    -fx-text-fill: white;
 }
 
-.btn-qty:hover {
-    -fx-background-color: #F1C40F; /* Amarillo al pasar el mouse (Tu acento) */
-    -fx-text-fill: #2C3E50; /* Texto oscuro para contraste */
-    -fx-effect: dropshadow(three-pass-box, rgba(241,196,15,0.4), 5, 0, 0, 0);
-}
-
-.btn-qty:pressed {
-    -fx-background-color: #D4AC0D;
-    -fx-translate-y: 1;
-}
-
-/* --- BOTONES DE ACCIÓN (Tus gradientes) --- */
-
+/* Botón Confirmar (Verde) */
 .btn-confirmar {
-    -fx-background-color: linear-gradient(to bottom, #27AE60, #219653);
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 6px;
-    -fx-border-color: #1E8449;
-    -fx-border-radius: 6px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4, 0, 0, 2);
+    -fx-background-color: #27AE60;
 }
-
 .btn-confirmar:hover {
-    -fx-background-color: linear-gradient(to bottom, #2ECC71, #27AE60);
-    -fx-effect: dropshadow(three-pass-box, rgba(46,204,113,0.5), 6, 0, 0, 3);
+    -fx-background-color: #2ECC71;
+}
+.btn-confirmar:pressed {
+    -fx-background-color: #1E8449;
+}
+.btn-confirmar:disabled {
+    -fx-opacity: 0.6;
+    -fx-background-color: #95A5A6;
 }
 
+/* Botón Cancelar (Rojo) */
 .btn-cancelar {
-    -fx-background-color: linear-gradient(to bottom, #C0392B, #A93226);
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 6px;
-    -fx-border-color: #922B21;
-    -fx-border-radius: 6px;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4, 0, 0, 2);
+    -fx-background-color: #C0392B;
 }
-
 .btn-cancelar:hover {
-    -fx-background-color: linear-gradient(to bottom, #E74C3C, #C0392B);
-    -fx-effect: dropshadow(three-pass-box, rgba(231,76,60,0.5), 6, 0, 0, 3);
+    -fx-background-color: #E74C3C;
+}
+.btn-cancelar:pressed {
+    -fx-background-color: #922B21;
 }

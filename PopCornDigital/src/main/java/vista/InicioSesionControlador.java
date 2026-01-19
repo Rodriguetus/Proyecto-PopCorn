@@ -101,6 +101,7 @@ guardando el id en la sesión global y dirige al Catalogo.
         //Comprobar que es un correo(que contenga un @)
         if(!correo.contains("@")){
             errormsj.setText("El correo no es válido. Debe contener un @");
+            return;
         }
 
         //Validación Longitud de la Contraseña

@@ -9,111 +9,85 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #F4F6F7;" stylesheets="@../css/pedido.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.PedidoControlador">
-    <children>
+<AnchorPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/pedido.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.PedidoControlador">
 
-        <VBox alignment="TOP_CENTER" prefWidth="100.0" spacing="25.0" style="-fx-background-color: #2c3e50; -fx-padding: 20 0 20 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <ImageView fx:id="logoImage" fitHeight="70.0" fitWidth="70.0" preserveRatio="true" style="-fx-cursor: hand;">
-                    <image>
-                        <Image url="@../Imagenes/PopCorn.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets bottom="20.0" />
-                    </VBox.margin>
-                </ImageView>
+    <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="80.0" spacing="25.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-                <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irCatalogo" preserveRatio="true" style="-fx-cursor: hand;">
-                    <image>
-                        <Image url="@../Imagenes/Catalogo.png" />
-                    </image>
-                </ImageView>
+        <ImageView fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
+            <image>
+                <Image url="@../Imagenes/PopCorn.png" />
+            </image>
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </ImageView>
 
-                <ImageView fx:id="searchIcon" fitHeight="48.0" fitWidth="51.0" onMouseClicked="#irPedido" preserveRatio="true" style="-fx-cursor: hand; -fx-opacity: 1;"> <image>
-                    <Image url="@../Imagenes/Envio.png" />
+        <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#irCatalogo" preserveRatio="true" styleClass="sidebar-icon">
+            <image>
+                <Image url="@../Imagenes/lupa.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="35.0" fitWidth="35.0" preserveRatio="true" styleClass="sidebar-icon-active">
+            <image>
+                <Image url="@../Imagenes/Envio.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#irFavoritos" preserveRatio="true" styleClass="sidebar-icon">
+            <image>
+                <Image url="@../Imagenes/estrella.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#irAlquileres" preserveRatio="true" styleClass="sidebar-icon">
+            <image>
+                <Image url="@../Imagenes/Alquiler.png" />
+            </image>
+        </ImageView>
+
+        <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#irSaldo" preserveRatio="true" styleClass="sidebar-icon">
+            <image>
+                <Image url="@../Imagenes/Cartera.png" />
+            </image>
+        </ImageView>
+
+        <VBox VBox.vgrow="ALWAYS" />
+
+        <ImageView fitHeight="35.0" fitWidth="35.0" onMouseClicked="#volverLogin" preserveRatio="true" styleClass="sidebar-icon">
+            <image>
+                <Image url="@../Imagenes/exit.png" />
+            </image>
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+        </ImageView>
+    </VBox>
+
+    <VBox layoutX="80.0" prefHeight="600.0" prefWidth="820.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <padding>
+            <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="header-container">
+            <ImageView fitHeight="40.0" fitWidth="40.0" preserveRatio="true">
+                <image>
+                    <Image url="@../Imagenes/PopCorn.png" />
                 </image>
-                </ImageView>
-
-                <ImageView fx:id="favoritesIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;">
-                    <image>
-                        <Image url="@../Imagenes/estrella.png" />
-                    </image>
-                </ImageView>
-
-                <ImageView fx:id="AlquilerIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irAlquileres" preserveRatio="true" style="-fx-cursor: hand;">
-                    <image>
-                        <Image url="@../Imagenes/alquileres.png" />
-                    </image>
-                </ImageView>
-            <ImageView fx:id="SaldoIcon" fitHeight="42.0" fitWidth="60.0" layoutX="40.0" layoutY="312.0" onMouseClicked="#irSaldo" preserveRatio="true" style="-fx-cursor: hand;">
-               <image>
-                  <Image url="@../Imagenes/Cartera.png" />
-               </image>
             </ImageView>
+            <VBox>
+                <Label styleClass="titulo-seccion" text="Gestión de Compras" />
+                <Label styleClass="subtitulo-seccion" text="Consulta el estado de tus pedidos recientes" />
+            </VBox>
+        </HBox>
 
-                <ImageView fx:id="settingsIcon" fitHeight="51.0" fitWidth="53.0" onMouseClicked="#volverLogin" preserveRatio="true" style="-fx-cursor: hand;">
-                    <image>
-                        <Image url="@../Imagenes/CerrarSesion.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets top="20.0" />
-                    </VBox.margin>
-                </ImageView>
-            </children>
-        </VBox>
+        <Label style="-fx-font-size: 18px; -fx-text-fill: #34495E;" text="Tus Compras Activas" />
 
-        <VBox layoutX="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <padding>
-                <Insets bottom="20.0" left="30.0" right="30.0" top="30.0" />
-            </padding>
-            <children>
-
-                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                    <children>
-                        <ImageView fx:id="logoImage1" fitHeight="50.0" fitWidth="50.0" preserveRatio="true">
-                            <image>
-                                <Image url="@../Imagenes/PopCorn.png" />
-                            </image>
-                        </ImageView>
-                        <VBox>
-                            <children>
-                                <Label text="Gestión de Compras" textFill="#2c3e50">
-                                    <font>
-                                        <Font name="System Bold" size="26.0" />
-                                    </font>
-                                </Label>
-                                <Label text="Consulta el estado de tus pedidos recientes" textFill="#7f8c8d">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-
-                <Label text="Tus Compras Activas" textFill="#2c3e50">
-                    <font>
-                        <Font size="20.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </Label>
-
-                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
-                    <content>
-                        <FlowPane fx:id="flowCompras" hgap="20.0" prefWrapLength="800.0" style="-fx-background-color: transparent;" vgap="20.0">
-                            <padding>
-                                <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
-                            </padding>
-                        </FlowPane>
-                    </content>
-                </ScrollPane>
-
-            </children>
-        </VBox>
-    </children>
+        <ScrollPane fitToWidth="true" styleClass="scroll-transparente" VBox.vgrow="ALWAYS">
+            <content>
+                <FlowPane fx:id="flowCompras" prefWrapLength="800.0" styleClass="flow-compras" />
+            </content>
+        </ScrollPane>
+    </VBox>
 </AnchorPane>

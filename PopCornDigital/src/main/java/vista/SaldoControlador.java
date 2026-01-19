@@ -70,7 +70,7 @@ public class SaldoControlador implements Initializable {
                 double cantidad = Double.parseDouble(cantidadStr.replace(",", "."));
 
                 if (cantidad <= 0) {
-                    mostrarAlerta(Alert.AlertType.WARNING, "Cantidad inválida", "Por favor introduce una cantidad positiva.");
+                    mostrarAlertaPersonalizada("Cantidad inválida", "Por favor introduce una cantidad positiva.");
                     return;
                 }
 
@@ -82,12 +82,12 @@ public class SaldoControlador implements Initializable {
 
                     mostrarAlertaPersonalizada("Operación Exitosa", "Se ha aumentado el saldo de la cuenta con éxito.");
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo conectar con la base de datos.");
-                }
+                    mostrarAlertaPersonalizada("Error", "No se pudo conectar con la base de datos.");
+                    }
 
             } catch (NumberFormatException e) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error de Formato", "Por favor introduce un número válido.");
-            }
+                mostrarAlertaPersonalizada("Error de Formato","Por favor introduce un número válido." );
+                }
         });
     }
 

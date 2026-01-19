@@ -44,10 +44,11 @@ public class PedidoDAO {
             return -1;
         }
     }
-/*
-Actualiza todos los campos de un pedido ya existente identificandolo
-por su ID usando un update.
- */
+
+    /*
+    Actualiza todos los campos de un pedido ya existente identificandolo
+    por su ID usando un update.
+     */
     public void modificar(pedido p) {
         String sql = "UPDATE pedido SET Estado=?, FechaCompra=?, FechaLlegada=?, idPelicula=?, Direccion=?, Correo=? WHERE idPedido=?";
 
@@ -69,10 +70,10 @@ por su ID usando un update.
     }
 
 
-/*
-Obtiene la lista de los pedidos mediante un select usando un ResultSet que mapea
-cada objeto pedido y manda la lista de resultado.
- */
+    /*
+    Obtiene la lista de los pedidos mediante un select usando un ResultSet que mapea
+    cada objeto pedido y manda la lista de resultado.
+     */
     public List<pedido> getPedidos() throws SQLException {
         List<pedido> list = new ArrayList<>();
         String sql = "SELECT * FROM pedido";
@@ -96,9 +97,9 @@ cada objeto pedido y manda la lista de resultado.
         return list;
     }
 
-/*
-Modifica la columna de los estados para cambia el estado.
- */
+    /*
+    Modifica la columna de los estados para cambia el estado.
+     */
     public boolean actualizarEstado(int idPedido, String nuevoEstado) {
         String sql = "UPDATE pedido SET Estado = ? WHERE idPedido = ?";
 
@@ -114,10 +115,11 @@ Modifica la columna de los estados para cambia el estado.
             return false;
         }
     }
-/*
-Realiza una transacción completa bloqueando y verificando el stock disponible
-reduciendolo si hay y creando el pedido o hace un rollback deshaciendo los cambios si da error.
- */
+
+    /*
+    Realiza una transacción completa bloqueando y verificando el stock disponible
+    reduciendolo si hay y creando el pedido o hace un rollback deshaciendo los cambios si da error.
+     */
     public static int createPedidoAndReduceStock(int idPelicula, int quantity, String direccion, String correo) throws SQLException {
         String selectStock = "SELECT Stock FROM pelicula WHERE idPelicula = ? FOR UPDATE";
         String updateStock = "UPDATE pelicula SET Stock = Stock - ? WHERE idPelicula = ?";
@@ -129,8 +131,14 @@ reduciendolo si hay y creando el pedido o hace un rollback deshaciendo los cambi
             try (PreparedStatement psSelect = conn.prepareStatement(selectStock)) {
                 psSelect.setInt(1, idPelicula);
                 try (ResultSet rs = psSelect.executeQuery()) {
-                    if (!rs.next()) { conn.rollback(); return -1; }
-                    if (rs.getInt("Stock") < quantity) { conn.rollback(); return -1; } // Stock insuficiente
+                    if (!rs.next()) {
+                        conn.rollback();
+                        return -1;
+                    }
+                    if (rs.getInt("Stock") < quantity) {
+                        conn.rollback();
+                        return -1;
+                    } // Stock insuficiente
                 }
             }
 
@@ -175,70 +183,78 @@ reduciendolo si hay y creando el pedido o hace un rollback deshaciendo los cambi
             throw ex;
         }
     }
-/*
-Realiza la búsqueda de la película del pedido para devolver el stock y saldo que se ha bajado.
- */
-public boolean eliminarPedido(int idPedido) {
-    String selectSql = "SELECT idPelicula FROM pedido WHERE idPedido = ?";
-    String updateStock = "UPDATE pelicula SET Stock = Stock + 1 WHERE idPelicula = ?";
-    String deletePedido = "DELETE FROM pedido WHERE idPedido = ?";
 
-    Connection conn = null;
-    try {
-        conn = conexionDB.getConnection();
-        conn.setAutoCommit(false); // Transacción para seguridad para que no se guarde los cambios de manera permanente en la bdd
+    /*
+    Realiza la búsqueda de la película del pedido para devolver el stock y saldo que se ha bajado.
+     */
+    public boolean eliminarPedido(int idPedido) {
+        String selectSql = "SELECT idPelicula FROM pedido WHERE idPedido = ?";
+        String updateStock = "UPDATE pelicula SET Stock = Stock + 1 WHERE idPelicula = ?";
+        String deletePedido = "DELETE FROM pedido WHERE idPedido = ?";
 
-        // 1. Averigua qué película es para devolverle el stock
-        int idPelicula = -1;
-        try (PreparedStatement ps = conn.prepareStatement(selectSql)) {
-            ps.setInt(1, idPedido);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                idPelicula = rs.getInt("idPelicula");
+        Connection conn = null;
+        try {
+            conn = conexionDB.getConnection();
+            conn.setAutoCommit(false); // Transacción para seguridad para que no se guarde los cambios de manera permanente en la bdd
+
+            // 1. Averigua qué película es para devolverle el stock
+            int idPelicula = -1;
+            try (PreparedStatement ps = conn.prepareStatement(selectSql)) {
+                ps.setInt(1, idPedido);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    idPelicula = rs.getInt("idPelicula");
+                }
             }
-        }
 
-        // 2. Si encontramos la película, devuelve el stock
-        if (idPelicula != -1) {
-            try (PreparedStatement ps = conn.prepareStatement(updateStock)) {
-                ps.setInt(1, idPelicula);
-                ps.executeUpdate();
+            // 2. Si encontramos la película, devuelve el stock
+            if (idPelicula != -1) {
+                try (PreparedStatement ps = conn.prepareStatement(updateStock)) {
+                    ps.setInt(1, idPelicula);
+                    ps.executeUpdate();
+                }
             }
-        }
 
-        // 3. Borramos el pedido definitivamente
-        try (PreparedStatement ps = conn.prepareStatement(deletePedido)) {
-            ps.setInt(1, idPedido);
-            int filas = ps.executeUpdate();
+            // 3. Borramos el pedido definitivamente
+            try (PreparedStatement ps = conn.prepareStatement(deletePedido)) {
+                ps.setInt(1, idPedido);
+                int filas = ps.executeUpdate();
 
-            if (filas > 0) {
-                conn.commit(); // Todo bien, confirmamos cambios
-                return true;
-            } else {
-                conn.rollback(); // No se borró nada
-                return false;
+                if (filas > 0) {
+                    conn.commit(); // Todo bien, confirmamos cambios
+                    return true;
+                } else {
+                    conn.rollback(); // No se borró nada
+                    return false;
+                }
             }
-        }
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-        if (conn != null) {
-            try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
-        }
-        return false;
-    } finally {
-        if (conn != null) {
-            try {
-                conn.setAutoCommit(true);
-                conn.close();
-            } catch (SQLException ex) { ex.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
-}
-/*
-Busca y devuelve el último pedido realizado por un usuario para una película
-ordenandolo por id de manera descendente y limitando los resultados a 1 para mostrar solo el ultimo.
- */
+
+    /*
+    Busca y devuelve el último pedido realizado por un usuario para una película
+    ordenandolo por id de manera descendente y limitando los resultados a 1 para mostrar solo el ultimo.
+     */
     public pedido buscarUltimoPedido(int idPelicula, String correo) {
         String sql = "SELECT * FROM pedido WHERE idPelicula = ? AND Correo = ? ORDER BY idPedido DESC LIMIT 1";
 
@@ -285,5 +301,31 @@ ordenandolo por id de manera descendente y limitando los resultados a 1 para mos
             e.printStackTrace();
         }
         return false;
+    }
+
+    public pedido obtenerPorId(int idPedido) {
+        String sql = "SELECT * FROM pedido WHERE idPedido = ?";
+
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idPedido);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new pedido(
+                        rs.getInt("idPedido"),
+                        rs.getString("Estado"),
+                        rs.getDate("FechaCompra"),
+                        rs.getDate("FechaLlegada"),
+                        rs.getInt("idPelicula"),
+                        rs.getString("Direccion"),
+                        rs.getString("Correo")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
