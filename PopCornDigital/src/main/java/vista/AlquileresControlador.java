@@ -5,10 +5,12 @@ import dto.alquiler;
 import dto.pelicula;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -48,9 +50,6 @@ public class AlquileresControlador {
     /** Icono de navegación al catálogo */
     @FXML private ImageView homeIcon;
 
-    /** Icono de navegación al saldo */
-    @FXML private ImageView SaldoIcon;
-
     /** Icono de navegación a pedidos */
     @FXML private ImageView searchIcon;
 
@@ -59,6 +58,8 @@ public class AlquileresControlador {
 
     /** Icono de navegación a la vista de alquileres */
     @FXML private ImageView AlquilerIcon;
+
+    @FXML private ImageView SaldoIcon;
 
     /** Icono de navegación para cerrar sesión */
     @FXML private ImageView settingsIcon;
@@ -168,11 +169,6 @@ public class AlquileresControlador {
      * Navega a la vista del catálogo principal.
      */
     @FXML
-    private void irSaldo() {
-        cambiarVista("Saldo.fxml", SaldoIcon);
-    }
-
-    @FXML
     private void irCatalogo() {
         cambiarVista("Catalogo.fxml", homeIcon);
     }
@@ -202,10 +198,13 @@ public class AlquileresControlador {
     }
 
 
+    public void irSaldo() { cambiarVista("Saldo.fxml", SaldoIcon);
 
-        /**
-         * Cierra la sesión actual y vuelve a la pantalla de inicio de sesión.
-         */
+    }
+
+    /**
+     * Cierra la sesión actual y vuelve a la pantalla de inicio de sesión.
+     */
     @FXML
     private void CerrarSesion() {
         cambiarVista("InicioSesion.fxml", settingsIcon);

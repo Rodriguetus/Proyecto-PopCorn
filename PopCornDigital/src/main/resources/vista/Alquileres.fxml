@@ -6,6 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="425.0" prefWidth="922.0"
+            stylesheets="@../css/pedido.css"
             xmlns="http://javafx.com/javafx/24.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="vista.AlquileresControlador">
@@ -13,63 +14,44 @@
     <children>
 
         <!-- BARRA LATERAL -->
-        <VBox alignment="TOP_CENTER"
-              layoutY="-2.0"
-              prefHeight="529.0"
-              prefWidth="98.0"
-              spacing="25"
-              style="-fx-background-color: #2c3e50; -fx-padding: 20 0 20 0;">
-
-            <children>
-                <ImageView fx:id="logoImage" fitHeight="70" fitWidth="70" preserveRatio="true">
+            <VBox alignment="TOP_CENTER" prefWidth="100" spacing="25" style="-fx-background-color: #2c3e50; -fx-padding: 20 0 20 0;">
+                <ImageView fx:id="logoImage" fitHeight="70" fitWidth="70" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/PopCorn.png"/>
+                        <Image url="@../Imagenes/PopCorn.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="homeIcon" fitHeight="40" fitWidth="40"
-                           onMouseClicked="#irCatalogo" preserveRatio="true">
+                <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irCatalogo" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/lupa.png"/>
+                        <Image url="@../Imagenes/Catalogo.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="searchIcon" fitHeight="40" fitWidth="40"
-                           onMouseClicked="#irPedido" preserveRatio="true">
+                <ImageView fx:id="searchIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irPedido" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/Envio.png"/>
+                        <Image url="@../Imagenes/Envio.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="favoritesIcon" fitHeight="40" fitWidth="40"
-                           onMouseClicked="#irFavoritos" preserveRatio="true">
+                <ImageView fx:id="favoritesIcon" fitHeight="42.0" fitWidth="60.0" onMouseClicked="#irFavoritos" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/estrella.png"/>
+                        <Image url="@../Imagenes/estrella.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="AlquilerIcon" fitHeight="40" fitWidth="40"
-                           onMouseClicked="#irAlquiler" preserveRatio="true">
+                <ImageView fx:id="AlquilerIcon" fitHeight="45.0" fitWidth="46.0" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/Alquiler.png"/>
+                        <Image url="@../Imagenes/alquileres.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="SaldoIcon" fitHeight="42.0" fitWidth="60.0"
-                           onMouseClicked="#irSaldo" preserveRatio="true" style="-fx-cursor: hand;">
+                <ImageView fx:id="SaldoIcon" fitHeight="42.0" fitWidth="60.0" layoutX="40.0" layoutY="312.0" onMouseClicked="#irSaldo" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/Cartera.png"/>
+                        <Image url="@../Imagenes/Cartera.png" />
                     </image>
                 </ImageView>
-
-                <ImageView fx:id="settingsIcon" fitHeight="40" fitWidth="40"
-                           onMouseClicked="#CerrarSesion" preserveRatio="true">
+                <ImageView fx:id="exitIcon" fitHeight="43.0" fitWidth="48.0" onMouseClicked="#CerrarSesion" preserveRatio="true" style="-fx-cursor: hand;">
                     <image>
-                        <Image url="@../Imagenes/exit.png"/>
+                        <Image url="@../Imagenes/CerrarSesion.png" />
                     </image>
                 </ImageView>
-            </children>
-        </VBox>
+            </VBox>
+
 
         <!-- LOGO SUPERIOR -->
         <ImageView fitHeight="51.0" fitWidth="46.0"

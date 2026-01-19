@@ -231,57 +231,84 @@ public class DetallesMovieCardControlador {
     @FXML
     private void alquilarPelicula(ActionEvent event) {
 
-        if (idUsuario <= 0 || peliculaActual == null) {
-            mostrarAlerta("Usuario o película no válidos.");
+        if (peliculaActual == null) return;
+
+        //  Usuario realmente logueado
+        int idUsuario = SesionIniciada.getIdUsuario();
+
+        if (idUsuario <= 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Sesión no válida");
+            alert.setContentText("Debes iniciar sesión para alquilar una película.");
+            alert.showAndWait();
             return;
         }
 
-        if (AlquilerDAO.tieneAlquilerActivo(peliculaActual.getId(), idUsuario)) {
-            mostrarAlerta("Ya tienes esta película alquilada.");
+        //  Evitar alquilar dos veces la misma película
+        if (AlquilerDAO.existeAlquilerUsuario(peliculaActual.getId(), idUsuario)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Película ya alquilada");
+            alert.setContentText("Esta película ya está alquilada o pendiente de confirmar.");
+            alert.showAndWait();
             return;
         }
 
-        double precio = peliculaActual.getPrecio();
-        DaoUsuario usuarioDAO = new DaoUsuario();
-        double saldoActual = usuarioDAO.getSaldo(idUsuario);
-
-        if (saldoActual < precio) {
-            mostrarAlerta("Saldo insuficiente.\nTe faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
-            return;
-        }
-
-        int idAlquiler = AlquilerDAO.crearAlquiler(peliculaActual.getId(), 1, idUsuario);
+        // 1️ Crear alquiler PENDIENTE (sin fechas, sin cobro)
+        int idAlquiler = AlquilerDAO.crearAlquilerPendiente(
+                peliculaActual.getId(),
+                idUsuario
+        );
 
         if (idAlquiler == -1) {
-            mostrarAlerta("No hay stock suficiente para alquilar esta película.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error de Stock");
+            alert.setContentText("No se pudo procesar el alquiler. Verifique el stock.");
+            alert.showAndWait();
             return;
         }
 
-        boolean saldoActualizado = usuarioDAO.restarSaldo(idUsuario, precio);
-        if (!saldoActualizado) {
-            mostrarAlerta("Error al procesar el pago.\nInténtalo de nuevo.");
-            return;
-        }
+        // 2️ Guardar en memoria (si usas servicio tipo carrito)
+        CarritoAlquilerService.addAlquiler(peliculaActual);
 
-        PedidoDAO pedidoDAO = new PedidoDAO();
-        pedidoDAO.actualizarEstado(idAlquiler, "Pagado");
+        // 3️ Desactivar botón
+        actualizarEstadoBotonAlquiler();
 
-        rentButton.setDisable(true);
-
-        mostrarAlerta("Alquiler realizado correctamente.\nDuración: 7 días.\nNuevo saldo: " +
-                String.format("%.2f", (saldoActual - precio)) + "€");
+        // 4 Feedback al usuario
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Alquiler añadido correctamente");
+        alert.setHeaderText("Alquiler insertado");
+        alert.setContentText("La película se ha añadido a tus alquileres.");
+        alert.showAndWait();
     }
 
-    /**
-     * Muestra una alerta informativa con el mensaje indicado.
-     *
-     * @param msg mensaje a mostrar
-     */
-    private void mostrarAlerta(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
-        alert.showAndWait();
+
+    private void actualizarEstadoBotonAlquiler() {
+
+        if (peliculaActual == null) {
+            System.out.println("peliculaActual es null");
+            return;
+        }
+
+        int idUsuario = SesionIniciada.getIdUsuario();
+        if (idUsuario <= 0) {
+            System.out.println("usuario no válido");
+            return;
+        }
+
+        boolean existe = AlquilerDAO.existeAlquilerUsuario(
+                peliculaActual.getId(),
+                idUsuario
+        );
+
+        System.out.println("¿Está alquilada? " + existe);
+
+        if (existe) {
+            rentButton.setDisable(true);
+            rentButton.setText("En alquiler");
+        } else {
+            rentButton.setDisable(false);
+            rentButton.setText("Alquilar");
+        }
     }
 
 }

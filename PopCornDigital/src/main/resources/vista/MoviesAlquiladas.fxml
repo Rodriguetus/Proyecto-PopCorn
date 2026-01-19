@@ -1,48 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<VBox fx:id="movieCard" prefWidth="250" spacing="10"
-      style="-fx-background-color: #f4f4f4; -fx-padding: 15; -fx-border-radius: 10;
-      -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);"
-      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="vista.MovieAlquileresControlador">
+<AnchorPane fx:id="root" prefHeight="312.0" prefWidth="213.0" style="-fx-background-color: #f4f4f4; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5;" stylesheets="@../css/Compra.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.MovieAlquileresControlador">
 
     <!-- Imagen de la película -->
-    <ImageView fx:id="posterImage" fitHeight="320" fitWidth="220" preserveRatio="true"
-               style="-fx-background-color: #ddd; -fx-border-radius: 8;" />
+    <ImageView fx:id="imagenPelicula" fitHeight="144.0" fitWidth="203.0" layoutX="8.0" layoutY="10" preserveRatio="true" />
 
     <!-- Título -->
-    <Label fx:id="nombreLabel" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+    <Label fx:id="tituloLabel" layoutX="8.0" layoutY="180.0" style="-fx-font-weight: bold;" text="Pulp Fiction" />
 
-    <!-- Precio y stock -->
-    <HBox spacing="10">
-        <Label fx:id="precioLabel" style="-fx-font-size: 14px; -fx-text-fill: #27ae60;" />
-        <Label fx:id="stockLabel" style="-fx-font-size: 14px; -fx-text-fill: #e74c3c;" />
-    </HBox>
+    <!-- Compra ID -->
+    <Label fx:id="alquilerIdLabel" layoutX="8.0" layoutY="154.0" text="Alquiler #1764232952045" />
 
-    <!-- Año de salida -->
-    <Label fx:id="anoLabel" style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;" />
+    <!-- Cantidad -->
+    <Label fx:id="tiempoLabel" layoutX="32.0" layoutY="230.0" text="Tiempo restante:    0 dias" />
 
-    <!-- Formato y proveedor -->
-    <HBox spacing="10">
-        <Label fx:id="formatoLabel" style="-fx-font-size: 13px; -fx-text-fill: #34495e;" />
-        <Label fx:id="proveedorLabel" style="-fx-font-size: 13px; -fx-text-fill: #34495e;" />
-    </HBox>
+    <!-- Proveedor -->
+    <Label fx:id="proveedorLabel" layoutX="32.0" layoutY="245.0" text="Proveedor:         General" />
 
-    <!-- Género -->
-    <Label fx:id="generoLabel" style="-fx-font-size: 13px; -fx-text-fill: #8e44ad;" />
+    <!-- Fecha de compra -->
+    <Label fx:id="fechaInicioLabel" layoutX="31.0" layoutY="262.0" text="Inicio:             27/11/2025" />
 
-    <!-- Descripción -->
-    <Label fx:id="descripcionLabel" style="-fx-font-size: 12px; -fx-text-fill: #2c3e50;" wrapText="true" />
+    <!-- Fecha esperada -->
+    <Label fx:id="fechaFinLabel" layoutX="32.0" layoutY="278.0" text="Fin:                 4/12/2025" />
 
-    <!-- Fechas de alquiler -->
-    <HBox alignment="CENTER_RIGHT" spacing="10">
-        <Label fx:id="Falquilar" style="-fx-font-size: 12px; -fx-text-fill: #2980b9;" text="Alquilado: --/--/----" />
-        <Label fx:id="Fcaduca" style="-fx-font-size: 12px; -fx-text-fill: #c0392b;" text="Caduca: --/--/----" />
-    </HBox>
+    <Button fx:id="btnConfirmar" layoutX="8.0" layoutY="198.0" onAction="#confirmarAlquiler" prefHeight="23.0" prefWidth="90.0" style="-fx-background-color: #EFB000; -fx-font-weight: bold;" text="Confirmar" />
+   <Button fx:id="btnCancelar" layoutX="107.0" layoutY="198.0" onAction="#cancelarAlquiler" prefHeight="23.0" prefWidth="90.0" style="-fx-background-color: #EFB000; -fx-font-weight: bold;" text="Cancelar" />
 
-</VBox>
+</AnchorPane>
