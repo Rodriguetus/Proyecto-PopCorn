@@ -10,99 +10,103 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<BorderPane prefHeight="450" prefWidth="380"
-            style="-fx-background-color: #141E30; -fx-font-family: 'Segoe UI', sans-serif;"
+<BorderPane prefHeight="480" prefWidth="400"
+            style="-fx-background-color: linear-gradient(to bottom, #0F2027, #203A43, #2C5364);
+                   -fx-font-family: 'Segoe UI', sans-serif;"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="vista.FiltradosController">
 
-    <center>
-        <VBox fx:id="contenedorFiltros" alignment="TOP_CENTER" spacing="18" BorderPane.alignment="CENTER">
+    <!-- HEADER -->
+    <top>
+        <VBox alignment="CENTER" spacing="5" BorderPane.alignment="CENTER">
             <padding>
-                <Insets bottom="20" left="30" right="30" top="30"/>
+                <Insets top="25" bottom="15"/>
             </padding>
 
-            <Label text="🍿 ZONA DE FILTROS"
-                   style="-fx-text-fill: #F2C94C; -fx-font-size: 24px; -fx-font-weight: 800;">
+            <Label text="🎬 FILTROS DE CARTELERA"
+                   style="-fx-text-fill: #F2C94C; -fx-font-size: 26px; -fx-font-weight: 900;">
                 <effect>
-                    <DropShadow offsetX="2.0" offsetY="2.0" radius="5.0">
-                        <color>
-                            <Color opacity="0.5"/>
-                        </color>
-                    </DropShadow>
+                    <DropShadow offsetY="3" radius="8" color="#00000055"/>
                 </effect>
             </Label>
 
-            <Label text="Configura tu cartelera"
-                   style="-fx-text-fill: #E0E0E0; -fx-font-size: 13px; -fx-padding: 0 0 10 0;"/>
+            <Label text="Personaliza tu experiencia"
+                   style="-fx-text-fill: #E0E0E0; -fx-font-size: 14px;"/>
+        </VBox>
+    </top>
 
-            <!-- BOTONES CON TEXTO NÍTIDO -->
-            <MenuButton fx:id="btnFormatos" text="🎬  Formatos" maxWidth="Infinity"
-                        style="-fx-background-color: rgba(255,255,255,0.12);
+    <!-- CONTENIDO CENTRAL -->
+    <center>
+        <VBox fx:id="contenedorFiltros" alignment="TOP_CENTER" spacing="20">
+            <padding>
+                <Insets top="20" left="35" right="35" bottom="20"/>
+            </padding>
+
+            <!-- ESTILO DE BOTONES -->
+            <MenuButton fx:id="btnFormatos" text="📽️  Formatos" maxWidth="Infinity"
+                        style="-fx-background-color: rgba(255,255,255,0.15);
                                -fx-border-color: #F2C94C;
-                               -fx-border-radius: 20;
-                               -fx-background-radius: 20;
-                               -fx-text-fill: #FAFAFA;
-                               -fx-font-smoothing-type: lcd;
-                               -fx-mark-color: #FFFFFF;
+                               -fx-border-radius: 18;
+                               -fx-background-radius: 18;
+                               -fx-text-fill: #FFFFFF;
                                -fx-font-weight: bold;
-                               -fx-font-size: 14px;
-                               -fx-padding: 8;"/>
+                               -fx-font-size: 15px;
+                               -fx-padding: 10;
+                               -fx-cursor: hand;"/>
 
             <MenuButton fx:id="btnProveedor" text="🏢  Proveedor" maxWidth="Infinity"
-                        style="-fx-background-color: rgba(255,255,255,0.12);
+                        style="-fx-background-color: rgba(255,255,255,0.15);
                                -fx-border-color: #F2C94C;
-                               -fx-border-radius: 20;
-                               -fx-background-radius: 20;
-                               -fx-text-fill: #FAFAFA;
-                               -fx-font-smoothing-type: lcd;
-                               -fx-mark-color: #FFFFFF;
+                               -fx-border-radius: 18;
+                               -fx-background-radius: 18;
+                               -fx-text-fill: #FFFFFF;
                                -fx-font-weight: bold;
-                               -fx-font-size: 14px;
-                               -fx-padding: 8;"/>
+                               -fx-font-size: 15px;
+                               -fx-padding: 10;
+                               -fx-cursor: hand;"/>
 
             <MenuButton fx:id="btnGenero" text="🎭  Género" maxWidth="Infinity"
-                        style="-fx-background-color: rgba(255,255,255,0.12);
+                        style="-fx-background-color: rgba(255,255,255,0.15);
                                -fx-border-color: #F2C94C;
-                               -fx-border-radius: 20;
-                               -fx-background-radius: 20;
-                               -fx-text-fill: #FAFAFA;
-                               -fx-font-smoothing-type: lcd;
-                               -fx-mark-color: #FFFFFF;
+                               -fx-border-radius: 18;
+                               -fx-background-radius: 18;
+                               -fx-text-fill: #FFFFFF;
                                -fx-font-weight: bold;
-                               -fx-font-size: 14px;
-                               -fx-padding: 8;"/>
+                               -fx-font-size: 15px;
+                               -fx-padding: 10;
+                               -fx-cursor: hand;"/>
 
             <MenuButton fx:id="btnAnio" text="📅  Año" maxWidth="Infinity"
-                        style="-fx-background-color: rgba(255,255,255,0.12);
+                        style="-fx-background-color: rgba(255,255,255,0.15);
                                -fx-border-color: #F2C94C;
-                               -fx-border-radius: 20;
-                               -fx-background-radius: 20;
-                               -fx-text-fill: #FAFAFA;
-                               -fx-font-smoothing-type: lcd;
-                               -fx-mark-color: #FFFFFF;
+                               -fx-border-radius: 18;
+                               -fx-background-radius: 18;
+                               -fx-text-fill: #FFFFFF;
                                -fx-font-weight: bold;
-                               -fx-font-size: 14px;
-                               -fx-padding: 8;"/>
+                               -fx-font-size: 15px;
+                               -fx-padding: 10;
+                               -fx-cursor: hand;"/>
         </VBox>
     </center>
 
+    <!-- BOTÓN INFERIOR -->
     <bottom>
-        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER">
             <padding>
-                <Insets bottom="25" left="20" right="20" top="10"/>
+                <Insets top="15" bottom="30"/>
             </padding>
 
-            <Button fx:id="btnFiltrar" text="🔄 Reiniciar Filtros" prefWidth="200"
+            <Button fx:id="btnFiltrar" text="🔄 Reiniciar Filtros" prefWidth="220"
                     mnemonicParsing="false" onMouseClicked="#reiniciarFiltros"
                     style="-fx-background-color: #F2C94C;
                            -fx-text-fill: #141E30;
                            -fx-font-weight: bold;
-                           -fx-font-size: 15px;
-                           -fx-background-radius: 30;
+                           -fx-font-size: 16px;
+                           -fx-background-radius: 25;
                            -fx-cursor: hand;">
                 <effect>
-                    <DropShadow color="#00000066" offsetY="3" radius="10"/>
+                    <DropShadow color="#00000055" offsetY="4" radius="12"/>
                 </effect>
             </Button>
         </HBox>

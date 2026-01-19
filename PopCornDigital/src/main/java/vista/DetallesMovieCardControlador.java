@@ -52,6 +52,8 @@ public class DetallesMovieCardControlador {
     /** Label que muestra el stock disponible. */
     @FXML private Label stockLabel;
 
+    @FXML private Label stock;
+
     /** Label que muestra el precio de la película. */
     @FXML private Label priceLabel;
 
@@ -111,24 +113,16 @@ public class DetallesMovieCardControlador {
         if ("4K UHD".equalsIgnoreCase(movie.getFormato())) {
             rentButton.setVisible(true);
             buyButton.setVisible(false);
+            stockLabel.setVisible(false);
+            stock.setVisible(false);
+
         } else {
             rentButton.setVisible(false);
             buyButton.setVisible(true);
+            stockLabel.setVisible(true);
+            stock.setVisible(true);
 
-            // 1. Verificamos si está en la Base de Datos
-            boolean compradaEnBD = PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId());
-
-            // 2. Verificamos si está en el Carrito local (sesión actual)
-            boolean enCarrito = false;
-            for (pelicula p : CarritoService.getCarrito()) {
-                if (p.getId() == movie.getId()) {
-                    enCarrito = true;
-                    break;
-                }
-            }
-
-            // Si se cumple CUALQUIERA de las dos, deshabilitamos el botón
-            if (compradaEnBD || enCarrito) {
+            if (PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId())) {
                 buyButton.setDisable(true);
                 buyButton.setText("En compras");
             } else {
@@ -149,7 +143,7 @@ public class DetallesMovieCardControlador {
 
         if (peliculaActual == null) return;
 
-        String correoUsuario = SesionIniciada.getCorreo();
+        String correoUsuario = "admin@gmail.com";
 
         int idPedido = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "", correoUsuario);
 
@@ -230,59 +224,64 @@ public class DetallesMovieCardControlador {
     }
 
     /**
-     * Inicia el proceso de alquiler de la película seleccionada.
+     * Procesa el alquiler de la película actual.
      *
-     * <p>
-     * Este método crea un alquiler en estado pendiente, sin fechas ni cobro,
-     * comprobando previamente la disponibilidad de stock. Si la operación
-     * es correcta, la película se añade al carrito de alquiler en memoria
-     * y se navega a la vista de alquileres.
-     * </p>
-     *
-     * <p>
-     * En caso de no existir stock suficiente o producirse un error en la
-     * creación del alquiler, se muestra un mensaje de advertencia al usuario.
-     * </p>
-     *
-     * @param event evento generado al pulsar el botón de alquilar
+     * @param event evento del botón
      */
     @FXML
     private void alquilarPelicula(ActionEvent event) {
 
-        if (peliculaActual == null) return;
-
-        int idUsuario = SesionIniciada.getIdUsuario();
-
-        // 1. Crear alquiler PENDIENTE (sin cobrar, sin fechas)
-        int idAlquiler = AlquilerDAO.crearAlquilerPendiente(
-                peliculaActual.getId(),
-                1
-        );
-
-        if (idAlquiler == -1) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error de Stock");
-            alert.setHeaderText(null);
-            alert.setContentText("No hay stock suficiente o ocurrió un error.");
-            alert.showAndWait();
+        if (idUsuario <= 0 || peliculaActual == null) {
+            mostrarAlerta("Usuario o película no válidos.");
             return;
         }
 
-        // 2. Guardar en memoria (si tienes servicio tipo carrito de alquiler)
-        CarritoAlquilerService.addAlquiler(peliculaActual);
-
-        // 3. Abrir Alquiler.fxml
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/Alquileres.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (AlquilerDAO.tieneAlquilerActivo(peliculaActual.getId(), idUsuario)) {
+            mostrarAlerta("Ya tienes esta película alquilada.");
+            return;
         }
+
+        double precio = peliculaActual.getPrecio();
+        DaoUsuario usuarioDAO = new DaoUsuario();
+        double saldoActual = usuarioDAO.getSaldo(idUsuario);
+
+        if (saldoActual < precio) {
+            mostrarAlerta("Saldo insuficiente.\nTe faltan " + String.format("%.2f", (precio - saldoActual)) + "€");
+            return;
+        }
+
+        int idAlquiler = AlquilerDAO.crearAlquiler(peliculaActual.getId(), 1, idUsuario);
+
+        if (idAlquiler == -1) {
+            mostrarAlerta("No hay stock suficiente para alquilar esta película.");
+            return;
+        }
+
+        boolean saldoActualizado = usuarioDAO.restarSaldo(idUsuario, precio);
+        if (!saldoActualizado) {
+            mostrarAlerta("Error al procesar el pago.\nInténtalo de nuevo.");
+            return;
+        }
+
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        pedidoDAO.actualizarEstado(idAlquiler, "Pagado");
+
+        rentButton.setDisable(true);
+
+        mostrarAlerta("Alquiler realizado correctamente.\nDuración: 7 días.\nNuevo saldo: " +
+                String.format("%.2f", (saldoActual - precio)) + "€");
+    }
+
+    /**
+     * Muestra una alerta informativa con el mensaje indicado.
+     *
+     * @param msg mensaje a mostrar
+     */
+    private void mostrarAlerta(String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
 }

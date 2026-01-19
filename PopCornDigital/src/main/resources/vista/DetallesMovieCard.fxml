@@ -40,7 +40,7 @@
 
         <!-- Stock -->
         <HBox spacing="10">
-            <Label style="-fx-text-fill: #bbbbbb; -fx-font-size: 14px;" text="Stock:" />
+            <Label fx:id="stock" style="-fx-text-fill: #bbbbbb; -fx-font-size: 14px;" text="Stock:" />
             <Label fx:id="stockLabel" style="-fx-text-fill: white; -fx-font-size: 14px;" text="INFO" />
         </HBox>
 
