@@ -347,7 +347,7 @@ public class PedidoDAO {
                 "JOIN pelicula p ON ped.idPelicula = p.idPelicula " +
                 "WHERE ped.Correo = ?";
 
-        try (Connection conn = conexion.conexionDB.getConnection();
+        try (Connection conn = conexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, correoUsuario);

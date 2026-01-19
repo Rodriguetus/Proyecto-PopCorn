@@ -156,7 +156,7 @@ public class DetallesMovieCardControlador {
 
         if (peliculaActual == null) return;
 
-        String correoUsuario = "admin@gmail.com";
+        String correoUsuario = SesionIniciada.getCorreo();
 
         int idPedido = PedidoDAO.createPedidoAndReduceStock(peliculaActual.getId(), 1, "", correoUsuario);
 
