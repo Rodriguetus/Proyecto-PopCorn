@@ -115,14 +115,26 @@ public class DetallesMovieCardControlador {
             buyButton.setVisible(false);
             stockLabel.setVisible(false);
             stock.setVisible(false);
+            // SINCRONIZAR ESTADO DEL BOTÓN DE ALQUILER
+            actualizarEstadoBotonAlquiler();
 
         } else {
             rentButton.setVisible(false);
             buyButton.setVisible(true);
             stockLabel.setVisible(true);
             stock.setVisible(true);
+            // lógica de compras (correcta)
+            boolean compradaEnBD = PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId());
 
-            if (PedidoDAO.haCompradoPelicula(correoUsuario, movie.getId())) {
+            boolean enCarrito = false;
+            for (pelicula p : CarritoService.getCarrito()) {
+                if (p.getId() == movie.getId()) {
+                    enCarrito = true;
+                    break;
+                }
+            }
+
+            if (compradaEnBD || enCarrito) {
                 buyButton.setDisable(true);
                 buyButton.setText("En compras");
             } else {
@@ -130,6 +142,7 @@ public class DetallesMovieCardControlador {
                 buyButton.setText("Comprar");
             }
         }
+
     }
 
     /**
@@ -310,5 +323,4 @@ public class DetallesMovieCardControlador {
             rentButton.setText("Alquilar");
         }
     }
-
 }
