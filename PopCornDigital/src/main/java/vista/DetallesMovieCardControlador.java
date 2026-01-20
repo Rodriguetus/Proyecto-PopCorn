@@ -272,14 +272,6 @@ public class DetallesMovieCardControlador {
                 idUsuario
         );
 
-        if (idAlquiler == -1) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Error de Stock");
-            alert.setContentText("No se pudo procesar el alquiler. Verifique el stock.");
-            alert.showAndWait();
-            return;
-        }
-
         // 2️ Guardar en memoria (si usas servicio tipo carrito)
         CarritoAlquilerService.addAlquiler(peliculaActual);
 
