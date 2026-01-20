@@ -5,12 +5,10 @@ import dto.alquiler;
 import dto.pelicula;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,6 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 /**
  * Controlador JavaFX encargado de gestionar la vista de los alquileres del usuario.
  *
@@ -36,7 +35,8 @@ import java.sql.ResultSet;
  *
  * <p>
  * Además, gestiona la navegación entre las distintas vistas principales
- * de la aplicación, como el catálogo, favoritos, pedidos y cierre de sesión.
+ * de la aplicación, como el catálogo, favoritos, pedidos, saldo y cierre
+ * de sesión.
  * </p>
  *
  * @author LaureanoCL
@@ -44,6 +44,7 @@ import java.sql.ResultSet;
  * @since 1.0
  */
 public class AlquileresControlador {
+
     /** Imagen del logotipo de la aplicación */
     @FXML private ImageView logoImage;
 
@@ -59,6 +60,7 @@ public class AlquileresControlador {
     /** Icono de navegación a la vista de alquileres */
     @FXML private ImageView AlquilerIcon;
 
+    /** Icono de navegación a la vista de saldo */
     @FXML private ImageView SaldoIcon;
 
     /** Icono de navegación para cerrar sesión */
@@ -86,6 +88,7 @@ public class AlquileresControlador {
     public void initialize() {
         cargarAlquileresUsuario();
     }
+
     /**
      * Carga los alquileres asociados al usuario que tiene la sesión iniciada.
      *
@@ -140,8 +143,6 @@ public class AlquileresControlador {
                 // -------- ALQUILER --------
                 alquiler alq = new alquiler();
                 alq.setId(rs.getInt("idAlquiler"));
-
-                // ⚠️ PUEDEN SER NULL (y está bien)
                 alq.setfAlquiler(rs.getDate("fechaAlquiler"));
                 alq.setfDevolucion(rs.getDate("fechaDevolucion"));
 
@@ -197,9 +198,12 @@ public class AlquileresControlador {
         cambiarVista("Alquiler.fxml", AlquilerIcon);
     }
 
-
-    public void irSaldo() { cambiarVista("Saldo.fxml", SaldoIcon);
-
+    /**
+     * Navega a la vista de saldo del usuario.
+     */
+    @FXML
+    private void irSaldo() {
+        cambiarVista("Saldo.fxml", SaldoIcon);
     }
 
     /**
@@ -236,6 +240,7 @@ public class AlquileresControlador {
         }
     }
 }
+
 
 
 

@@ -12,7 +12,11 @@ import conexion.conexionDB;
 public class PeliculaDAO {
 
     public void insertar(pelicula p) {
-        String sql = "INSERT INTO pelicula (idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen, Descripcion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = """
+        INSERT INTO pelicula 
+        (idPelicula, Nombre, Precio, Stock, Genero, Formato, Proveedor, AnoSalida, Imagen, Descripcion)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """;
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -20,7 +24,14 @@ public class PeliculaDAO {
             stmt.setInt(1, p.getId());
             stmt.setString(2, p.getNombre());
             stmt.setDouble(3, p.getPrecio());
-            stmt.setInt(4, p.getStock());
+
+            // ⭐ STOCK NULL SEGURO
+            if (p.getStock() == null) {
+                stmt.setNull(4, Types.INTEGER);
+            } else {
+                stmt.setInt(4, p.getStock());
+            }
+
             stmt.setString(5, p.getGenero());
             stmt.setString(6, p.getFormato());
             stmt.setString(7, p.getProveedor());
@@ -35,15 +46,27 @@ public class PeliculaDAO {
         }
     }
 
+
     public void modificar(pelicula p) {
-        String sql = "UPDATE pelicula SET Nombre=?, Precio=?, Stock=?, Genero=?, Formato=?, Proveedor=?, AnoSalida=?, Imagen=?, Descripcion=? WHERE idPelicula=?";
+        String sql = """
+        UPDATE pelicula 
+        SET Nombre=?, Precio=?, Stock=?, Genero=?, Formato=?, Proveedor=?, AnoSalida=?, Imagen=?, Descripcion=?
+        WHERE idPelicula=?
+    """;
 
         try (Connection conn = conexionDB.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, p.getNombre());
             stmt.setDouble(2, p.getPrecio());
-            stmt.setInt(3, p.getStock());
+
+            // ⭐ STOCK NULL SEGURO
+            if (p.getStock() == null) {
+                stmt.setNull(3, Types.INTEGER);
+            } else {
+                stmt.setInt(3, p.getStock());
+            }
+
             stmt.setString(4, p.getGenero());
             stmt.setString(5, p.getFormato());
             stmt.setString(6, p.getProveedor());
@@ -58,6 +81,7 @@ public class PeliculaDAO {
             e.printStackTrace();
         }
     }
+
 
     public boolean eliminar(int id) {
         String sql = "DELETE FROM pelicula WHERE idPelicula = ?";
@@ -76,15 +100,17 @@ public class PeliculaDAO {
     public List<pelicula> getPeliculas() throws SQLException {
         List<pelicula> list = new ArrayList<>();
         String sql = "SELECT * FROM pelicula";
+
         try (Connection conn = conexionDB.getConnection();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) {
                 list.add(new pelicula(
                         rs.getInt("idPelicula"),
                         rs.getString("Nombre"),
                         rs.getDouble("Precio"),
-                        rs.getInt("Stock"),
+                        rs.getObject("Stock", Integer.class),
                         rs.getString("Genero"),
                         rs.getString("Formato"),
                         rs.getString("Proveedor"),
@@ -96,6 +122,7 @@ public class PeliculaDAO {
         }
         return list;
     }
+
 
     // Dentro de la clase dao.PeliculaDAO
 
@@ -114,10 +141,10 @@ public class PeliculaDAO {
                 while (rs.next()) {
                     // CORRECCIÓN: Cambiar rs.getInt("id") por rs.getInt("idPelicula")
                     peliculas.add(new pelicula(
-                            rs.getInt("idPelicula"), // ¡AQUÍ ESTABA EL ERROR!
+                            rs.getInt("idPelicula"),
                             rs.getString("Nombre"),
                             rs.getDouble("Precio"),
-                            rs.getInt("Stock"),
+                            rs.getObject("Stock", Integer.class),
                             rs.getString("Genero"),
                             rs.getString("Formato"),
                             rs.getString("Proveedor"),
@@ -149,7 +176,7 @@ public class PeliculaDAO {
                         rs.getInt("idPelicula"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
-                        rs.getInt("stock"),
+                        rs.getObject("stock", Integer.class),
                         rs.getString("genero"),
                         rs.getString("formato"),
                         rs.getString("proveedor"),
@@ -157,6 +184,7 @@ public class PeliculaDAO {
                         rs.getString("imagen"),
                         rs.getString("descripcion")
                 );
+
                 lista.add(p);
             }
 

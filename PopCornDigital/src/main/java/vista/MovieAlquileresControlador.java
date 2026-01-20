@@ -22,20 +22,20 @@ import java.time.LocalDate;
  *
  * <p>
  * Esta clase se utiliza para mostrar los detalles de una película alquilada,
- * incluyendo información como el título, proveedor, fechas de alquiler
- * y la imagen asociada. Además, permite confirmar el alquiler pendiente
- * realizando el pago correspondiente.
+ * incluyendo información como el título, proveedor, fechas de alquiler,
+ * tiempo restante y la imagen asociada. Además, permite confirmar o cancelar
+ * alquileres pendientes realizando las operaciones correspondientes.
  * </p>
  *
  * <p>
  * El controlador interactúa con la capa de acceso a datos mediante
- * {@link AlquilerDAO} y {@link DaoUsuario}, y obtiene información
- * del usuario autenticado a través de {@link SesionIniciada}.
+ * {@link dao.AlquilerDAO} y {@link dao.DaoUsuario}, y obtiene información
+ * del usuario autenticado a través de {@link dto.SesionIniciada}.
  * </p>
  *
  * <p>
  * Está diseñada para ser utilizada junto a un archivo FXML que define
- * la interfaz gráfica del alquiler.
+ * la interfaz gráfica de la tarjeta de alquiler.
  * </p>
  *
  * @author LaureanoCL
@@ -56,7 +56,7 @@ public class MovieAlquileresControlador {
     /** Etiqueta que muestra el identificador del alquiler */
     @FXML private Label alquilerIdLabel;
 
-    /** Etiqueta que muestra la cantidad alquilada */
+    /** Etiqueta que muestra el tiempo restante del alquiler */
     @FXML private Label tiempoLabel;
 
     /** Etiqueta que muestra el proveedor de la película */
@@ -71,6 +71,7 @@ public class MovieAlquileresControlador {
     /** Botón para confirmar el alquiler */
     @FXML private Button btnConfirmar;
 
+    /** Botón para cancelar el alquiler */
     @FXML private Button btnCancelar;
 
     /** Película asociada al alquiler */
@@ -84,22 +85,22 @@ public class MovieAlquileresControlador {
      *
      * <p>
      * Este método se ejecuta automáticamente al cargarse el archivo FXML.
-     * En esta implementación no contiene lógica adicional, ya que los datos
-     * se cargan dinámicamente mediante el método {@link #setDatosPelicula}.
+     * Los datos se asignan dinámicamente mediante el método
+     * {@link #setDatosPelicula(pelicula, alquiler)}.
      * </p>
      */
     @FXML
     public void initialize() {
-        // Ya no hay lógica de eliminación
+        // Inicialización sin lógica adicional
     }
 
     /**
      * Asigna los datos de la película y del alquiler a la vista.
      *
      * <p>
-     * Muestra la información básica de la película y, si el alquiler ya ha sido
-     * confirmado, también las fechas correspondientes. En caso contrario,
-     * se muestra como alquiler pendiente.
+     * Muestra la información visual de la película y calcula el tiempo
+     * restante del alquiler. Si el alquiler ha vencido, se elimina
+     * automáticamente y no se muestra la tarjeta.
      * </p>
      *
      * @param pelicula película asociada al alquiler
@@ -110,7 +111,7 @@ public class MovieAlquileresControlador {
         this.pelicula = pelicula;
         this.alquilerActual = alquiler;
 
-        // ---------------- ELIMINAR SI ESTÁ VENCIDO ----------------
+        // -------- ELIMINAR ALQUILER VENCIDO --------
         if (alquiler != null && alquiler.getfDevolucion() != null) {
 
             LocalDate hoy = LocalDate.now();
@@ -120,13 +121,12 @@ public class MovieAlquileresControlador {
                     java.time.temporal.ChronoUnit.DAYS.between(hoy, fechaDevolucion);
 
             if (diasRestantes < 0) {
-                //  Alquiler vencido → eliminar
                 AlquilerDAO.eliminarAlquiler(alquiler.getId());
-                return; //  NO pintar tarjeta
+                return;
             }
         }
 
-        // ---------------- DATOS VISUALES ----------------
+        // -------- DATOS VISUALES --------
         tituloLabel.setText(pelicula.getNombre());
         proveedorLabel.setText("Proveedor: " + pelicula.getProveedor());
 
@@ -139,12 +139,6 @@ public class MovieAlquileresControlador {
             long diasRestantes =
                     java.time.temporal.ChronoUnit.DAYS.between(hoy, fechaDevolucion);
 
-            if (diasRestantes < 0) {
-                // Alquiler vencido → eliminar
-                AlquilerDAO.eliminarAlquiler(alquiler.getId());
-                return; // no pintar tarjeta
-            }
-
             if (diasRestantes > 0) {
                 tiempoLabel.setText("Tiempo restante: " + diasRestantes + " días");
             } else {
@@ -154,7 +148,6 @@ public class MovieAlquileresControlador {
         } else {
             tiempoLabel.setText("Tiempo restante: Pendiente");
         }
-
 
         // -------- FECHAS --------
         if (alquiler != null && alquiler.getfAlquiler() != null) {
@@ -183,24 +176,20 @@ public class MovieAlquileresControlador {
             }
         }
 
+        // -------- ESTADO CONFIRMADO --------
         if (alquiler != null && alquiler.getfAlquiler() != null) {
             btnConfirmar.setDisable(true);
             btnCancelar.setDisable(true);
-
             btnConfirmar.setText("Alquilado");
         }
     }
-
-
 
     /**
      * Confirma el alquiler pendiente realizando el pago correspondiente.
      *
      * <p>
-     * Comprueba si el usuario dispone de saldo suficiente para pagar el alquiler.
-     * En caso afirmativo, descuenta el saldo y actualiza las fechas del alquiler.
-     * Si el saldo es insuficiente o el alquiler ya está confirmado, se muestra
-     * un mensaje de error.
+     * Comprueba si el usuario dispone de saldo suficiente, descuenta el importe,
+     * actualiza las fechas del alquiler y refresca la tarjeta visual.
      * </p>
      *
      * @param event evento generado al pulsar el botón de confirmar alquiler
@@ -208,7 +197,6 @@ public class MovieAlquileresControlador {
     @FXML
     private void confirmarAlquiler(ActionEvent event) {
 
-        // Ya está pagado o no es válido
         if (alquilerActual == null || alquilerActual.getfAlquiler() != null) {
             mostrarAlertaPersonalizada(
                     "Aviso",
@@ -231,18 +219,9 @@ public class MovieAlquileresControlador {
             return;
         }
 
-        // 1️ Cobrar
-        if (!usuarioDAO.restarSaldo(idUsuario, precio)) {
-            mostrarAlertaPersonalizada(
-                    "Error",
-                    "No se pudo procesar el pago."
-            );
-            return;
-        }
+        if (!usuarioDAO.restarSaldo(idUsuario, precio)
+                || !AlquilerDAO.actualizarFechas(alquilerActual.getId())) {
 
-        // 2️ Actualizar fechas en BD
-        boolean actualizado = AlquilerDAO.actualizarFechas(alquilerActual.getId());
-        if (!actualizado) {
             mostrarAlertaPersonalizada(
                     "Error",
                     "No se pudo confirmar el alquiler."
@@ -250,21 +229,13 @@ public class MovieAlquileresControlador {
             return;
         }
 
-        // 3️ ACTUALIZAR OBJETO EN MEMORIA
-        java.sql.Date hoy = java.sql.Date.valueOf(LocalDate.now());
-        java.sql.Date fin = java.sql.Date.valueOf(LocalDate.now().plusDays(7));
+        alquilerActual.setfAlquiler(java.sql.Date.valueOf(LocalDate.now()));
+        alquilerActual.setfDevolucion(
+                java.sql.Date.valueOf(LocalDate.now().plusDays(7))
+        );
 
-        alquilerActual.setfAlquiler(hoy);
-        alquilerActual.setfDevolucion(fin);
-
-        // 4️ REFRESCAR TARJETA
         setDatosPelicula(pelicula, alquilerActual);
 
-        // 5️ Desactivar botón
-        btnConfirmar.setDisable(true);
-        btnConfirmar.setText("Alquilado");
-
-        // 6️ Feedback
         mostrarAlerta(
                 Alert.AlertType.INFORMATION,
                 "Pago realizado",
@@ -272,12 +243,20 @@ public class MovieAlquileresControlador {
         );
     }
 
-
-
+    /**
+     * Cancela un alquiler pendiente.
+     *
+     * <p>
+     * Solo se permite cancelar alquileres que aún no han sido confirmados.
+     * El alquiler se elimina de la base de datos y la tarjeta se retira
+     * de la interfaz gráfica.
+     * </p>
+     *
+     * @param event evento generado al pulsar el botón de cancelar
+     */
     @FXML
     private void cancelarAlquiler(ActionEvent event) {
 
-        // Solo se puede cancelar si está pendiente
         if (alquilerActual == null || alquilerActual.getfAlquiler() != null) {
             mostrarAlertaPersonalizada(
                     "No permitido",
@@ -286,10 +265,8 @@ public class MovieAlquileresControlador {
             return;
         }
 
-        // Eliminar de BD
         AlquilerDAO.eliminarAlquiler(alquilerActual.getId());
 
-        // Eliminar tarjeta de la UI
         if (root != null && root.getParent() instanceof javafx.scene.layout.Pane pane) {
             pane.getChildren().remove(root);
         }
@@ -304,8 +281,8 @@ public class MovieAlquileresControlador {
     /**
      * Muestra una alerta estándar al usuario.
      *
-     * @param tipo tipo de alerta a mostrar
-     * @param titulo título de la ventana de alerta
+     * @param tipo tipo de alerta
+     * @param titulo título de la ventana
      * @param contenido mensaje informativo
      */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
@@ -320,7 +297,7 @@ public class MovieAlquileresControlador {
      * Muestra una alerta personalizada con estilos CSS.
      *
      * @param titulo título de la alerta
-     * @param contenido mensaje de error mostrado al usuario
+     * @param contenido mensaje mostrado al usuario
      */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -337,6 +314,12 @@ public class MovieAlquileresControlador {
         alert.showAndWait();
     }
 
+    /**
+     * Convierte un objeto {@link java.util.Date} a {@link LocalDate}.
+     *
+     * @param fecha fecha a convertir
+     * @return fecha convertida a LocalDate
+     */
     private LocalDate convertirALocalDate(java.util.Date fecha) {
 
         if (fecha instanceof java.sql.Date sqlDate) {
@@ -348,7 +331,6 @@ public class MovieAlquileresControlador {
                 .toLocalDate();
     }
 
-
     /**
      * Devuelve la película asociada al alquiler.
      *
@@ -357,14 +339,13 @@ public class MovieAlquileresControlador {
     public pelicula getPelicula() {
         return pelicula;
     }
+
     /**
      * Devuelve el contenedor raíz de la vista.
      *
-     * @return panel raíz (AnchorPane)
+     * @return panel raíz
      */
     public AnchorPane getRoot() {
         return root;
     }
 }
-
-

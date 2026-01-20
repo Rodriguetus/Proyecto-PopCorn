@@ -4,7 +4,8 @@ public class pelicula {
     private int id;
     private String nombre;
     private double precio;
-    private int stock;
+    private Integer stock;
+
     private String genero;
     private String formato;
     private String proveedor;
@@ -12,7 +13,8 @@ public class pelicula {
     private String imagen;
     private String descripcion;
 
-    public pelicula(int id, String nombre, double precio, int stock, String genero, String formato, String proveedor, int anoSalida, String imagen, String descripcion){
+    public pelicula(int id, String nombre, double precio, Integer stock, String genero, String formato, String proveedor, int anoSalida, String imagen, String descripcion) {
+
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -53,13 +55,9 @@ public class pelicula {
         this.precio = precio;
     }
 
-    public int getStock() {
-        return stock;
-    }
+    public Integer getStock() {return stock;}
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
+    public void setStock(Integer stock) {this.stock = stock;}
 
     public String getGenero() {
         return genero;
