@@ -18,7 +18,12 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
+/**
+ * Controlador principal para la gestión visual de los pedidos
+ *
+ * Se encarga de mostrar la películas añadidas al carrito, gestiona la creación de nuevos pedidos
+ * de la base de datos y la navegación hacia las otras funciones de la aplicación.
+ */
 public class PedidoControlador {
 
     //FlowPane encargado de almacernar las peliculas
@@ -35,6 +40,9 @@ public class PedidoControlador {
     public PedidoControlador() {
     }
 
+    /**
+     * Inicializa el controlador cargando los elementos del carrito al arrancar la vista.
+     */
     @FXML
     public void initialize() {
         //Carga el carrito
@@ -42,7 +50,10 @@ public class PedidoControlador {
     }
 
 
-    //Carga el carrito y genera las tarjetas correspondientes
+    /**
+     * Carga las películas almacenadas dentro del servicio del carrito y genera las tarjetas de estas
+     * para mostrarlas dentro de la interfaz.
+     */
     private void cargarCarrito() {
         flowCompras.getChildren().clear();
         String correoUsuario = dto.SesionIniciada.getCorreo();
@@ -72,8 +83,11 @@ public class PedidoControlador {
         addPurchase(p, 1, "");
     }
 
-    /*
-    Metodo para mostrar el Alert personalizado que implementa css
+    /**
+     * Muestra una alerta personalizada con css
+     *
+     * @param titulo Titulo de la ventana
+     * @param contenido Mensaje de error
      */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -96,9 +110,15 @@ public class PedidoControlador {
     }
 
 
-    //Añade una compra a la base de datos y al carrito modificando el stock
+    /**
+     * Registra una nueva compra en la base de datos y actualiza la interfaz.
+     *
+     * @param p La pelicula que desea comprar
+     * @param quantity La cantidad de unidades
+     * @param direccion La dirección de envio
+     */
     public void addPurchase(pelicula p, int quantity, String direccion) {
-        String correoUsuario = dto.SesionIniciada.getCorreo(); // O SesionIniciada.getCorreo()
+        String correoUsuario = dto.SesionIniciada.getCorreo();
 
         dbExecutor.submit(() -> {
             try {
@@ -151,6 +171,8 @@ public class PedidoControlador {
     public void shutdown() {
         dbExecutor.shutdown();
     }
+
+    //Metodos de navegacion
 
     //Navega hacia el Login
     @FXML

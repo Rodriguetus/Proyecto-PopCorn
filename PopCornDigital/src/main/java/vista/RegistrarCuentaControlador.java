@@ -15,6 +15,12 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador encargado del registro de cuentas gestionando los nuevos usuarios que se ingresan al sistema.
+ *
+ * Esta clase realiza las validaciones de seguridad ademas de formato para la creación de la cuenta
+ * asegurando la integridad de los datos.
+ */
 public class RegistrarCuentaControlador implements Initializable {
 
 
@@ -36,8 +42,12 @@ public class RegistrarCuentaControlador implements Initializable {
     @FXML
     private Hyperlink linkInicio;
 
-    /*
-    Realiza varias validaciones y si esta correcto guarda al usuario y redirige a la vista del Login.
+    /**
+     * Recibe la solicitud de registro y la gestiona
+     *
+     * Realiza las validaciones necesarias  y si estas son exitosas redirige a la vista de Inicio de Sesion
+     *
+     * @param event El evento de click del ratón al botón de registrar cuenta.
      */
     @FXML
     private void registrarCuenta(ActionEvent event) {
@@ -190,7 +200,10 @@ public class RegistrarCuentaControlador implements Initializable {
         alert.showAndWait();
     }
 
-    //Metodo para volver al inicio
+    /**
+     * Tras registrar la cuenta del usuario o que este la cancele usa el hipervinculo
+     * para volver a la vista de Inicio de Sesion.
+     */
     private void irAInicioSesion() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/vista/InicioSesion.fxml"));
@@ -202,6 +215,9 @@ public class RegistrarCuentaControlador implements Initializable {
         }
     }
 
+    /**
+     *Inicializa el controlador
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         linkInicio.setOnAction(e -> irAInicioSesion());
