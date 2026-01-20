@@ -272,13 +272,11 @@ public class DetallesMovieCardControlador {
                 idUsuario
         );
 
-        // 2️ Guardar en memoria (si usas servicio tipo carrito)
-        CarritoAlquilerService.addAlquiler(peliculaActual);
 
-        // 3️ Desactivar botón
+        // 2 Desactivar botón
         actualizarEstadoBotonAlquiler();
 
-        // 4 Feedback al usuario
+        // 3 Feedback al usuario
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Alquiler añadido correctamente");
         alert.setHeaderText("Alquiler insertado");
