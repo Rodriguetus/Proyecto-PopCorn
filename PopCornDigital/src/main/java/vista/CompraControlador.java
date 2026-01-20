@@ -20,6 +20,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+/**
+ * Controlador de la tarjeta de la compra de la pelicula.
+ *
+ * Gestiona la vista de los datos de la pelicula que se va a comprar ademas de la confirmación, eliminación o
+ * detalles de esta.
+ */
 public class CompraControlador {
 
     @FXML private AnchorPane root;
@@ -39,10 +45,13 @@ public class CompraControlador {
 
     private Consumer<CompraControlador> onRemove;
 
-    /*
-    Inicializa los componentes cargando la vista.
-     */
-
+    /**
+     * Inicia el controlador y configura los eventos que hacen los botones
+     *
+     * Si el pedido esta Pagado y se queire devolver realiza un reembolso
+     * Si el pedido esta Pendiente lo elimina de la base de datos si le da al botón de eliminar o
+     * convierte su estado a Pagado si le da al botón de confirmar compra.
+     * */
     @FXML
     public void initialize() {
         btnRemove.setOnAction(e -> {
@@ -119,9 +128,12 @@ public class CompraControlador {
             }
         });
     }
-    /*
-    Recibe los datos de la película de la compra para mostrarlos en la carta rellenando asi cada
-    etiqueta de esta misma.
+    /**
+     * Recibe los datos de la película de la compra para mostrarlos en la carta rellenando asi cada
+     * etiqueta de esta misma.
+     *
+     * @param pelicula El objeto pelicula com la información del producto como su titulo, precio...
+     * @param pedido EL objeto pedido al que esta asociado siendo null o en estado Pendiente
      */
     public void setDatosPelicula(pelicula pelicula, pedido pedido) {
         this.pelicula = pelicula;
@@ -155,8 +167,11 @@ public class CompraControlador {
             }
         }
     }
-    /*
-    Metodo auxiliar que cambia los estados de Pendiente a Pagado de manera visual.
+    /**
+     * Actualiza el estado visual de la etiqueta de estado según la situación de la compra.
+     * Habilita o deshabilita los botones dependiendo de en que estado este.
+     *
+     * @param estado El estado actual del pedido(Pendiente o Pagado)
      */
     private void actualizarEstadoVisual(String estado) {
         estadoLabel.setText("Estado: " + estado);
@@ -169,9 +184,13 @@ public class CompraControlador {
         }
     }
 
-    /*
-    Metodo que realiza al hacer click en el boton de confirmar compra verificando si hay saldo suficiente
-    reduciendo su saldo y actualizando el estadod del pedido de pendiente a pagado en la base de datos
+    /**
+     * Metodo que gestiona la accion de confirmar compra al hacer click en el boton
+     *
+     * Verifica si el usuario tiene saldo suficiente y si es asi actualiza el estado de la compra y resta el saldo
+     * de su cuenta.
+     *
+     * @param event El evento de acción generado por el boton.
      */
     @FXML
     private void confirmarCompra(ActionEvent event) {
@@ -203,6 +222,13 @@ public class CompraControlador {
         }
     }
 
+    /**
+     * Muestra una alerta de JavaFx
+     *
+     * @param tipo El tipo de alerta que es
+     * @param titulo El titulo de la ventana de la alerta.
+     * @param contenido El mensaje principal de la alerta.
+     */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String contenido) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -210,8 +236,12 @@ public class CompraControlador {
         alert.setContentText(contenido);
         alert.showAndWait();
     }
-    /*
-    Metodo para implementar la alerta personalizada del css.
+
+    /**
+     * Muestra una alerta personalizada con estilos css.
+     *
+     * @param contenido El mensaje del error o información.
+     * @param titulo El titulo de la alerta.
      */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -233,6 +263,11 @@ public class CompraControlador {
         alert.showAndWait();
     }
 
+    /**
+     * Abre la ventana de los detalles de la pelicula al hacer click en el AnchorPane.
+     *
+     * @param event El evento del ratón que dispara la acción.
+     */
     @FXML
     private void verDetalles(MouseEvent event) {
         if (this.pelicula == null) return;
@@ -260,6 +295,12 @@ public class CompraControlador {
     }
 
     public pelicula getPelicula() { return pelicula; }
+    /**
+     * Establece un callback que se ejecutará cuando se elmine la
+     * tarjeta
+     *
+     * @param onRemove Acción a ejecutar al eliminar el elemento.
+     */
     public void setOnRemove(Consumer<CompraControlador> onRemove) { this.onRemove = onRemove; }
     public AnchorPane getRoot() { return root; }
 }

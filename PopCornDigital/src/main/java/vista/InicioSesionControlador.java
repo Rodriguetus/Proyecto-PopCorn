@@ -15,7 +15,12 @@ import java.sql.*;
 import java.util.ResourceBundle;
 import dto.SesionIniciada;
 
-
+/**
+ * Controlador para la pantalla de inicio de sesión de la aplicación
+ *
+ * Gestiona la autenticación de usuarios, sus validaciones de campos y la navegación hacia el registro
+ * o el catálogo principal.
+ */
 public class InicioSesionControlador implements Initializable {
 
     @FXML
@@ -30,7 +35,12 @@ public class InicioSesionControlador implements Initializable {
     @FXML
     private Hyperlink linkRegistro;
 
-    //Metodo para abrir las ventanas y omitir repetir codigo.
+    /**
+     * Metodo auxiliar para cargar y mostrar la ventana
+     *
+     * @param rutaFXML La ruta del fxml a cargar
+     * @param tituloVentana El titulo que se le asigna a la ventana
+     */
     private void abrirVentana(String rutaFXML, String tituloVentana) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource(rutaFXML));
@@ -51,9 +61,13 @@ public class InicioSesionControlador implements Initializable {
             e.printStackTrace();
         }
     }
-/*
-Metodo para mostrar el Alert con el css implementado.
- */
+
+    /**
+     * Muestra una alerta personalizada con css
+     *
+     * @param titulo Titulo del alert
+     * @param contenido El mensaje del error o información
+     */
     private void mostrarAlertaPersonalizada(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -73,10 +87,13 @@ Metodo para mostrar el Alert con el css implementado.
         dialogPane.getStyleClass().add("alerta-popcorn");
         alert.showAndWait();
     }
-/*
-Conecta con la base de datos y comprueba si cumple las validaciones y si es Admin o Usuario si es correcto los datos
-guardando el id en la sesión global y dirige al Catalogo.
- */
+
+    /**
+     * Realiza el proceso de inicio de sesión al darle click al botón de iniciar sesión
+     * validando los campos como longitud, si este ya esta creado si es admin o no...
+     *
+     * Si las credenciales son validas guarda la sesión en SesionIniciada
+     */
     @FXML
     private void iniciarSesion() {
         errormsj.setText("");
@@ -160,7 +177,9 @@ guardando el id en la sesión global y dirige al Catalogo.
         }
     }
 
-    //Boton para ir a RegistrarCuenta
+    /**
+     * Metodo para ir a registrar cuenta
+     */
     @FXML
     private void irARegistrarCuenta() {
         try {
