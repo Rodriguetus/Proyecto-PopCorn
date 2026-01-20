@@ -219,8 +219,7 @@ public class MovieAlquileresControlador {
             return;
         }
 
-        if (!usuarioDAO.restarSaldo(idUsuario, precio)
-                || !AlquilerDAO.actualizarFechas(alquilerActual.getId())) {
+        if (!usuarioDAO.restarSaldo(idUsuario, precio)) {
 
             mostrarAlertaPersonalizada(
                     "Error",
