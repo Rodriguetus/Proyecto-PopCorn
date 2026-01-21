@@ -6,6 +6,27 @@ import java.sql.*;
 
 public class AlquilerDAO {
 
+    public static boolean actualizarFechas(int idAlquiler) {
+
+        String sql = """
+        UPDATE alquiler
+        SET fechaAlquiler = CURRENT_DATE,
+            fechaDevolucion = DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)
+        WHERE idAlquiler = ?
+    """;
+
+        try (Connection conn = conexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idAlquiler);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static int crearAlquilerPendiente(int idPelicula, int idUsuario) {
 
         String sql = """

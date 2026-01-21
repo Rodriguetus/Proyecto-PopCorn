@@ -267,7 +267,7 @@ public class DetallesMovieCardControlador {
         }
 
         // 1️ Crear alquiler PENDIENTE (sin fechas, sin cobro)
-        int idAlquiler = AlquilerDAO.crearAlquilerPendiente(
+        AlquilerDAO.crearAlquilerPendiente(
                 peliculaActual.getId(),
                 idUsuario
         );
